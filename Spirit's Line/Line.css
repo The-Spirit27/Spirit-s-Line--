@@ -1,0 +1,177 @@
+body{
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background: #020024;
+    background: linear-gradient(325deg, rgba(2, 0, 36, 1) 18%, rgba(107, 49, 49, 1) 55%, rgba(0, 212, 255, 1) 99%);
+    margin: 0;
+    height: 100vh;
+    
+}
+.sidebar{
+    width: 200px;
+    height: 59.5vh;
+    background-color: azure;
+    color: rgb(0, 0, 0);
+    padding: 26px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: 0;
+    top: 34%;
+    transition: transform 0.9s ease;
+    position: fixed;
+    transform: translateX(-100%);
+    z-index: 999;
+    text-align: left;
+    text-decoration: underline; 
+    text-transform: uppercase;
+    border-radius: 20px;
+    padding-top: 1.4%;
+    
+}
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar.repliée.button{
+    opacity: 0;
+    pointer-events: none;
+}
+.icon {
+    margin-right: 10px;
+}
+
+.scrollable-button::-webkit-scrollbar{
+    width: 6px;
+}
+.scrollable-button::-webkit-scrollbar-thumb{
+    background-color: #ccc;
+    border-radius: 4px;
+}
+.scrollable-button {
+   flex: 1;
+   flex-direction: column;
+   margin: 10px 0;
+   flex-direction: column;
+   max-height: 30.5vh ;
+   text-align: left;
+   overflow-x: hidden;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: transparent;
+   box-sizing: border-box;
+   padding: 25px 35px 15px 20px;
+   background-color: transparent;
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.scrollable-button :hover {
+background-color: white;
+border-radius: 25px;
+transition:0.6s;
+
+
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+margin: 15px 0;  
+}
+.sidebar.active {
+    transform: translateX(0);
+}
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: rgb(0, 0, 0);
+}
+.sidebar ul li a :hover {
+    text-decoration: underline;
+    color: #030000;
+}
+.sidebar.closed {
+    transform : translateX(-100%);
+}
+.toggle-btn {
+    position: fixed;
+    top: 259px;
+    left: 3px;
+    font-size: 24px;
+    background: #030000;
+    background: linear-gradient(166deg, rgba(3, 0, 0, 0) 0%, rgba(60, 94, 243, 1) 0%, rgba(56, 94, 214, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(13, 0, 0, 1) 100%);
+    color: rgb(16, 1, 1);
+    padding: 06px 09px;
+    cursor: pointer;
+    z-index: 1000;
+    border-radius: 8px;
+}
+@keyframes floatEffect {
+    0%{ 
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    50%{
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    }
+    100%{
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+.float-on-click { 
+    animation: floatEffect 0.5s ease;
+}
+.content{ 
+    margin-left: 200px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    flex: 1;
+}
+.sidebar.closed .content{ 
+    margin-left: 0;
+}
+.sidebar button{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 3px;
+    font-size: 16px;
+    font-weight: 400;
+    border: 8px solid transparent;
+    margin: 15px;
+    transition: 0.6s;
+    border-radius: 15px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+    
+}
+.button ::content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+   
+}
+.sidebar button :hover {
+    transform: translateY(-5px);
+    border-color: black;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border: 5px solid black ;
+    transition: 0.3s;
+}
+.button.actif {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgb(0, 0, 0.3);
+    background-color: #e0e0e0;
+    border: 2px solid black;
+    
+}
+.icon, .text {
+     user-select: none;
+     pointer-events: none;
+}

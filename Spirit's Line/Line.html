@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta charset="UTF-8" >
+    <title>SPIRIT'S LINE❄️</title>
+    <link rel="stylesheet" href="Line.css">
+</head>
+
+<body onload="chargerAccueil()">
+    <div class="sidebar" id="sidebar">
+        <h2>Menus</h2>
+            <button class="button" id="btn-accueil" onclick="activer(this)">
+                <span class="icon">🏠</span>
+                <span class="text">Acceuil</span>
+            </button>
+            <button class="button" onclick="activer(this)">
+                <span class="icon">⚙️</span>
+                <span class="text">Paramètres</span>
+            </button>
+
+            <div class="section-title"><h2>Services</h2></div>
+            
+            <div class="scrollable-button">
+
+               <button class="button" data-id="Flashage" onclick="activer(this)">
+                   <span class="icon">📱</span>
+                   <span class="text">Flashage de téléphones</span>
+               </button>
+               <button class="button" data-id="comptes" onclick="activer(this)">
+                   <span class="icon">💵</span>
+                   <span class="text">Création de comptes e-bourse</span>
+               </button>
+               <button class="button" data-id="flyers" onclick="activer(this)">
+                   <span class="icon">🎊</span>
+                   <span class="text">Création de flyers</span>
+               </button>
+               <button class="button" data-id="ordinateurs" onclick="activer(this)">
+                   <span class="icon">💻</span>
+                   <span class="text">Déblocages ordinateurs</span>
+               </button>
+               <button class="button" data-id="Activations" onclick="activer(this)">
+                   <span class="icon">📚</span>
+                   <span class="text">Activations Windows et pack office</span>
+               </button>
+               <button class="button" data-id="Download" onclick="activer(this)">
+                   <span class="icon">🎮</span>
+                   <span class="text">Download Applications Ordinateurs</span>
+               </button>
+               <button class="button" data-id="Créations" onclick="activer(this)">
+                   <span class="icon">🛜</span>
+                   <span class="text">Créations sites web</span>
+               </button>
+               <button class="button" data-id="Saisie" onclick="activer(this)">
+                    <span class="icon">📝</span>
+                    <span class="text">Saisie de documents (word, powerpoint, excel)</span>
+               </button>
+            </div>
+    </div>
+    <div id="contenu"></div>
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    <div id="Acceuil" class="page active"></div>
+
+    <main id="contenu">
+
+    </main>
+    <script src="Line.js"></script>
+
+</body>
+
+</html>
