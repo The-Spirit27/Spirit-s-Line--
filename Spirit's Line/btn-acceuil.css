@@ -5,7 +5,7 @@
     border-radius: 18px;
     width: 91.7%;
     padding: 9.5px 69px;
-    color: rgb(148, 148, 148);
+    color: rgb(203, 203, 203);
     margin-left: -15px;
     text-align: left;
     font-size: 115%;
@@ -19,17 +19,24 @@
 .container1 {
     margin-left: 253.5px ;
     border-radius: 18px;
-    padding: 71px;
+    padding: 25.5px;
     width: 37%;
     background: #FFFF;
     background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgba(159, 192, 201, 1) 100%);
     font-size: large;
-    height: 100%;
-    margin-bottom: -32.5%;
+    height: 90%;
+    margin-bottom: -32.9%;
     animation: slideIn1 3.5s ease-in-out;
 }
+.container1 button {
+    border-radius: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 77%;
+    margin: 6px;
+    padding: -18px;
+}
 .container2 {
-    margin-left: 63.5%;
+    margin-left: 57.5%;
     border-radius: 18px;
     padding: 247px;
     width: -30%;
@@ -38,6 +45,25 @@
     font-size: large;
     height: 50%;
     animation: slideIn1 3.5s ease-in-out;
+    margin-bottom: -42%;
+}
+.container3 {
+    margin-left: 53%;
+    font-size: 30%;
+ 
+}
+.container3 button {
+    border-radius: 14px;
+    font-size: 30px;
+    background: #040304;
+    background: radial-gradient(circle, rgb(90, 88, 88) 0%, rgb(0, 0, 0) 100%);
+    color: rgb(241, 241, 241);
+    width: 50%;
+    padding: 03%;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    animation: slideIn 1.5s ease-in-out;
+    
 }
 .Logo {
     width: 58px;
@@ -68,7 +94,9 @@
     animation: slideIn 1.5s ease-in-out;
     display: block;
     object-fit: cover;
+
 }
+
 @keyframes slideIn {
     0% { 
         opacity: 0;

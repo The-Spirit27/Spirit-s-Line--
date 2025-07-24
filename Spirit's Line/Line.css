@@ -147,15 +147,14 @@ margin: 15px 0;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
 
-    
-}
 .button ::content {
     display: flex;
     align-items: center;
     gap: 10px;
-   
-}
+    }
+
 .sidebar button :hover {
     transform: translateY(-5px);
     border-color: black;
@@ -163,15 +162,94 @@ margin: 15px 0;
     background-color: #ffffff;
     border: 5px solid black ;
     transition: 0.3s;
-}
+    }
 .button.actif {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgb(0, 0, 0.3);
     background-color: #e0e0e0;
     border: 2px solid black;
-    
+    }
+.toggle-btn {
+    position: fixed;
+    top: 259px;
+    left: 3px;
+    font-size: 24px;
+    background: #030000;
+    background: linear-gradient(166deg, rgba(3, 0, 0, 0) 0%, rgba(60, 94, 243, 1) 0%, rgba(56, 94, 214, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(13, 0, 0, 1) 100%);
+    color: rgb(16, 1, 1);
+    padding: 06px 09px;
+    cursor: pointer;
+    z-index: 1000;
+    border-radius: 8px;
+    animation: slideIn 1.5s ease-in-out;
+    }
+
+.float-on-click { 
+    animation: floatEffect 0.5s ease;
+    }
+.content{ 
+    margin-left: 200px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    flex: 1;
+    }
+.scrollable-button::-webkit-scrollbar{
+    width: 6px;
+    }
+.scrollable-button::-webkit-scrollbar-thumb{
+    background-color: #ccc;
+    border-radius: 4px;
+    }
+.scrollable-button {
+   flex: 1;
+   flex-direction: column;
+   margin: 10px 0;
+   flex-direction: column;
+   max-height: 30.5vh ;
+   text-align: left;
+   overflow-x: hidden;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: transparent;
+   box-sizing: border-box;
+   padding: 25px 35px 15px 20px;
+   background-color: transparent;
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+.scrollable-button :hover {
+background-color: white;
+border-radius: 25px;
+transition:0.6s;
+    }
+
+@keyframes floatEffect {
+    0%{ 
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    50%{
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    }
+    100%{
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
 }
+
+
 .icon, .text {
      user-select: none;
      pointer-events: none;
+    }
+@keyframes slideIn {
+    0% { 
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
