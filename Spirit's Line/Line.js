@@ -50,39 +50,48 @@ function activer(boutonClique) {
             break;
 
         case "paramètres":
-            contenu.innerHTML = "<h2>Paramètres⚙️</h2>";
+            chargerCSSSpécifique("paramètres.css")
+            chargerContenuExterne("paramètres.html", contenu);
             break;
 
         case "flashage de téléphones":
-            contenu.innerHTML = "<h2>Service : Flashage de téléphones 📱</h2>";
+            chargerCSSSpécifique("flashage.css")
+            chargerContenuExterne("flashage.html", contenu);
             break;
 
         case "création de comptes e-bourse":
-            contenu.innerHTML = "<h2>Service : e-bourse 💵</h2>";
+            chargerCSSSpécifique("e-bourse.css")
+            chargerContenuExterne("e-bourse.html", contenu);
             break;
 
         case "création de flyers":
-            contenu.innerHTML = "<h2>Service : Création de flyers 🎊</h2>";
+            chargerCSSSpécifique("création.css")
+            chargerContenuExterne("création.html", contenu);
             break;
 
         case "déblocages ordinateurs":
-            contenu.innerHTML = "<h2>Service : Déblocages d'ordinateurs 💻</h2>";
+            chargerCSSSpécifique("déblocages.css")
+            chargerContenuExterne("déblocages.html", contenu);
             break;
 
         case "activations windows et pack office":
-            contenu.innerHTML = "<h2>Service : Activations Windows et Office 📚</h2>";
+            chargerCSSSpécifique("activation.css")
+            chargerContenuExterne("activation.html", contenu);
             break;
 
         case "download applications ordinateurs":
-            contenu.innerHTML = "<h2>Service : Download Apps Ordinateurs 🎮</h2>";
+            chargerCSSSpécifique("apps.css")
+            chargerContenuExterne("apps.html", contenu);
             break;
 
         case "créations sites web":
-            contenu.innerHTML = "<h2>Service : Création de sites web 🛜</h2>";
+            chargerCSSSpécifique("sites_web.css")
+            chargerContenuExterne("sites_web.html", contenu);
             break;
         
         case "saisie de documents (word, powerpoint, excel)":
-            contenu.innerHTML = "<h2>Service : Saisie de documents 📝 </h2>"
+            chargerCSSSpécifique("saisies.css")
+            chargerContenuExterne("saisies.html", contenu);
             break;
 
         default:
