@@ -45,53 +45,53 @@ function activer(boutonClique) {
 
     switch (texte) {
         case "acceuil":
-            chargerCSSSpécifique("btn-acceuil.css");
-            chargerContenuExterne("btn-acceuil.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/btn-acceuil.css");
+            chargerContenuExterne("html_css_externent/html/btn-acceuil.html", contenu);
             break;
 
         case "paramètres":
-            chargerCSSSpécifique("paramètres.css")
-            chargerContenuExterne("paramètres.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/paramètres.css")
+            chargerContenuExterne("html_css_externent/html/paramètres.html", contenu);
             break;
 
         case "flashage de téléphones":
-            chargerCSSSpécifique("flashage.css")
-            chargerContenuExterne("flashage.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/flashage.css")
+            chargerContenuExterne("html_css_externent/html/flashage.html", contenu);
             break;
 
         case "création de comptes e-bourse":
-            chargerCSSSpécifique("e-bourse.css")
-            chargerContenuExterne("e-bourse.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/e-bourse.css")
+            chargerContenuExterne("html_css_externent/html/e-bourse.html", contenu);
             break;
 
         case "création de flyers":
-            chargerCSSSpécifique("création.css")
-            chargerContenuExterne("création.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/création.css")
+            chargerContenuExterne("html_css_externent/html/création.html", contenu);
             break;
 
         case "déblocages ordinateurs":
-            chargerCSSSpécifique("déblocages.css")
-            chargerContenuExterne("déblocages.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/déblocages.css")
+            chargerContenuExterne("html_css_externent/html/déblocages.html", contenu);
             break;
 
         case "activations windows et pack office":
-            chargerCSSSpécifique("activation.css")
-            chargerContenuExterne("activation.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/activation.css")
+            chargerContenuExterne("html_css_externent/html/activation.html", contenu);
             break;
 
         case "download applications ordinateurs":
-            chargerCSSSpécifique("apps.css")
-            chargerContenuExterne("apps.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/apps.css")
+            chargerContenuExterne("html_css_externent/html/apps.html", contenu);
             break;
 
         case "créations sites web":
-            chargerCSSSpécifique("sites_web.css")
-            chargerContenuExterne("sites_web.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/sites_web.css")
+            chargerContenuExterne("html_css_externent/html/sites_web.html", contenu);
             break;
         
         case "saisie de documents (word, powerpoint, excel)":
-            chargerCSSSpécifique("saisies.css")
-            chargerContenuExterne("saisies.html", contenu);
+            chargerCSSSpécifique("html_css_externent/css/saisies.css")
+            chargerContenuExterne("html_css_externent/html/saisies.html", contenu);
             break;
 
         default:

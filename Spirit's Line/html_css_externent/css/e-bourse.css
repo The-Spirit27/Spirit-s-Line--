@@ -1,0 +1,36 @@
+.container6 {
+    margin-left: 253.5px ;
+    border-radius: 18px;
+    padding: 25.5px;
+    width: 80% 15%;
+    background: #FFFF;
+    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgba(159, 192, 201, 1) 100%);
+    font-size: large;
+    height: 442px;
+    margin-bottom: -32.2%;
+    animation: slideIn1 1s ease-in-out;
+    padding-bottom: -190.1%;
+    overflow-x: auto;
+    text-align: left;
+    display: flex;
+    position: relative;
+    top: 260px;
+}
+.container17 {
+   font-family: Georgia, 'Times New Roman', Times, serif;
+    background: #040304;
+    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
+    border-radius: 18px;
+    width: 22%;
+    padding: 9.5px 69px;
+    color: rgb(203, 203, 203);
+    position: absolute;
+    text-align: left;
+    font-size: 115%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 1.5s ease-in-out;
+    left: 35%;
+}
