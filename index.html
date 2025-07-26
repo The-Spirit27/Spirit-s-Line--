@@ -12,21 +12,20 @@
 </head>
 
 <body onload="chargerAccueil()">
-    
-         <div class="sidebar" id="sidebar">
-              <h2>Menus</h2>
-                <button class="button" id="btn-accueil" onclick="activer(this)">
-                    <span class="icon">🏠</span>
-                    <span class="text">Acceuil</span>
-                </button>
-                <button class="button" onclick="activer(this)">
-                    <span class="icon">⚙️</span>
-                    <span class="text">Paramètres</span>
-                </button>
+    <div class="sidebar" id="sidebar">
+        <h2>Menus</h2>
+            <button class="button" id="btn-accueil" onclick="activer(this)">
+                <span class="icon">🏠</span>
+                <span class="text">Acceuil</span>
+            </button>
+            <button class="button" onclick="activer(this)">
+                <span class="icon">⚙️</span>
+                <span class="text">Paramètres</span>
+            </button>
 
-                <div class="section-title"><h2>Services</h2></div>
+            <div class="section-title"><h2>Services</h2></div>
             
-                <div class="scrollable-button">
+            <div class="scrollable-button">
 
                <button class="button" data-id="Flashage" onclick="activer(this)">
                    <span class="icon">📱</span>
@@ -60,8 +59,8 @@
                     <span class="icon">📝</span>
                     <span class="text">Saisie de documents (word, powerpoint, excel)</span>
                </button>
-          </div>
-    
+            </div>
+    </div>
     <div id="contenu"></div>
     <div class="toggle-btn" onclick="toggleSidebar()"><strong>OPTIONS</strong></div>
     <div id="Acceuil" class="page active"></div>
@@ -69,9 +68,7 @@
     <main id="contenu">
 
     </main>
-  </div>
     <script src="Line.js"></script>
-    <div class="app-wrapper"></div>
 
 </body>
 
