@@ -264,3 +264,43 @@ transition:0.6s;
         transform: translateX(0);
     }
 }
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    border-radius: 0;
+    z-index: 999;
+  }
+
+  .sidebar.active {
+    transform: translateY(0);
+  }
+
+  .toggle-btn {
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+  }
+
+  .content {
+    margin-left: 0;
+    margin-top: 60px; 
+     }
+ }
