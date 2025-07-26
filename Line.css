@@ -5,6 +5,7 @@ body{
     background: linear-gradient(325deg, rgba(2, 0, 36, 1) 18%, rgba(107, 49, 49, 1) 55%, rgba(0, 212, 255, 1) 99%);
     margin: 0;
     height: 100vh;
+    padding: 0;
     
 }
 .sidebar{
@@ -262,5 +263,37 @@ transition:0.6s;
     100% {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@media screen and (min-width : 1025px) {
+    .app-container { 
+        width: 100%;
+        margin: auto;
+    }
+.header {
+    font-size: 2rem;
+}
+    }
+
+@media screen and(min-width : 768px) {
+    .app-container {
+        width: 100%;
+        padding: 10px;
+
+    }
+   .header{
+    font-size: 1.2rem;
+    text-align: center;
+   } 
+}
+
+@media screen and (min-width : 769px) and (max-width : 1024px) {
+    .app-container {
+        width: 90%;
+        padding: 20px;
+    }
+    .header {
+        font-size: 1.6rem;
     }
 }
