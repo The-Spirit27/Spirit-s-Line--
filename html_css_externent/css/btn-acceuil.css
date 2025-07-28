@@ -232,7 +232,7 @@ font-size: 24px;
  padding: 10px;
  height: auto;
  text-align: center;
- margin-bottom: 7%;
+ margin-bottom: 12%;
  margin-left: 33.5%;
 }
 
@@ -272,7 +272,7 @@ opacity: 1;
 
 .sidebar{
     width: 150px;
-    height: 30vh;
+    height: 20vh;
     background-color: azure;
     color: rgb(0, 0, 0);
     padding: 30px;
