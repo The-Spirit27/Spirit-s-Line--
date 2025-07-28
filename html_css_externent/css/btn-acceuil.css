@@ -271,7 +271,7 @@
         flex-direction: column;
     }
     .container {
-    font-family: Georgia;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
     border-radius: 18px;
