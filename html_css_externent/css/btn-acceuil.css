@@ -271,7 +271,7 @@
         flex-direction: column;
     }
     .container {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia;
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
     border-radius: 18px;
