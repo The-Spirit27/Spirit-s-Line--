@@ -232,7 +232,7 @@ font-size: 24px;
  padding: 10px;
  height: auto;
  text-align: center;
- margin-bottom: 4%;
+ margin-bottom: 7%;
  margin-left: 33.5%;
 }
 
@@ -271,25 +271,26 @@ opacity: 1;
 
 
 .sidebar{
-    width: 200px;
+    width: 150px;
     height: 30vh;
     background-color: azure;
     color: rgb(0, 0, 0);
     padding: 30px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
-    left: 15;
+    left: 10px;
     top: 12.5%;
     transition: transform 0.9s ease;
     position: fixed;
     transform: translateX(-100%);
     z-index: 999;
-    text-align: center;
+    text-align: left;
     text-decoration: underline; 
     text-transform: uppercase;
     border-radius: 20px;
     padding-top: 2px;
     margin-top: 37px;
+    margin-left: 1px;
     font-size: 8px;
 }
 
@@ -329,6 +330,7 @@ margin: 15px 0;
     font-weight: 400px;
     border: 8px solid transparent;
     margin: 15px;
+    margin-left: 0px;
     transition: 0.6s;
     border-radius: 15px;
     transition-duration: 0.4s;
@@ -429,6 +431,7 @@ transition:0.6s;
    text-align: left;
    margin-top: 2px;
    overflow-x: hidden;
+   width: 117px;
    height: 250px;
    overflow-y: auto;
    scrollbar-width: thin;
