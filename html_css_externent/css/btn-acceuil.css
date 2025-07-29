@@ -150,7 +150,7 @@
     .container {
        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
        background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-       border-radius: 18px;
+       border-radius: 14px;
        width: 90%;
        padding: 16px;
        font-size: 90%;
@@ -162,8 +162,9 @@
        text-align: left;
        color: rgb(203, 203, 203);
        animation: slideIn 1.5s ease-in-out;
-       height: 119px;
+       height: 110px;
        margin-bottom: 4px;
+       margin-left: -1px;
       
 }
 
@@ -227,10 +228,10 @@ font-size: 24px;
  }
 
 .banner-image {
- width: 70.7%;
+ width: 60.7%;
  margin: 0 auto;
  padding: 10px;
- height: 225px;
+ height: 200px;
  text-align: center;
  margin-bottom: 2%;
  margin-left: 34.5%;
