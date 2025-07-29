@@ -151,7 +151,7 @@
        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
        background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
        border-radius: 14px;
-       width: 90%;
+       width: 99.9%;
        padding: 16px;
        font-size: 90%;
        margin: 0 auto 20px auto;
@@ -164,7 +164,7 @@
        animation: slideIn 1.5s ease-in-out;
        height: 110px;
        margin-bottom: 13px;
-       margin-left: -1px;
+       margin-left: -1.3px;
       
 }
 
@@ -233,7 +233,7 @@ font-size: 24px;
  padding: 10px;
  height: 210px;
  text-align: center;
- margin-bottom: 2%;
+ margin-bottom: 4%;
  margin-left: 34.5%;
 }
 
