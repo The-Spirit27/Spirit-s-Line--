@@ -230,9 +230,9 @@ font-size: 24px;
  width: 65.7%;
  margin: 0 auto;
  padding: 10px;
- height: auto;
+ height: 280PX;
  text-align: center;
- margin-bottom: 12%;
+ margin-bottom: 9%;
  margin-left: 33.5%;
 }
 
@@ -272,7 +272,7 @@ opacity: 1;
 
 .sidebar{
     width: 150px;
-    height: 29vh;
+    height: 26vh;
     background-color: azure;
     color: rgb(0, 0, 0);
     padding: 30px;
@@ -360,7 +360,7 @@ margin: 15px 0;
 
 .toggle-btn {
     position: fixed;
-    top: 129px;
+    top: 120px;
     left: 1.5px;
     font-size: 9px;
     background: #030000;
