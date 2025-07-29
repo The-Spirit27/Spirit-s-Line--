@@ -163,7 +163,7 @@
        color: rgb(203, 203, 203);
        animation: slideIn 1.5s ease-in-out;
        height: 119px;
-       margin-bottom: 1px;
+       margin-bottom: 4px;
       
 }
 
@@ -171,7 +171,7 @@
        margin: 0 auto;
        border-radius: 12px;
        padding: 15px;
-       width: 89%;
+       width: 93%;
        background: linear-gradient(179deg, white 0%, rgba(159,192,201,1) 100%);
        font-size: medium;
        height: auto;
@@ -227,7 +227,7 @@ font-size: 24px;
  }
 
 .banner-image {
- width: 68.7%;
+ width: 70.7%;
  margin: 0 auto;
  padding: 10px;
  height: 225px;
