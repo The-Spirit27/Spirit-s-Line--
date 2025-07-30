@@ -414,7 +414,7 @@ border-radius: 25px;
 transition:0.6s;
 
 
-}
+ }
 
 .scrollable-button::-webkit-scrollbar{
     width: 6px;
@@ -461,11 +461,17 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family: Georgia, 'Times N
 
 .btn-acceuil { padding: 10px; font-size: 16px; flex-direction: column; }
 
-.container { font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%); border-radius: 16px; width: 90%; padding: 20px; font-size: 95%; margin: 0 auto 20px auto; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; color: rgb(203, 203, 203); animation: slideIn 1.5s ease-in-out; height: auto; }
+.container { font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%); border-radius: 16px; width: 96%; padding: 20px; font-size: 9%; margin: 0 auto 20px auto; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; color: rgb(203, 203, 203); animation: slideIn 1.5s ease-in-out; height: auto;
+           margin-bottom: 3px;
+           margin-left: 15px;
+           
+}
 
-.container1 { margin: 0 auto; border-radius: 14px; padding: 20px; width: 95%; background: linear-gradient(179deg, white 0%, rgba(159, 192, 201, 1) 100%); font-size: medium; overflow-x: auto; display: block; animation: slideIn1 2s ease-in-out; height: 350px; }
+.container1 { margin: 0 auto; border-radius: 14px; padding: 20px; width: 95%; background: linear-gradient(179deg, white 0%, rgba(159, 192, 201, 1) 100%); font-size: medium;  display: block; animation: slideIn1 2s ease-in-out; height: 279px; 
+            margin-bottom: -9px;
+}
 
-.container1 .scroll { overflow-y: auto; border-radius: 10px; }
+.container1 .scroll { border-radius: 10px; color: #000;}
 
 .container1 button { border-radius: 10px; font-size: 15px; margin: 6px; padding: 10px 14px; }
 
@@ -479,11 +485,17 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family: Georgia, 'Times N
 
 .site-name { font-size: 26px; text-align: center; }
 
-.banner-image { width: 80%; margin: 0 auto; padding: 12px; height: auto; text-align: center; margin-bottom: 20px; }
+.banner-image { 
+    width: 44%; margin: 0 auto; padding: 12px; height: auto; text-align: center; margin-bottom: 15px; 
+    margin-left: 419px;
+}
 
 .banner-image img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); animation: slideIn 1.5s ease-in-out; object-fit: cover; }
 
-.sidebar { width: 180px; height: auto; background-color: azure; color: rgb(0, 0, 0); padding: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); position: fixed; left: -100%; top: 15%; transition: transform 0.9s ease; z-index: 999; border-radius: 20px; font-size: 10px; }
+.sidebar { width: 180px; height: 210px; background-color: azure; color: rgb(0, 0, 0); padding: 11px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); position: fixed; left: -100%; top: 17%; transition: transform 0.9s ease; z-index: 999; border-radius: 20px; font-size: 10px;
+           margin-left: 15px;
+           animation: slideIn 1.5s ease-in-out;
+}
 
 .sidebar.active { transform: translateX(0); }
 
@@ -495,9 +507,55 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family: Georgia, 'Times N
 
 .sidebar ul li a:hover { text-decoration: underline; color: #030000; }
 
-.toggle-btn { position: fixed; top: 100px; left: 5px; font-size: 12px; background: linear-gradient(166deg, rgba(60, 94, 243, 1), rgba(13, 0, 0, 1)); color: #fff; padding: 6px 10px; cursor: pointer; z-index: 1000; border-radius: 8px; animation: slideIn 1.5s ease-in-out; }
+.sidebar button{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    width: 90%;
+    height: 10px;
+    padding: 0px;
+    font-size: 15px;
+    font-weight: 400px;
+    border: 8px solid transparent;
+    margin: 15px;
+    margin-left: 0px;
+    transition: 0.6s;
+    border-radius: 15px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+    
+.sidebar button :hover {
+    transform: translateY(-5px);
+    border-color: black;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border: 5px solid black ;
+    transition: 0.3s;
+    }
 
-.scrollable-button { flex-direction: column; max-height: 20vh; overflow-y: auto; padding: 10px; background-color: transparent; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; scrollbar-width: thin; scrollbar-color: #ccc transparent; }
+.sidebar.repliée.button{
+    opacity: 0;
+    pointer-events: none;
+}
+.sidebar.closed {
+    transform : translateX(-100%);
+}
+
+.toggle-btn { position: fixed; top: 125px; left: 33.5px; font-size: 12px;  background: #030000;
+    background: linear-gradient(166deg, rgba(3, 0, 0, 0) 0%, rgba(60, 94, 243, 1) 0%, rgba(56, 94, 214, 1) 0%, rgb(68, 68, 68) 0%, rgba(13, 0, 0, 1) 100%); color: #fff; padding: 6px 10px; cursor: pointer; z-index: 1000; border-radius: 8px; animation: slideIn 1.5s ease-in-out; }
+
+.scrollable-button { flex-direction: row; max-height: 10vh; overflow-x: scroll; padding: 10px; background-color: transparent; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; scrollbar-width: thin; scrollbar-color: #ccc transparent;
+                    padding: 2px;
+                    margin-top: -16px;
+                    display: flex;
+                    white-space: nowrap;
+                    scroll-behavior: smooth;
+                    height: 123px;
+
+}
 
 .scrollable-button::-webkit-scrollbar { width: 6px; }
 
@@ -512,4 +570,5 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family: Georgia, 'Times N
 }
  }
 
+ 
 
