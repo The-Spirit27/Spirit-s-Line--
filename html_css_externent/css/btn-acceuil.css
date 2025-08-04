@@ -9,11 +9,13 @@
     margin-left: -15px;
     text-align: left;
     font-size: 115%;
-    margin-bottom: 20px;
+    margin-bottom: 55px;
     display: flex;
     align-items: center;
     gap: 10px;
     animation: slideIn 1.5s ease-in-out;
+    position: sticky;
+    
 }
 
 .container1 {
@@ -24,13 +26,15 @@
     background: #FFFF;
     background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgba(159, 192, 201, 1) 100%);
     font-size: large;
-    height: 442px;
-    margin-bottom: -42.5%;
+    height: 400px;
+    margin-bottom: -40%;
     animation: slideIn1 3.5s ease-in-out;
     padding-bottom: -190.1%;
     overflow-x: auto;
     text-align: left;
     display: flex;
+    position: static;
+    z-index: 999;
 }
 .container1 .scroll {
     overflow-y: auto;
@@ -38,11 +42,13 @@
 }
 .container1 button {
     border-radius: 18px;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 77%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 97%;
     margin: 6px;
     padding: -18px;
     overflow-y: auto;
+    text-align: center;
+    width: 470px;
 }
 .container2 {
     margin-left: 57.5%;
@@ -70,7 +76,7 @@
     width: 50%;
     padding: 03%;
     cursor: pointer;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     animation: slideIn 1.5s ease-in-out;
     margin-top: 6px;
     
@@ -93,8 +99,8 @@
     padding: 25px;
     font-weight: bold;
     height: 44%;
-    margin-bottom: -1.2%;
-    
+    margin-bottom: -20px;
+    margin-top: -75px;
 }
 .banner-image img {
     width: 299px;
@@ -568,7 +574,4 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family: Georgia, 'Times N
 @keyframes slideIn1 { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0);
 }
 }
- }
-
- 
-
+}

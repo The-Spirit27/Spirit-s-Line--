@@ -4,9 +4,9 @@
     padding: 25.5px;
     width: 80% 15%;
     background: #FFFF;
-    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgba(159, 192, 201, 1) 100%);
+    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgb(126, 126, 126) 100%);
     font-size: large;
-    height: 442px;
+    height: 395px;
     margin-bottom: -32.2%;
     animation: slideIn1 1s ease-in-out;
     padding-bottom: -190.1%;
@@ -16,15 +16,37 @@
     position: relative;
     top: 260px;
 }
+
+
+.container4 button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+    font-size: 36px;
+    padding: 12px;
+    margin: 12px;
+    border-radius: 15px;
+    width: 257%;
+    text-align: left;
+    border-color: #ffffff;
+    cursor: pointer;
+    border: 1px solid rgb(255, 255, 255);
+    box-shadow: 10 12px 1
+    5px rgba(0, 0, 0, 0.1);
+    transition: 0.6s;
+    gap: 8px;
+     background: #040304;
+    background: radial-gradient(circle, rgb(216, 216, 216) 0%, rgb(0, 0, 0) 100%);
+    color: #FFFF;
+}
 .container19 {
+   
     font-family: Georgia, 'Times New Roman', Times, serif;
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 18px;
-    width: 20.7%;
+    border-radius: 10px;
+    width: 22%;
     padding: 9.5px 69px;
     color: rgb(203, 203, 203);
-    margin-left: -15px;
+    position: absolute;
     text-align: left;
     font-size: 115%;
     margin-bottom: 20px;
@@ -32,4 +54,28 @@
     align-items: center;
     gap: 10px;
     animation: slideIn 1.5s ease-in-out;
+    left: 0%;
+    height: 150px;
+    margin-top: 45px;
+}
+.content {
+    
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: #040304;
+    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
+    border-radius: 17px;
+    width: 1136.5px;
+    padding: 9.5px 69px;
+    color: rgb(203, 203, 203);
+    position: absolute;
+    text-align: center;
+    font-size: 115%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    left: 0;
+    height: 78.5px;
+    margin-top: 323px;
+    margin-left: 0px;
 }

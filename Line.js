@@ -54,44 +54,19 @@ function activer(boutonClique) {
             chargerContenuExterne("html_css_externent/html/paramètres.html", contenu);
             break;
 
-        case "flashage":
-            chargerCSSSpécifique("html_css_externent/css/flashage.css")
-            chargerContenuExterne("html_css_externent/html/flashage.html", contenu);
+        case "i-techs":
+            chargerCSSSpécifique("html_css_externent/css/i-techs.css")
+            chargerContenuExterne("html_css_externent/html/i-techs.html", contenu);
             break;
 
-        case "comptes e-bourse":
-            chargerCSSSpécifique("html_css_externent/css/e-bourse.css")
-            chargerContenuExterne("html_css_externent/html/e-bourse.html", contenu);
+        case "documents":
+            chargerCSSSpécifique("html_css_externent/css/documents.css")
+            chargerContenuExterne("html_css_externent/html/documents.html", contenu);
             break;
 
-        case "flyers":
-            chargerCSSSpécifique("html_css_externent/css/création.css")
-            chargerContenuExterne("html_css_externent/html/création.html", contenu);
-            break;
-
-        case "déblocages":
-            chargerCSSSpécifique("html_css_externent/css/déblocages.css")
-            chargerContenuExterne("html_css_externent/html/déblocages.html", contenu);
-            break;
-
-        case "windows / office":
-            chargerCSSSpécifique("html_css_externent/css/activation.css")
-            chargerContenuExterne("html_css_externent/html/activation.html", contenu);
-            break;
-
-        case "applications ordinateurs":
-            chargerCSSSpécifique("html_css_externent/css/apps.css")
-            chargerContenuExterne("html_css_externent/html/apps.html", contenu);
-            break;
-
-        case "sites web":
-            chargerCSSSpécifique("html_css_externent/css/sites_web.css")
-            chargerContenuExterne("html_css_externent/html/sites_web.html", contenu);
-            break;
-        
-        case "documents (word, powerpoint, excel)":
-            chargerCSSSpécifique("html_css_externent/css/saisies.css")
-            chargerContenuExterne("html_css_externent/html/saisies.html", contenu);
+        case "comptes / web":
+            chargerCSSSpécifique("html_css_externent/css/online.css")
+            chargerContenuExterne("html_css_externent/html/online.html", contenu);
             break;
 
         default:

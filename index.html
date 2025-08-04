@@ -8,13 +8,11 @@
     <meta charset="UTF-8" >
     <title>SPIRIT'S LINE❄️</title>
     <link rel="stylesheet" href="Line.css">
-    <link rel="stylesheet" href="desktop.css" media="only screen and (min-width : 1025px)">
-    <link rel="stylesheet" href="smartphone.css" media="only screen and (max-width : 768px)">
-    <link rel="stylesheet" href="tablette.css" media="only screen and (min-width : 769px) and (max-width : 1025px)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body onload="chargerAccueil()">
+    <nav class="app-container">
 <div class="app-container">
     <div class="sidebar" id="sidebar">
         <h2>Menus</h2>
@@ -31,37 +29,17 @@
             
             <div class="scrollable-button">
 
-               <button class="button" data-id="Flashage" onclick="activer(this)">
-                   <span class="icon">📱</span>
-                   <span class="text">Flashage</span>
+               <button class="button" data-id="i-techs" onclick="activer(this)">
+                   <span class="icon">🖱️</span>
+                   <span class="text">I-TECHS</span>
                </button>
-               <button class="button" data-id="comptes" onclick="activer(this)">
-                   <span class="icon">💵</span>
-                   <span class="text">Comptes e-bourse</span>
-               </button>
-               <button class="button" data-id="flyers" onclick="activer(this)">
-                   <span class="icon">🎊</span>
-                   <span class="text">Flyers</span>
-               </button>
-               <button class="button" data-id="ordinateurs" onclick="activer(this)">
-                   <span class="icon">💻</span>
-                   <span class="text">Déblocages</span>
-               </button>
-               <button class="button" data-id="Activations" onclick="activer(this)">
+               <button class="button" data-id="documents" onclick="activer(this)">
                    <span class="icon">📚</span>
-                   <span class="text">Windows / Office</span>
+                   <span class="text">DOCUMENTS</span>
                </button>
-               <button class="button" data-id="Download" onclick="activer(this)">
-                   <span class="icon">🎮</span>
-                   <span class="text">Applications Ordinateurs</span>
-               </button>
-               <button class="button" data-id="Créations" onclick="activer(this)">
+               <button class="button" data-id="online" onclick="activer(this)">
                    <span class="icon">🛜</span>
-                   <span class="text">Sites web</span>
-               </button>
-               <button class="button" data-id="Saisie" onclick="activer(this)">
-                    <span class="icon">📝</span>
-                    <span class="text">Documents (word, powerpoint, excel)</span>
+                   <span class="text">COMPTES / WEB</span>
                </button>
             </div>
     </div>
@@ -72,6 +50,7 @@
     <main id="contenu">  </main>
     <script src="Line.js"></script>
 </div>
+</nav>
 </body>
 
 </html>
