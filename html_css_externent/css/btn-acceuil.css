@@ -2,11 +2,11 @@
     font-family: Georgia, 'Times New Roman', Times, serif;
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 18px;
-    width: 91.7%;
+    border-radius: 9px;
+    width: 80% 15%;
     padding: 9.5px 69px;
     color: rgb(203, 203, 203);
-    margin-left: -15px;
+    margin-left: 0px;
     text-align: left;
     font-size: 115%;
     margin-bottom: 55px;
@@ -15,23 +15,24 @@
     gap: 10px;
     animation: slideIn 1.5s ease-in-out;
     position: sticky;
+    margin-top: 0px;
     
 }
 
 .container1 {
-    margin-left: 253.5px ;
-    border-radius: 18px;
+    margin-left: 0px ;
+    border-radius: 9px;
     padding: 25.5px;
     width: 80% 15%;
     background: #FFFF;
-    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgba(159, 192, 201, 1) 100%);
-    font-size: large;
+    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgb(155, 190, 170) 100%);
+    font-size: 23px;
     height: 400px;
     margin-bottom: -40%;
     animation: slideIn1 3.5s ease-in-out;
     padding-bottom: -190.1%;
     overflow-x: auto;
-    text-align: left;
+    text-align: center;
     display: flex;
     position: static;
     z-index: 999;
@@ -40,15 +41,9 @@
     overflow-y: auto;
     border-radius: 15px;
 }
-.container1 button {
-    border-radius: 18px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 97%;
-    margin: 6px;
-    padding: -18px;
-    overflow-y: auto;
-    text-align: center;
-    width: 470px;
+.ul { 
+    text-align: left;
+    font-size: 25px;
 }
 .container2 {
     margin-left: 57.5%;
@@ -62,25 +57,70 @@
     animation: slideIn1 3.5s ease-in-out;
     margin-bottom: -42%;
 }
-.container3 {
-    margin-left: 53%;
-    font-size: 30%;
- 
+.menu-wrapper {
+     display: inline-block;
+    position: relative;
 }
-.container3 button {
-    border-radius: 14px;
-    font-size: 30px;
+
+.wrapper-new-spl {
+    position: relative;
+    margin: 20px;
+}
+
+#btn-new-service-spl {
+    
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
+    border-radius: 15px;
+    width: 80% 15%;
+    padding: 9.5px 69px;
+    color: rgb(203, 203, 203);
+    position: relative;
+    text-align: left;
+    font-size: 115%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 1.5s ease-in-out;
+    margin-left: 0;
+    height: 150px;
+    margin-top: 0;
+    transition: margin-left 0.9s ease;
+    top: 0;
+}
+#btn-new-service-spl :hover {
     background: #040304;
     background: radial-gradient(circle, rgb(90, 88, 88) 0%, rgb(0, 0, 0) 100%);
-    color: rgb(241, 241, 241);
-    width: 50%;
-    padding: 03%;
-    cursor: pointer;
-    font-family: Georgia, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    animation: slideIn 1.5s ease-in-out;
-    margin-top: 6px;
+}
+.dropdown-menu {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: #040304;
+    background: radial-gradient(circle, rgb(90, 88, 88) 0%, rgb(0, 0, 0) 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 80% 15%;
     
 }
+
+.dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.dropdown-menu ul li :hover {
+    background: #040304;
+    background: radial-gradient(circle, rgb(90, 88, 88) 0%, rgb(0, 0, 0) 100%);
+}
+
+
 .Logo {
     width: 58px;
     height: 58px;
@@ -92,20 +132,21 @@
 
 .banner-image {
     width: 13.5%;
-    overflow: hidden;
-    display: flex;
+    overflow: visible;
+    display: block;
     justify-content: center;
     margin-top: -40px;
-    padding: 25px;
+    padding: 24px;
     font-weight: bold;
     height: 44%;
     margin-bottom: -20px;
     margin-top: -75px;
+   margin-left: -24px;
 }
 .banner-image img {
     width: 299px;
     height: 170px;
-    border-radius: 18px;
+    border-radius: 10px;
     box-shadow: 0 4px 20px rgba (0, 0, 0, 0.2);
     animation: slideIn 1.5s ease-in-out;
     display: block;

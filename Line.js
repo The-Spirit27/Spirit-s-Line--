@@ -1,14 +1,58 @@
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.querySelector('.toggle-btn');
+    const mainWrapper = document.getElementById('main-wrapper');
+    const container5 = document.getElementById('container5');
+    const container18 = document.querySelector('.container18');
+
     sidebar.classList.toggle('active');
+    toggleBtn.classList.toggle("shifted");
+    mainWrapper.classList.toggle('shifted');
+
+    if (container5) container5.classList.toggle('shifted');
+    if (container18) container18.classList.toggle('shifted');
 
     toggleBtn.classList.add('float-on-click');
     setTimeout(() => {
         toggleBtn.classList.remove('float-on-click');
-    }, 400);
+    }, 400);
 }
 
+function toggleMenu() {
+    const menu =
+    document.getElementById("burger");
+    menu.style.display = (menu.style.display === "block") ? "none":"block";
+}
+document.addEventListener('click', 
+    function(event) {
+        const menu =
+        document.getElementById("burger");
+        const button = 
+        document.querySelector(".burger-btn");
+        if (!button.contains(event.target)&&! menu.contains (event.target)) {
+            menu.style.display = "none" ;
+        }
+    }
+);
+
+(function () {
+    const btn = 
+    document.getElementById('btn-new-service-spl');
+    const menu = 
+    document.getElementById('menu-service-spl');
+    if (!btn || !menu) return ;
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menu.style.display = (menu.style.display === 'block') ? 'none':'block';
+    });
+    document.addEventListener('click', function(e){
+        if (!menu.contains(e.target)&&!
+    btn.contains(e.target)){
+        menu.style.display = 'none';
+    }
+    });
+
+})
 function chargerCSSSpécifique(href) {
     if (!document.querySelector(`link[href="${href}"]`)) {
         const lien = document.createElement("link");
@@ -74,6 +118,13 @@ function activer(boutonClique) {
     }
 
     document.getElementById("sidebar").classList.remove("active");
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const container = document.getElementById('container5');
+
+    if (toggleBtn)
+        toggleBtn.classList.remove('shifted');
+    if (container)
+        container.classList.remove('shifted');
 }
 
 window.onload = function () {
@@ -81,4 +132,13 @@ window.onload = function () {
     if (btnAccueil) {
         activer(btnAccueil);
     }
+
+
+const toggleBtn =
+document.querySelector(".toggle-btn");
+if (toggleBtn) {
+    setTimeout(() => {
+        toggleBtn.classList.remove("slide-in");
+    }, 1000);
+ }
 };

@@ -1,5 +1,5 @@
 .container4 {
-    margin-left: 253.5px ;
+    margin-left: 0px ;
     border-radius: 18px;
     padding: 25.5px;
     width: 80% 15%;
@@ -40,10 +40,9 @@
 .container19 {
    
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 10px;
-    width: 22%;
+    border-radius: 15px;
+    width: 80% 15%;
     padding: 9.5px 69px;
     color: rgb(203, 203, 203);
     position: absolute;
@@ -54,9 +53,11 @@
     align-items: center;
     gap: 10px;
     animation: slideIn 1.5s ease-in-out;
-    left: 0%;
+    margin-left: 0;
     height: 150px;
-    margin-top: 45px;
+    margin-top: 0;
+    transition: margin-left 0.9s ease;
+    top: 0;
 }
 .content {
     
@@ -64,7 +65,7 @@
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
     border-radius: 17px;
-    width: 1136.5px;
+    width: 80%;
     padding: 9.5px 69px;
     color: rgb(203, 203, 203);
     position: absolute;

@@ -10,13 +10,13 @@ body{
 }
 .sidebar{
     width: 200px;
-    height: 56.8vh;
+    height: 93.5vh;
     background-color: azure;
     color: rgb(0, 0, 0);
     padding: 26px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     left: 0;
-    top: 36.5%;
+    top: 0%;
     transition: transform 0.9s ease;
     position: fixed;
     transform: translateX(-100%);
@@ -24,7 +24,7 @@ body{
     text-align: left;
     text-decoration: underline; 
     text-transform: uppercase;
-    border-radius: 20px;
+    border-radius: 9px;
     padding-top: 1.4%;
     
 }
@@ -210,22 +210,32 @@ transition:0.6s;
     }
 .toggle-btn {
     position: fixed;
-    top: 259px;
-    left: 3px;
+    top: 20px;
+    left: 4px;
     font-size: 16px;
     background: #030000;
-    background: linear-gradient(166deg, rgba(3, 0, 0, 0) 0%, rgba(60, 94, 243, 1) 0%, rgba(56, 94, 214, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(13, 0, 0, 1) 100%);
-    color: rgb(16, 1, 1);
+    background: linear-gradient(166deg, rgba(3, 0, 0, 0) 0%, rgba(60, 94, 243, 1) 0%, rgba(56, 94, 214, 1) 0%, rgb(0, 0, 0) 0%, rgba(13, 0, 0, 1) 100%);
+    color: rgb(255, 255, 255);
     padding: 06px 09px;
     cursor: pointer;
     z-index: 1000;
     border-radius: 8px;
     animation: slideIn 1.5s ease-in-out;
+    transition: margin-left 0.9s ease;
+    }
+    .toggle-btn.shifted {
+        margin-left: 253px;
     }
 
-.float-on-click { 
-    animation: floatEffect 0.5s ease;
+
+    #main-wrapper {
+        margin-left: 0;
+        transition: margin-left 0.9s ease;
+        padding: 0px;
     }
+     #main-wrapper.shifted {
+        margin-left: 253px;
+     }
 .content{ 
     margin-left: 200px;
     padding: 20px;
