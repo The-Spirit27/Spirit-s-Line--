@@ -65,18 +65,18 @@
     background: #040304;
     background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
     border-radius: 17px;
-    width: 80%;
+    width: 1000px;
     padding: 9.5px 69px;
     color: rgb(203, 203, 203);
-    position: absolute;
+    position: sticky;
     text-align: center;
     font-size: 115%;
-    margin-bottom: 20px;
+    margin-bottom: -30px;
     display: flex;
     align-items: center;
     gap: 10px;
-    left: 0;
     height: 78.5px;
     margin-top: 323px;
-    margin-left: 0px;
+    margin-left: -415px;
+    margin-right: -25.2px;
 }

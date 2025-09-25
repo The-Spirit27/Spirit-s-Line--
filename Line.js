@@ -1,22 +1,71 @@
+// Éléments
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.querySelector('.toggle-btn');
+const mainWrapper = document.getElementById('main-wrapper');
+const overlay = document.getElementById('overlay');
+const contenu = document.getElementById('contenu');
+const sidebarButtons = document.querySelectorAll('.sidebar .button');
+
+sidebarButtons.forEach(button => { 
+    button.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        mainWrapper.classList.remove('shifted');
+    });
+});
+
+// Ouverture / fermeture de la sidebar
 function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.querySelector('.toggle-btn');
-    const mainWrapper = document.getElementById('main-wrapper');
-    const container5 = document.getElementById('container5');
-    const container18 = document.querySelector('.container18');
-
-    sidebar.classList.toggle('active');
-    toggleBtn.classList.toggle("shifted");
-    mainWrapper.classList.toggle('shifted');
-
-    if (container5) container5.classList.toggle('shifted');
-    if (container18) container18.classList.toggle('shifted');
-
-    toggleBtn.classList.add('float-on-click');
-    setTimeout(() => {
-        toggleBtn.classList.remove('float-on-click');
-    }, 400);
+  const isActive = sidebar.classList.toggle('active');
+  toggleBtn.classList.toggle('shifted', isActive);
+  mainWrapper.classList.toggle('shifted', isActive);
+  // overlay.style.display = isActive ? "block" : "none";
+  if (isActive) {
+    overlay.classList.add('active');
+  }else{ 
+    overlay.classList.remove('active');
+  }
 }
+
+// Fermeture sidebar si clic hors sidebar
+document.addEventListener('click', (e) => {
+  if (
+    sidebar.classList.contains('active') &&
+    !sidebar.contains(e.target) &&
+    !toggleBtn.contains(e.target)
+  ) {
+    sidebar.classList.remove('active');
+    toggleBtn.classList.remove('shifted');
+    mainWrapper.classList.remove('shifted');
+    overlay.style.display = "none";
+  }
+});
+
+// Gestion clic sur boutons sidebar
+function activer(button) {
+  // ⿡ Charger le contenu correspondant
+  contenu.innerHTML = `Contenu de ${button.querySelector('.text').textContent}`;
+
+  // ⿢ Fermer la sidebar après sélection
+  sidebar.classList.remove('active');
+  toggleBtn.classList.remove('shifted');
+  mainWrapper.classList.remove('shifted');
+  overlay.style.display = "none";
+  overlay.classList.remove('active');
+
+  sidebarButtons.forEach(b => b.classList.remove('active'));
+  button.classList.add('active');
+
+  // ⿣ Bouton actif visuel
+  document.querySelectorAll('.sidebar .button').forEach(b => b.classList.remove('active'));
+  button.classList.add('active');
+}
+
+// Assignation des boutons
+document.querySelectorAll('.sidebar .button').forEach(btn => {
+  btn.addEventListener('click', () => activer(btn));
+});
+
 
 function toggleMenu() {
     const menu =
@@ -35,24 +84,26 @@ document.addEventListener('click',
     }
 );
 
-(function () {
-    const btn = 
-    document.getElementById('btn-new-service-spl');
-    const menu = 
-    document.getElementById('menu-service-spl');
-    if (!btn || !menu) return ;
-    btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        menu.style.display = (menu.style.display === 'block') ? 'none':'block';
-    });
-    document.addEventListener('click', function(e){
-        if (!menu.contains(e.target)&&!
-    btn.contains(e.target)){
-        menu.style.display = 'none';
-    }
-    });
 
-})
+
+        function toggleMenu() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropdown-btn'))
+        {
+            let dropdowns = 
+            document.getElementsByClassName("dropdown-content");
+            for(let i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if 
+                (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+        }
+
 function chargerCSSSpécifique(href) {
     if (!document.querySelector(`link[href="${href}"]`)) {
         const lien = document.createElement("link");
@@ -112,7 +163,6 @@ function activer(boutonClique) {
             chargerCSSSpécifique("html_css_externent/css/online.css")
             chargerContenuExterne("html_css_externent/html/online.html", contenu);
             break;
-
         default:
             contenu.innerHTML = "<h2>Page inconnue 😢</h2>";
     }
