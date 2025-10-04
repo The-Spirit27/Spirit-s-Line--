@@ -1,0 +1,27 @@
+
+  <div class="container">
+    <h2>Gestionnaire de rendez-vous 📜</h2>
+
+    <label>Date:</label>
+    <input type="date" id="date">
+
+    <label>Lieu:</label>
+    <input type="text" id="lieu">
+
+    <label>Personne à rencontrée:</label>
+    <input type="text" id="personne">
+
+    <label>Importance (1 à 3):</label>
+    <select id="importance">
+      <option value="">Choisir</option>
+      <option value="1">1 (Faible)</option>
+      <option value="2">2 (Moyenne)</option>
+      <option value="3">3 (Élevée)</option>
+    </select>
+
+    <button id="ajouterBtn">Ajouter un RDV</button>
+    <button id="supprimerBtn">Supprimer un RDV</button>
+
+    <h3>Liste des RDV</h3>
+    <div id="listeRdv" class="rdv"></div>
+  </div>

@@ -1,0 +1,44 @@
+<div class="container25">
+  <form id="formulaire">
+    <label for="nom">Nom(s):</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <label for="prenom">Prénom(s):</label>
+    <input type="text" id="prenom" name="prenom" required>
+
+    <label for="numero">Numéro de téléphone:</label>
+    <input type="tel" id="numero" name="numero" required pattern="[0-9]{8,15}" placeholder="Ex: 062345678">
+
+    <label for="marque">Marque de téléphone:</label>
+    <select name="marque" id="marque" required>
+      <option value="">-- Choisir la marque --</option>
+      <option value="Samsung">Samsung</option>
+      <option value="Tecno">Tecno</option>
+      <option value="Itel">Itel</option>
+      <option value="Infinix">Infinix</option>
+      <option value="Huawei">Huawei</option>
+      <option value="Autre">Autre...</option>
+    </select>
+
+    <input type="text" id="autreMarque" name="autreMarque" placeholder="Entrez la marque" style="display:none; margin-top:10px;">
+
+    <div class="buttons">
+      <button type="button" id="valider">Valider</button>
+      <button type="reset">Supprimer</button>
+    </div>
+
+    <div id="synthese" style="display:none; margin-top:20px; color:white;">
+      <h3>📋 Vérifiez vos informations</h3>
+      <p><strong>Nom:</strong> <span id="rNom"></span></p>
+      <p><strong>Prénom:</strong> <span id="rPrenom"></span></p>
+      <p><strong>Numéro:</strong> <span id="rNumero"></span></p>
+      <p><strong>Marque:</strong> <span id="rMarque"></span></p>
+
+      <div class="buttons">
+        <button type="button" id="confirmer">Confirmer</button>
+        <button type="button" id="modifier">Modifier</button>
+      </div>
+    </div>
+  </form>
+</div>
+

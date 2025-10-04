@@ -1,4 +1,4 @@
-// Éléments
+// ----------- SIDEBAR & MENU -----------
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.querySelector('.toggle-btn');
 const mainWrapper = document.getElementById('main-wrapper');
@@ -6,87 +6,14 @@ const overlay = document.getElementById('overlay');
 const contenu = document.getElementById('contenu');
 const sidebarButtons = document.querySelectorAll('.sidebar .button');
 
-sidebarButtons.forEach(button => { 
-    button.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        mainWrapper.classList.remove('shifted');
-    });
-});
-
-// Ouverture / fermeture de la sidebar
 function toggleSidebar() {
   const isActive = sidebar.classList.toggle('active');
-  toggleBtn.classList.toggle('shifted', isActive);
-  mainWrapper.classList.toggle('shifted', isActive);
-  // overlay.style.display = isActive ? "block" : "none";
-  if (isActive) {
-    overlay.classList.add('active');
-  }else{ 
-    overlay.classList.remove('active');
-  }
+  if (toggleBtn) toggleBtn.classList.toggle('shifted', isActive);
+  if (mainWrapper) mainWrapper.classList.toggle('shifted', isActive);
+  if (overlay) overlay.classList.toggle('active', isActive);
 }
 
-// Fermeture sidebar si clic hors sidebar
-document.addEventListener('click', (e) => {
-  if (
-    sidebar.classList.contains('active') &&
-    !sidebar.contains(e.target) &&
-    !toggleBtn.contains(e.target)
-  ) {
-    sidebar.classList.remove('active');
-    toggleBtn.classList.remove('shifted');
-    mainWrapper.classList.remove('shifted');
-    overlay.style.display = "none";
-  }
-});
-
-// Gestion clic sur boutons sidebar
-function activer(button) {
-  // ⿡ Charger le contenu correspondant
-  contenu.innerHTML = `Contenu de ${button.querySelector('.text').textContent}`;
-
-  // ⿢ Fermer la sidebar après sélection
-  sidebar.classList.remove('active');
-  toggleBtn.classList.remove('shifted');
-  mainWrapper.classList.remove('shifted');
-  overlay.style.display = "none";
-  overlay.classList.remove('active');
-
-  sidebarButtons.forEach(b => b.classList.remove('active'));
-  button.classList.add('active');
-
-  // ⿣ Bouton actif visuel
-  document.querySelectorAll('.sidebar .button').forEach(b => b.classList.remove('active'));
-  button.classList.add('active');
-}
-
-// Assignation des boutons
-document.querySelectorAll('.sidebar .button').forEach(btn => {
-  btn.addEventListener('click', () => activer(btn));
-});
-
-
-function toggleMenu() {
-    const menu =
-    document.getElementById("burger");
-    menu.style.display = (menu.style.display === "block") ? "none":"block";
-}
-document.addEventListener('click', 
-    function(event) {
-        const menu =
-        document.getElementById("burger");
-        const button = 
-        document.querySelector(".burger-btn");
-        if (!button.contains(event.target)&&! menu.contains (event.target)) {
-            menu.style.display = "none" ;
-        }
-    }
-);
-
-
-
-        function toggleMenu() {
+ function toggleMenu() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
         window.onclick = function (event) {
@@ -104,91 +31,222 @@ document.addEventListener('click',
         }
         }
 
+// Fermer la sidebar si clic en dehors
+document.addEventListener('click', (e) => {
+  if (
+    sidebar.classList.contains('active') &&
+    !sidebar.contains(e.target) &&
+    !(toggleBtn && toggleBtn.contains(e.target))
+  ) {
+    sidebar.classList.remove('active');
+    if (toggleBtn) toggleBtn.classList.remove('shifted');
+    if (mainWrapper) mainWrapper.classList.remove('shifted');
+    if (overlay) overlay.classList.remove('active');
+  }
+});
+
+// Charger CSS spécifique
 function chargerCSSSpécifique(href) {
-    if (!document.querySelector(`link[href="${href}"]`)) {
-        const lien = document.createElement("link");
-        lien.rel = "stylesheet";
-        lien.href = href;
-        document.head.appendChild(lien);
-    }
+  if (!document.querySelector(`link[href="${href}"]`)) {
+    const lien = document.createElement("link");
+    lien.rel = "stylesheet";
+    lien.href = href;
+    document.head.appendChild(lien);
+  }
 }
 
+// Charger contenu externe
 function chargerContenuExterne(fichier, cible) {
-    fetch(fichier)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Erreur de chargement");
-            }
-            return response.text();
-        })
-        .then(html => {
-            cible.innerHTML = html;
-        })
-        .catch(err => {
-            cible.innerHTML = "<p>Erreur lors du chargement</p>";
-            console.error(err);
-        });
+  fetch(fichier)
+    .then(response => {
+      if (!response.ok) throw new Error("Erreur de chargement");
+      return response.text();
+    })
+    .then(html => {
+      cible.innerHTML = html;
+    })
+    .catch(err => {
+      cible.innerHTML = "<p>Erreur lors du chargement</p>";
+      console.error(err);
+    });
 }
 
+// Activer bouton sidebar
 function activer(boutonClique) {
-    const buttons = document.querySelectorAll('.button');
-    buttons.forEach(button => button.classList.remove('active'));
-    boutonClique.classList.add('active');
+  sidebarButtons.forEach(button => button.classList.remove('active'));
+  boutonClique.classList.add('active');
 
-    const contenu = document.getElementById("contenu");
-    const texte = boutonClique.querySelector('.text').innerText.trim().toLowerCase();
+  const texte = boutonClique.querySelector('.text').innerText.trim().toLowerCase();
 
-    switch (texte) {
-        case "acceuil":
-            chargerCSSSpécifique("html_css_externent/css/btn-acceuil.css");
-            chargerContenuExterne("html_css_externent/html/btn-acceuil.html", contenu);
-            break;
+  switch (texte) {
+    case "acceuil":
+      chargerCSSSpécifique("html_css_externent/css/btn-acceuil.css");
+      chargerContenuExterne("html_css_externent/html/btn-acceuil.html", contenu);
+      break;
+    case "paramètres":
+      chargerCSSSpécifique("html_css_externent/css/paramètres.css");
+      chargerContenuExterne("html_css_externent/html/paramètres.html", contenu);
+      break;
+    case "i-techs":
+      chargerCSSSpécifique("html_css_externent/css/i-techs.css");
+      chargerContenuExterne("html_css_externent/html/i-techs.html", contenu);
+      break;
+    case "documents":
+      chargerCSSSpécifique("html_css_externent/css/documents.css");
+      chargerContenuExterne("html_css_externent/html/documents.html", contenu);
+      break;
+    case "comptes / web":
+      chargerCSSSpécifique("html_css_externent/css/online.css");
+      chargerContenuExterne("html_css_externent/html/online.html", contenu);
+      break;
+       case "i-tech🖱️>":
+      chargerCSSSpécifique("html_css_externent/css/i-techs.css");
+      chargerContenuExterne("html_css_externent/html/i-techs.html", contenu);
+      break;
+    case "documents📜>":
+      chargerCSSSpécifique("html_css_externent/css/documents.css");
+      chargerContenuExterne("html_css_externent/html/documents.html", contenu);
+      break;
+    case "comptes/web🌍>":
+      chargerCSSSpécifique("html_css_externent/css/online.css");
+      chargerContenuExterne("html_css_externent/html/online.html", contenu);
+      break;
+    case "guide d'utilisation >":
+      chargerCSSSpécifique("html_css_externent/css/guide.css");
+      chargerContenuExterne("html_css_externent/html/guide.html", contenu);
+      break;
+    case "à propos du site >":
+      chargerCSSSpécifique("html_css_externent/css/info.css");
+      chargerContenuExterne("html_css_externent/html/info.html", contenu);
+      break;
+    case "flashage de téléphones >":
+      chargerCSSSpécifique("html_css_externent/css/types-docs.css");
+      chargerContenuExterne("html_css_externent/html/types-docs.html", contenu);
+      break;
+    case "déblocages des ordinateurs >":
+      chargerCSSSpécifique("html_css_externent/css/ordi.css");
+      chargerContenuExterne("html_css_externent/html/ordi.html", contenu);
+      break;
+    case "activation windows >":
+      chargerCSSSpécifique("html_css_externent/css/windows.css");
+      chargerContenuExterne("html_css_externent/html/windows.html", contenu);
+      break;
+    case "téléchargement app et games pour pc >":
+      chargerCSSSpécifique("html_css_externent/css/app-pc.css");
+      chargerContenuExterne("html_css_externent/html/app-pc.html", contenu);
+      break;
+    case "saisie de documents >":
+      chargerCSSSpécifique("html_css_externent/css/saisies.css");
+      chargerContenuExterne("html_css_externent/html/saisies.html", contenu);
+      break;
+    case "création de flyers >":
+      chargerCSSSpécifique("html_css_externent/css/flyers.css");
+      chargerContenuExterne("html_css_externent/html/flyers.html", contenu);
+      break;
+    case "activation pack office >":
+      chargerCSSSpécifique("html_css_externent/css/office.css");
+      chargerContenuExterne("html_css_externent/html/office.html", contenu);
+      break;
+    case "comptes e-bourse >":
+      chargerCSSSpécifique("html_css_externent/css/comptes.css");
+      chargerContenuExterne("html_css_externent/html/comptes.html", contenu);
+      break;
+    case "sites web >":
+      chargerCSSSpécifique("html_css_externent/css/sites.css");
+      chargerContenuExterne("html_css_externent/html/sites.html", contenu);
+      break;
+    default:
+      contenu.innerHTML = "<h2>Page inconnue 😢</h2>";
+  }
 
-        case "paramètres":
-            chargerCSSSpécifique("html_css_externent/css/paramètres.css")
-            chargerContenuExterne("html_css_externent/html/paramètres.html", contenu);
-            break;
-
-        case "i-techs":
-            chargerCSSSpécifique("html_css_externent/css/i-techs.css")
-            chargerContenuExterne("html_css_externent/html/i-techs.html", contenu);
-            break;
-
-        case "documents":
-            chargerCSSSpécifique("html_css_externent/css/documents.css")
-            chargerContenuExterne("html_css_externent/html/documents.html", contenu);
-            break;
-
-        case "comptes / web":
-            chargerCSSSpécifique("html_css_externent/css/online.css")
-            chargerContenuExterne("html_css_externent/html/online.html", contenu);
-            break;
-        default:
-            contenu.innerHTML = "<h2>Page inconnue 😢</h2>";
-    }
-
-    document.getElementById("sidebar").classList.remove("active");
-    const toggleBtn = document.querySelector('.toggle-btn');
-    const container = document.getElementById('container5');
-
-    if (toggleBtn)
-        toggleBtn.classList.remove('shifted');
-    if (container)
-        container.classList.remove('shifted');
+  sidebar.classList.remove("active");
+  if (toggleBtn) toggleBtn.classList.remove('shifted');
+  if (mainWrapper) mainWrapper.classList.remove('shifted');
+  if (overlay) overlay.classList.remove('active');
 }
 
+// Assignation des boutons
+sidebarButtons.forEach(btn => {
+  btn.addEventListener('click', () => activer(btn));
+});
+
+// Ouverture auto accueil au chargement
 window.onload = function () {
-    const btnAccueil = document.getElementById("btn-accueil");
-    if (btnAccueil) {
-        activer(btnAccueil);
-    }
+  const btnAccueil = document.getElementById("btn-accueil");
+  if (btnAccueil) activer(btnAccueil);
 
-
-const toggleBtn =
-document.querySelector(".toggle-btn");
-if (toggleBtn) {
-    setTimeout(() => {
-        toggleBtn.classList.remove("slide-in");
-    }, 1000);
- }
+  if (toggleBtn) {
+    setTimeout(() => toggleBtn.classList.remove("slide-in"), 1000);
+  }
 };
+
+// ----------- FORMULAIRE FLASHAGE -----------
+const validerBtn = document.getElementById('valider');
+const synthese = document.getElementById('synthese');
+const form = document.getElementById('formulaire');
+const selectMarque = document.getElementById('marque');
+const autreMarqueInput = document.getElementById('autreMarque');
+
+// Afficher champ "Autre" si choisi
+selectMarque.addEventListener('change', function() {
+  if (this.value === 'Autre') {
+    autreMarqueInput.style.display = 'block';
+    autreMarqueInput.required = true;
+  } else {
+    autreMarqueInput.style.display = 'none';
+    autreMarqueInput.required = false;
+    autreMarqueInput.value = '';
+  }
+});
+
+// Quand on clique sur "Valider"
+validerBtn.addEventListener('click', function() {
+  const nom = document.getElementById('nom').value.trim();
+  const prenom = document.getElementById('prenom').value.trim();
+  const numero = document.getElementById('numero').value.trim();
+  let marque = selectMarque.value;
+  if (marque === 'Autre') marque = autreMarqueInput.value.trim();
+  if (!nom || !prenom || !numero || !marque) {
+    alert('⚠️ Merci de remplir toutes les informations !');
+    return;
+  }
+  document.getElementById('rNom').innerText = nom;
+  document.getElementById('rPrenom').innerText = prenom;
+  document.getElementById('rNumero').innerText = numero;
+  document.getElementById('rMarque').innerText = marque;
+  form.querySelector('.buttons').style.display = 'none';
+  synthese.style.display = 'block';
+});
+
+// Bouton "Modifier" → revenir au formulaire
+const modifierBtn = document.getElementById('modifier');
+if (modifierBtn) {
+  modifierBtn.addEventListener('click', function() {
+    synthese.style.display = 'none';
+    form.querySelector('.buttons').style.display = 'flex';
+  });
+}
+
+// Bouton "Confirmer" → envoi WhatsApp
+const confirmerBtn = document.getElementById('confirmer');
+if (confirmerBtn) {
+  confirmerBtn.addEventListener('click', function() {
+    const nom = document.getElementById('nom').value.trim();
+    const prenom = document.getElementById('prenom').value.trim();
+    const numero = document.getElementById('numero').value.trim();
+    let marque = selectMarque.value;
+    if (marque === 'Autre') marque = autreMarqueInput.value.trim();
+    const phoneNumber = '+241 062915307'; // Ton numéro WhatsApp
+    const message = `📋 Nouvelle demande Flashage :\n- Nom : ${nom}\n- Prénom : ${prenom}\n- Numéro : ${numero}\n- Marque : ${marque}`;
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  });
+}
+
+// ----------- RESET FORMULAIRE -----------
+form.addEventListener('reset', function() {
+  synthese.style.display = 'none';
+  form.querySelector('.buttons').style.display = 'flex';
+  autreMarqueInput.style.display = 'none';
+  autreMarqueInput.required = false;
+  autreMarqueInput.value = '';
+});
