@@ -6,11 +6,30 @@ const overlay = document.getElementById('overlay');
 const contenu = document.getElementById('contenu');
 const sidebarButtons = document.querySelectorAll('.sidebar .button');
 
+// Votre fonction dans Line.js doit gérer les classes suivantes:
+
 function toggleSidebar() {
-  const isActive = sidebar.classList.toggle('active');
-  if (toggleBtn) toggleBtn.classList.toggle('shifted', isActive);
-  if (mainWrapper) mainWrapper.classList.toggle('shifted', isActive);
-  if (overlay) overlay.classList.toggle('active', isActive);
+    const sidebar = document.getElementById('sidebar');
+    const mainWrapper = document.getElementById('main-wrapper');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const overlay = document.querySelector('.overlay');
+
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        // Mode Mobile: Utiliser l'overlay et la classe 'active'
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Cacher le bouton toggle quand le menu est ouvert (optionnel)
+        toggleBtn.style.display = sidebar.classList.contains('active') ? 'none' : 'block';
+        
+    } else {
+        // Mode Desktop: Utiliser la classe 'shifted' pour décaler le contenu
+        sidebar.classList.toggle('active'); // Maintient l'état du menu
+        mainWrapper.classList.toggle('shifted');
+        toggleBtn.classList.toggle('shifted');
+    }
 }
 
  function toggleMenu() {
@@ -250,3 +269,31 @@ form.addEventListener('reset', function() {
   autreMarqueInput.required = false;
   autreMarqueInput.value = '';
 });
+
+// Votre fonction dans Line.js doit basculer les classes 'active' ou 'shifted'
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const mainWrapper = document.getElementById('main-wrapper');
+    const overlay = document.querySelector('.overlay'); // Assurez-vous d'avoir un élément avec la classe 'overlay' dans votre index.html
+
+    // Bascule la classe 'active' pour afficher/masquer la sidebar
+    sidebar.classList.toggle('active'); 
+    
+    // Bascule la classe 'active' pour l'overlay
+    overlay.classList.toggle('active');
+
+    // Pour le bureau, vous utilisiez peut-être '.shifted' pour décaler le contenu principal,
+    // mais sur mobile, on utilise uniquement le .sidebar.active avec l'overlay.
+    
+    // Si vous souhaitez utiliser '.shifted' pour les animations, voici la logique:
+    if (window.innerWidth > 768) {
+        // Logique de bureau: décale le contenu
+        mainWrapper.classList.toggle('shifted');
+        toggleBtn.classList.toggle('shifted');
+    }
+}
+
+// Optionnel: Fermer la sidebar en cliquant sur l'overlay
+document.querySelector('.overlay').addEventListener('click', toggleSidebar);
