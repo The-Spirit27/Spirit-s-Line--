@@ -479,7 +479,7 @@ body { overflow-x: hidden; margin: 0; padding: 0; font-family:'Gill Sans', 'Gill
            
 }
 
-.container1 { margin: 0 auto; border-radius: 14px; padding: 20px; width: 600px; background: linear-gradient(179deg, white 0%, rgba(159, 192, 201, 1) 100%); font-size: medium;  display: block; animation: slideIn1 2s ease-in-out; height: 335px; 
+.container1 { margin: 0 auto; border-radius: 14px; padding: 20px; width: 600px; background: linear-gradient(179deg, white 0%, rgba(159, 192, 201, 1) 100%); font-size: medium;  display: block; animation: slideIn1 2s ease-in-out; height: 450px; 
             margin-bottom: -9px;
             margin-left: -10px;
             
