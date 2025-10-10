@@ -1,4 +1,5 @@
-<div class="container20">
+
+  <div class="container20">
   <form id="formulaire">
     <label for="nom">Nom(s):</label>
     <input type="text" id="nom" name="nom" required>
@@ -27,6 +28,12 @@
       <button type="reset">Supprimer</button>
     </div>
 
+<div id="choixEnvoi" style="display:none; margin-top:20px;">
+  <h3>Comment voulez-vous envoyer les informations ?</h3>
+  <button type="button" id="envoyerWhatsApp">📱 WhatsApp</button>
+  <button type="button" id="envoyerMail">📧 Mail</button>
+</div>
+
     <div id="synthese" style="display:none; margin-top:20px; color:white;">
       <h3>📋 Vérifiez vos informations</h3>
       <p><strong>Nom:</strong> <span id="rNom"></span></p>
@@ -41,4 +48,3 @@
     </div>
   </form>
 </div>
-

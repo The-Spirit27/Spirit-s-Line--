@@ -6,7 +6,6 @@ body{
     margin: 0;
     height: 100vh;
     padding: 0;
-    
 }
 .sidebar{
     width: 200px;
@@ -26,7 +25,8 @@ body{
     text-transform: uppercase;
     border-radius: 9px;
     padding-top: 1.4%;
-    
+    overflow-y: auto;
+    overflow-x: hidden;
 }
  .overlay {
       position: fixed;
@@ -84,6 +84,7 @@ margin: 15px 0;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
     }
 
 

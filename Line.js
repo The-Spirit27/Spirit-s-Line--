@@ -1,4 +1,3 @@
-// ----------- SIDEBAR & MENU -----------
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.querySelector('.toggle-btn');
 const mainWrapper = document.getElementById('main-wrapper');
@@ -6,7 +5,6 @@ const overlay = document.getElementById('overlay');
 const contenu = document.getElementById('contenu');
 const sidebarButtons = document.querySelectorAll('.sidebar .button');
 
-// Votre fonction dans Line.js doit gérer les classes suivantes:
 
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -17,7 +15,7 @@ function toggleSidebar() {
     const isMobile = window.innerWidth <= 768;
 
     if (isMobile) {
-        // Mode Mobile: Utiliser l'overlay et la classe 'active'
+        // Mode Mobile: Utiliser la classe 'active' pour afficher/masquer
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
         
@@ -75,20 +73,131 @@ function chargerCSSSpécifique(href) {
 }
 
 // Charger contenu externe
+// ---------- CHARGEMENT DYNAMIQUE ----------
 function chargerContenuExterne(fichier, cible) {
   fetch(fichier)
     .then(response => {
-      if (!response.ok) throw new Error("Erreur de chargement");
+      if (!response.ok) throw new Error("Erreur de chargement: " + response.statusText);
       return response.text();
     })
     .then(html => {
       cible.innerHTML = html;
+
+      // Vérifie si un formulaire existe dans le contenu chargé
+      const formulaire = cible.querySelector("#formulaire");
+      if (formulaire) {
+        initialiserFormulaire(formulaire);
+      }
     })
     .catch(err => {
-      cible.innerHTML = "<p>Erreur lors du chargement</p>";
+      cible.innerHTML = "<p>❌ Erreur lors du chargement du contenu.</p>";
       console.error(err);
     });
 }
+
+// ---------- INITIALISATION FORMULAIRE ----------
+function initialiserFormulaire(formulaire) {
+  console.log("✅ Formulaire détecté et initialisé.");
+
+  const validerBtn = formulaire.querySelector("#valider");
+  const synthese = formulaire.querySelector("#synthese");
+  const autreMarque = formulaire.querySelector("#autreMarque");
+  const marque = formulaire.querySelector("#marque");
+
+  const rNom = formulaire.querySelector("#rNom");
+  const rPrenom = formulaire.querySelector("#rPrenom");
+  const rNumero = formulaire.querySelector("#rNumero");
+  const rMarque = formulaire.querySelector("#rMarque");
+
+  const modifierBtn = formulaire.querySelector("#modifier");
+  const confirmerBtn = formulaire.querySelector("#confirmer");
+
+  // Afficher champ "Autre marque"
+  if (marque) {
+    marque.addEventListener("change", () => {
+      if (marque.value === "Autre") {
+        autreMarque.style.display = "block";
+      } else {
+        autreMarque.style.display = "none";
+        autreMarque.value = "";
+      }
+    });
+  }
+
+  // Bouton Valider
+  if (validerBtn) {
+    validerBtn.addEventListener("click", () => {
+      const nom = formulaire.querySelector("#nom").value.trim();
+      const prenom = formulaire.querySelector("#prenom").value.trim();
+      const numero = formulaire.querySelector("#numero").value.trim();
+      let marqueChoisie = marque.value;
+
+      if (marqueChoisie === "Autre") {
+        marqueChoisie = autreMarque.value.trim() || "Non précisé";
+      }
+
+      if (!nom || !prenom || !numero || !marqueChoisie) {
+        alert("⚠️ Merci de remplir tous les champs.");
+        return;
+      }
+
+      rNom.textContent = nom;
+      rPrenom.textContent = prenom;
+      rNumero.textContent = numero;
+      rMarque.textContent = marqueChoisie;
+
+      formulaire.querySelectorAll("input, select, button").forEach(el => {
+        if (!el.closest("#synthese")) el.style.display = "none";
+      });
+
+      synthese.style.display = "block";
+    });
+  }
+
+  // Bouton Modifier
+  if (modifierBtn) {
+    modifierBtn.addEventListener("click", () => {
+      formulaire.querySelectorAll("input, select, button").forEach(el => {
+        if (!el.closest("#synthese")) el.style.display = "";
+      });
+      synthese.style.display = "none";
+    });
+  }
+
+  // Bouton Confirmer
+  if (confirmerBtn) {
+    confirmerBtn.addEventListener("click", () => {
+      const choix = confirm("Souhaitez-vous envoyer ces informations par WhatsApp ? (OK = WhatsApp / Annuler = Email)");
+      const nom = rNom.textContent;
+      const prenom = rPrenom.textContent;
+      const numero = rNumero.textContent;
+      const marque = rMarque.textContent;
+
+      if (choix) {
+        // Envoi via WhatsApp
+        const message = `Bonjour, voici mes infos :%0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A📱 Marque: ${marque}`;
+        const numeroWhatsApp = "241062915307"; // ✅ Mets ici TON numéro WhatsApp
+        const lien = `https://wa.me/${numeroWhatsApp}?text=${message}`;
+        window.open(lien, "_blank");
+      } else {
+        // Envoi via Email
+        const sujet = encodeURIComponent("Nouvelle soumission de formulaire");
+        const corps = encodeURIComponent(`Nom: ${nom}\nPrénom: ${prenom}\nNuméro: ${numero}\nMarque: ${marque}`);
+        const mailto = `mailto:ezersidney705@gmail.com?subject=${sujet}&body=${corps}`;
+        window.location.href = mailto;
+      }
+
+      alert("✅ Données envoyées !");
+      formulaire.reset();
+      synthese.style.display = "none";
+      autreMarque.style.display = "none";
+      formulaire.querySelectorAll("input, select, button").forEach(el => {
+        if (!el.closest("#synthese")) el.style.display = "";
+      });
+    });
+  }
+}
+
 
 // Activer bouton sidebar
 function activer(boutonClique) {
@@ -199,75 +308,8 @@ window.onload = function () {
   }
 };
 
-// ----------- FORMULAIRE FLASHAGE -----------
-const validerBtn = document.getElementById('valider');
-const synthese = document.getElementById('synthese');
-const form = document.getElementById('formulaire');
-const selectMarque = document.getElementById('marque');
-const autreMarqueInput = document.getElementById('autreMarque');
-
-// Afficher champ "Autre" si choisi
-selectMarque.addEventListener('change', function() {
-  if (this.value === 'Autre') {
-    autreMarqueInput.style.display = 'block';
-    autreMarqueInput.required = true;
-  } else {
-    autreMarqueInput.style.display = 'none';
-    autreMarqueInput.required = false;
-    autreMarqueInput.value = '';
-  }
-});
-
 // Quand on clique sur "Valider"
 validerBtn.addEventListener('click', function() {
-  const nom = document.getElementById('nom').value.trim();
-  const prenom = document.getElementById('prenom').value.trim();
-  const numero = document.getElementById('numero').value.trim();
-  let marque = selectMarque.value;
-  if (marque === 'Autre') marque = autreMarqueInput.value.trim();
-  if (!nom || !prenom || !numero || !marque) {
-    alert('⚠️ Merci de remplir toutes les informations !');
-    return;
-  }
-  document.getElementById('rNom').innerText = nom;
-  document.getElementById('rPrenom').innerText = prenom;
-  document.getElementById('rNumero').innerText = numero;
-  document.getElementById('rMarque').innerText = marque;
-  form.querySelector('.buttons').style.display = 'none';
-  synthese.style.display = 'block';
-});
-
-// Bouton "Modifier" → revenir au formulaire
-const modifierBtn = document.getElementById('modifier');
-if (modifierBtn) {
-  modifierBtn.addEventListener('click', function() {
-    synthese.style.display = 'none';
-    form.querySelector('.buttons').style.display = 'flex';
-  });
-}
-
-// Bouton "Confirmer" → envoi WhatsApp
-const confirmerBtn = document.getElementById('confirmer');
-if (confirmerBtn) {
-  confirmerBtn.addEventListener('click', function() {
-    const nom = document.getElementById('nom').value.trim();
-    const prenom = document.getElementById('prenom').value.trim();
-    const numero = document.getElementById('numero').value.trim();
-    let marque = selectMarque.value;
-    if (marque === 'Autre') marque = autreMarqueInput.value.trim();
-    const phoneNumber = '+241 062915307'; // Ton numéro WhatsApp
-    const message = `📋 Nouvelle demande Flashage :\n- Nom : ${nom}\n- Prénom : ${prenom}\n- Numéro : ${numero}\n- Marque : ${marque}`;
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-  });
-}
-
-// ----------- RESET FORMULAIRE -----------
-form.addEventListener('reset', function() {
-  synthese.style.display = 'none';
-  form.querySelector('.buttons').style.display = 'flex';
-  autreMarqueInput.style.display = 'none';
-  autreMarqueInput.required = false;
-  autreMarqueInput.value = '';
 });
 
 // Votre fonction dans Line.js doit basculer les classes 'active' ou 'shifted'
@@ -297,3 +339,8 @@ function toggleSidebar() {
 
 // Optionnel: Fermer la sidebar en cliquant sur l'overlay
 document.querySelector('.overlay').addEventListener('click', toggleSidebar);
+// Assurez-vous que le bouton toggle appelle bien toggleSidebar()
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleSidebar);
+}
+ 
