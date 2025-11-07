@@ -94,8 +94,6 @@ function chargerContenuExterne(fichier, cible) {
       console.error(err);
     });
 }
-
-// ---------- INITIALISATION FORMULAIRE ----------
 function initialiserFormulaire(formulaire) {
   console.log("✅ Formulaire détecté et initialisé.");
 
@@ -115,97 +113,72 @@ function initialiserFormulaire(formulaire) {
   const modifierBtn = formulaire.querySelector("#modifier");
   const confirmerBtn = formulaire.querySelector("#confirmer");
 
-  // Afficher champ "Autre marque"
-  if (marque) {
-    marque.addEventListener("change", () => {
-      if (marque.value === "Autre") {
-        autreMarque.style.display = "block";
-      } else {
-        autreMarque.style.display = "none";
-        autreMarque.value = "";
-      }
+  marque.addEventListener("change", () => {
+    autreMarque.style.display = marque.value === "Autre" ? "block" : "none";
+    if (marque.value !== "Autre") autreMarque.value = "";
+  });
+
+  validerBtn.addEventListener("click", () => {
+    const nom = formulaire.querySelector("#nom").value.trim();
+    const prenom = formulaire.querySelector("#prenom").value.trim();
+    const numero = formulaire.querySelector("#numero").value.trim();
+    let marqueChoisie = marque.value === "Autre" ? autreMarque.value.trim() || "Non précisé" : marque.value;
+
+    if (!nom || !prenom || !numero || !marqueChoisie) {
+      alert("⚠️ Merci de remplir tous les champs.");
+      return;
+    }
+
+    rNom.textContent = nom;
+    rPrenom.textContent = prenom;
+    rNumero.textContent = numero;
+    rMarque.textContent = marqueChoisie;
+    rService.textContent = service.value;
+    rMontant.textContent = montant.value;
+
+    formulaire.querySelectorAll("input, select, button").forEach(el => {
+      if (!el.closest("#synthese")) el.style.display = "none";
     });
-  }
 
-  // Bouton Valider
-  if (validerBtn) {
-    validerBtn.addEventListener("click", () => {
-      const nom = formulaire.querySelector("#nom").value.trim();
-      const prenom = formulaire.querySelector("#prenom").value.trim();
-      const numero = formulaire.querySelector("#numero").value.trim();
+    synthese.style.display = "block";
+  });
 
-      let marqueChoisie = marque.value;
-      let ServiceActuel = service.value;
-      let MontantActuel = montant.value;
-
-      if (marqueChoisie === "Autre") {
-        marqueChoisie = autreMarque.value.trim() || "Non précisé";
-      }
-
-      if (!nom || !prenom || !numero || !marqueChoisie) {
-        alert("⚠️ Merci de remplir tous les champs.");
-        return;
-      }
-
-      rNom.textContent = nom;
-      rPrenom.textContent = prenom;
-      rNumero.textContent = numero;
-      rMarque.textContent = marqueChoisie;
-      rService.textContent = ServiceActuel;
-      rMontant.textContent = MontantActuel;
-
-      formulaire.querySelectorAll("input, select, button").forEach(el => {
-        if (!el.closest("#synthese")) el.style.display = "none";
-      });
-
-      synthese.style.display = "block";
+  modifierBtn.addEventListener("click", () => {
+    formulaire.querySelectorAll("input, select, button").forEach(el => {
+      if (!el.closest("#synthese")) el.style.display = "";
     });
-  }
+    synthese.style.display = "none";
+  });
 
-  // Bouton Modifier
-  if (modifierBtn) {
-    modifierBtn.addEventListener("click", () => {
-      formulaire.querySelectorAll("input, select, button").forEach(el => {
-        if (!el.closest("#synthese")) el.style.display = "";
-      });
-      synthese.style.display = "none";
+  confirmerBtn.addEventListener("click", () => {
+    const choix = confirm("Souhaitez-vous envoyer ces informations par WhatsApp ? (OK = WhatsApp / Annuler = Email)");
+    const nom = rNom.textContent;
+    const prenom = rPrenom.textContent;
+    const numero = rNumero.textContent;
+    const marque = rMarque.textContent;
+    const service = rService.textContent;
+    const montant = rMontant.textContent;
+
+    if (choix) {
+      const message = `Bonjour, voici mes infos :%0A💁‍♂️ Service: ${service}%0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A❓ Requête: ${marque}%0A💵 Montant: ${montant}`;
+      const numeroWhatsApp = "241074849344";
+      const lien = `https://wa.me/${numeroWhatsApp}?text=${message}`;
+      window.open(lien, "_blank");
+    } else {
+      const sujet = encodeURIComponent("Nouvelle soumission de formulaire");
+      const corps = encodeURIComponent(`Nom: ${nom}\nPrénom: ${prenom}\nNuméro: ${numero}\nMarque: ${marque}\nService: ${service}\nMontant: ${montant}`);
+      const mailto = `mailto:ezersidney705@gmail.com?subject=${sujet}&body=${corps}`;
+      window.location.href = mailto;
+    }
+
+    alert("✅ Données envoyées !");
+    formulaire.reset();
+    synthese.style.display = "none";
+    autreMarque.style.display = "none";
+    formulaire.querySelectorAll("input, select, button").forEach(el => {
+      if (!el.closest("#synthese")) el.style.display = "";
     });
-  }
-
-  // Bouton Confirmer
-  if (confirmerBtn) {
-    confirmerBtn.addEventListener("click", () => {
-      const choix = confirm("Souhaitez-vous envoyer ces informations par WhatsApp ? (OK = WhatsApp / Annuler = Email)");
-      const nom = rNom.textContent;
-      const prenom = rPrenom.textContent;
-      const numero = rNumero.textContent;
-      const marque = rMarque.textContent;
-      const service = rService.textContent;
-      const montant = rMontant.textContent;
-
-      if (choix) {
-        // Envoi via WhatsApp
-        const message = `Bonjour, voici mes infos :%OA💁‍♂️ Service: ${service}  %0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A❓ Requete: ${marque}%OA💵 Montant: ${montant}`;
-        const numeroWhatsApp = "241074849344"; // ✅ Mets ici TON numéro WhatsApp
-        const lien = `https://wa.me/${numeroWhatsApp}?text=${message}`;
-        window.open(lien, "_blank");
-      } else {
-        // Envoi via Email
-        const sujet = encodeURIComponent("Nouvelle soumission de formulaire");
-        const corps = encodeURIComponent(`Nom: ${nom}\nPrénom: ${prenom}\nNuméro: ${numero}\nMarque: ${marque}`);
-        const mailto = `mailto:ezersidney705@gmail.com?subject=${sujet}&body=${corps}`;
-        window.location.href = mailto;
-      }
-
-      alert("✅ Données envoyées !");
-      formulaire.reset();
-      synthese.style.display = "none";
-      autreMarque.style.display = "none";
-      formulaire.querySelectorAll("input, select, button").forEach(el => {
-        if (!el.closest("#synthese")) el.style.display = "";
-      });
-    });
-  }
+  });
 }
 
 
