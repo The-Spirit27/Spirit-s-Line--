@@ -103,12 +103,15 @@ function initialiserFormulaire(formulaire) {
   const synthese = formulaire.querySelector("#synthese");
   const autreMarque = formulaire.querySelector("#autreMarque");
   const marque = formulaire.querySelector("#marque");
+  const service = formulaire.querySelector("#service");
+  const montant = formulaire.querySelector("#montant");
 
   const rNom = formulaire.querySelector("#rNom");
   const rPrenom = formulaire.querySelector("#rPrenom");
   const rNumero = formulaire.querySelector("#rNumero");
   const rMarque = formulaire.querySelector("#rMarque");
-
+  const rService = formulaire.querySelector("#rService");
+  const rMontant = formulaire.querySelector("#rMontant");
   const modifierBtn = formulaire.querySelector("#modifier");
   const confirmerBtn = formulaire.querySelector("#confirmer");
 
@@ -130,7 +133,10 @@ function initialiserFormulaire(formulaire) {
       const nom = formulaire.querySelector("#nom").value.trim();
       const prenom = formulaire.querySelector("#prenom").value.trim();
       const numero = formulaire.querySelector("#numero").value.trim();
+
       let marqueChoisie = marque.value;
+      let ServiceActuel = service.value;
+      let MontantActuel = montant.value;
 
       if (marqueChoisie === "Autre") {
         marqueChoisie = autreMarque.value.trim() || "Non précisé";
@@ -145,6 +151,8 @@ function initialiserFormulaire(formulaire) {
       rPrenom.textContent = prenom;
       rNumero.textContent = numero;
       rMarque.textContent = marqueChoisie;
+      rService.textContent = ServiceActuel;
+      rMontant.textContent = MontantActuel;
 
       formulaire.querySelectorAll("input, select, button").forEach(el => {
         if (!el.closest("#synthese")) el.style.display = "none";
@@ -172,10 +180,12 @@ function initialiserFormulaire(formulaire) {
       const prenom = rPrenom.textContent;
       const numero = rNumero.textContent;
       const marque = rMarque.textContent;
+      const service = rService.textContent;
+      const montant = rMontant.textContent;
 
       if (choix) {
         // Envoi via WhatsApp
-        const message = `Bonjour, voici mes infos :%0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A📱 Marque: ${marque}`;
+        const message = `Bonjour, voici mes infos :%OA💁‍♂️ Service: ${service}  %0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A❓ Requete: ${marque}%OA💵 Montant: ${montant}`;
         const numeroWhatsApp = "241074849344"; // ✅ Mets ici TON numéro WhatsApp
         const lien = `https://wa.me/${numeroWhatsApp}?text=${message}`;
         window.open(lien, "_blank");
