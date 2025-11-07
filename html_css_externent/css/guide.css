@@ -1,0 +1,21 @@
+body{
+    text-align: center;
+  
+}
+.container31{
+  max-width: 990px;
+  margin: 60px auto;
+  background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgb(155, 190, 170) 100%);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  margin-top: 40px; 
+  color: rgb(0, 0, 0);
+  height: 580px;
+  overflow-y: auto;
+  font-size: 27px;
+}
+.left1 {
+  text-align: left;
+  font-size: 25px;
+}

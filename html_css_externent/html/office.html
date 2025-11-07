@@ -1,27 +1,48 @@
+<div class="container28">
+  <header><strong>Activation pack office</strong></header>
+  <form id="formulaire">
+    <label for="nom">Nom(s):</label>
+    <input type="text" id="nom" name="nom" required>
 
-  <div class="container">
-    <h2>Gestionnaire de rendez-vous 📜</h2>
+    <label for="prenom">Prénom(s):</label>
+    <input type="text" id="prenom" name="prenom" required>
 
-    <label>Date:</label>
-    <input type="date" id="date">
+    <label for="numero">Numéro de téléphone:</label>
+    <input type="tel" id="numero" name="numero" required pattern="[0-9]{8,15}" placeholder="Ex: 062345678">
 
-    <label>Lieu:</label>
-    <input type="text" id="lieu">
-
-    <label>Personne à rencontrée:</label>
-    <input type="text" id="personne">
-
-    <label>Importance (1 à 3):</label>
-    <select id="importance">
-      <option value="">Choisir</option>
-      <option value="1">1 (Faible)</option>
-      <option value="2">2 (Moyenne)</option>
-      <option value="3">3 (Élevée)</option>
+    <label for="marque">Type de PC :</label>
+    <select name="marque" id="marque" required>
+      <option value="">-- Choisir le type d'Ordinateur --</option>
+      <option value="HP">HP</option>
+      <option value="DELL">DELL</option>
+      <option value="LENOVO">LENOVO</option>
+      <option value="MICROSOFT">MICROSOFT</option>
+      <option value="SAMSUNG">SAMSUNG</option>
+      <option value="Autre">Autre...</option>
     </select>
 
-    <button id="ajouterBtn">Ajouter un RDV</button>
-    <button id="supprimerBtn">Supprimer un RDV</button>
+    <input type="text" id="autreMarque" name="autreMarque" placeholder="Entrez le Modèle de l'ordinateur" style="display:none; margin-top:10px;">
 
-    <h3>Liste des RDV</h3>
-    <div id="listeRdv" class="rdv"></div>
-  </div>
+    <div class="buttons">
+      <button type="button" id="valider">Valider</button>
+      <button type="reset">Supprimer</button>
+    </div>
+
+    <div id="synthese" style="display:none; margin-top:20px; color:white;">
+      <h3>📋 Vérifiez vos informations</h3>
+      <p><strong>Nom:</strong> <span id="rNom"></span></p>
+      <p><strong>Prénom:</strong> <span id="rPrenom"></span></p>
+      <p><strong>Numéro:</strong> <span id="rNumero"></span></p>
+      <p><strong>Modèle de l'ordinateur:</strong> <span id="rMarque"></span></p>
+      <p><strong>Montant à payer:
+        5000 FCFA
+      </strong></p>
+
+      <div class="buttons">
+        <button type="button" id="confirmer">Confirmer</button>
+        <button type="button" id="modifier">Modifier</button>
+      </div>
+    </div>
+  </form>
+</div>
+

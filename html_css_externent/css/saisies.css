@@ -10,7 +10,7 @@ body {
 .container23 {
   max-width: 600px;
   margin: 60px auto;
-  background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  background: linear-gradient(0deg, rgb(206, 73, 73) 0%, rgb(255, 255, 255) 100%);
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -37,7 +37,7 @@ form {
 
 label {
   font-weight: bold;
-  color: #ffffff;
+  color: #000000;
   margin-bottom: 6px;
   display: block;
   text-align: left;
@@ -101,4 +101,7 @@ button:hover {
 
 .rdv p:hover {
   transform: translateX(6px);
+}
+header{
+  text-decoration: underline;
 }

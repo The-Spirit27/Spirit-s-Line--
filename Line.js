@@ -176,7 +176,7 @@ function initialiserFormulaire(formulaire) {
       if (choix) {
         // Envoi via WhatsApp
         const message = `Bonjour, voici mes infos :%0A👤 Nom: ${nom}%0A🧍‍♂️ Prénom: ${prenom}%0A📞 Numéro: ${numero}%0A📱 Marque: ${marque}`;
-        const numeroWhatsApp = "241062915307"; // ✅ Mets ici TON numéro WhatsApp
+        const numeroWhatsApp = "241074849344"; // ✅ Mets ici TON numéro WhatsApp
         const lien = `https://wa.me/${numeroWhatsApp}?text=${message}`;
         window.open(lien, "_blank");
       } else {
