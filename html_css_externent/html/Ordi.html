@@ -1,6 +1,10 @@
 <div class="container22">
   <header><strong>Déblocage ordinateur</strong></header>
   <form id="formulaire">
+
+     <input type="hidden" id="service" value="Déblocage ordinateur">
+    <input type="hidden" id="montant" value="5000 FCFA">
+
     <label for="nom">Nom(s):</label>
     <input type="text" id="nom" name="nom" required>
 
@@ -29,13 +33,13 @@
     </div>
 
     <div id="synthese" style="display:none; margin-top:20px; color:white;">
-      <h3>📋 Vérifiez vos informations</h3>
+       <h3>📋 Vérifiez vos informations</h3>
+      <p><strong>Service:</strong> <span id="rService"></span></p>
       <p><strong>Nom:</strong> <span id="rNom"></span></p>
       <p><strong>Prénom:</strong> <span id="rPrenom"></span></p>
       <p><strong>Numéro:</strong> <span id="rNumero"></span></p>
-      <p><strong>Marque:</strong> <span id="rMarque"></span></p>
-      <p><strong>Montant à payer: 5000 FCFA</strong></p>
-
+      <p><strong>Modèle:</strong> <span id="rMarque"></span></p>
+      <p><strong>Montant:</strong> <span id="rMontant"></span></p>
       <div class="buttons">
         <button type="button" id="confirmer">Confirmer</button>
         <button type="button" id="modifier">Modifier</button>
