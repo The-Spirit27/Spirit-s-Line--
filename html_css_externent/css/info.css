@@ -15,6 +15,7 @@ body{
   height: 320px;
   margin-top: 100px;
  font-size:35px ;
+ overflow-y: auto;
 }
 .left{
   text-align: left;
