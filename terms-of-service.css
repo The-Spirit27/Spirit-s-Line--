@@ -1,0 +1,23 @@
+body{
+     background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
+      height: 100vh;
+    padding: 70px;
+    color: rgb(170, 170, 170);
+    text-align: center;
+    background-attachment: fixed;
+}
+.terms img{
+    width: 530px;
+    height: 530px;
+    padding: 12px;
+}
+.terms1{
+    text-align: left;
+}
+.table-content{
+    background: rgb(71, 71, 71);
+    padding: 30px;
+    color: rgb(255, 255, 255);
+    border-radius: 28px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, 'Times New Roman';
+}
