@@ -207,8 +207,6 @@ function activer(boutonClique) {
       chargerContenuExterne("html_css_externent/html/info.html", contenu);
       break;
 
-    default:
-      contenu.innerHTML = "<h2>Page inconnue 😢</h2>";
   }
 
   sidebar.classList.remove("active");
