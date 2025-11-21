@@ -21,3 +21,16 @@ body{
     border-radius: 28px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, 'Times New Roman';
 }
+@media (max-width: 768px) {
+    .terms img{
+        width: 70%;
+        height: 230px;
+    }
+    .table-content{
+        width: 90%;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin-left: -20px;
+    }
+}

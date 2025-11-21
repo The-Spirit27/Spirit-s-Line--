@@ -291,6 +291,8 @@ transition:0.6s;
     }
 }
 
-
+html{
+    scroll-behavior: smooth;
+}
 
 

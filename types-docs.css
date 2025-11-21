@@ -1,0 +1,104 @@
+/* 🌐 Styles communs */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+.container20 {
+  width: 90%;
+  max-width: 600px;
+  margin: 40px auto;
+  background: linear-gradient(0deg, rgb(57, 183, 199) 0%, rgb(255, 255, 255) 100%);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  color: #000;
+  box-sizing: border-box;
+}
+
+header {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  text-decoration: underline;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #999;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(57, 183, 199);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(40, 150, 165);
+}
+
+#synthese {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* 📱 Responsive pour les écrans ≤ 768px */
+@media (max-width: 768px) {
+  body{
+      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
+    background-attachment: fixed;
+  }
+  .container20 {
+    width: 95%;
+    padding: 20px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  input, select, textarea {
+    font-size: 0.95rem;
+  }
+}
