@@ -198,18 +198,6 @@ function activer(boutonClique) {
       chargerCSSSpécifique("html_css_externent/css/paramètres.css");
       chargerContenuExterne("html_css_externent/html/paramètres.html", contenu);
       break;
-       case "i-tech🖱️>":
-      chargerCSSSpécifique("html_css_externent/css/i-techs.css");
-      chargerContenuExterne("html_css_externent/html/i-techs.html", contenu);
-      break;
-    case "documents📜>":
-      chargerCSSSpécifique("html_css_externent/css/documents.css");
-      chargerContenuExterne("html_css_externent/html/documents.html", contenu);
-      break;
-    case "comptes/web🌍>":
-      chargerCSSSpécifique("html_css_externent/css/online.css");
-      chargerContenuExterne("html_css_externent/html/online.html", contenu);
-      break;
     case "guide d'utilisation >":
       chargerCSSSpécifique("html_css_externent/css/guide.css");
       chargerContenuExterne("html_css_externent/html/guide.html", contenu);
