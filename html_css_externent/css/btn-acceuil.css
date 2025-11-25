@@ -1,64 +1,233 @@
 
-@media (max-width: 1527px) and (min-width: 769px) {
+@media (max-width: 2500px) and (min-width: 769px) {
 *{ box-sizing: border-box;
  }
-
-.btn-acceuil { 
-    padding: 10px; 
-    font-size: 1600px; 
-    flex-direction: column;
-    margin-left: 0px;
-    margin-top: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90px;
-    width: 300px;
-    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 15px;
-    color: rgb(203, 203, 203);
-    gap: 10px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    animation: slideIn 1.5s ease-in-out;
-  
+ body { 
+    overflow-y: auto; 
+    margin: 0; 
+    padding: 0; 
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    background: linear-gradient(325deg, rgb(30, 30, 30) 18%, rgb(30, 30, 30) 55%, rgb(30, 30, 30) 99%); 
+.container{
+    border-radius: 5px;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
 }
-*{ box-sizing: border-box;}
-.sidebar {
-    width: 250px;
-    position: fixed;
+.banner-image{
+    margin-left: -12px;
+    margin-bottom: 0px;
+    margin-top: 30px;
+
+}
+.container1{
+    height: 2000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: hidden;
+    text-align: left;
+}
+.spirit{
+    text-decoration:solid;
+}
+    .site-name{
+    font-size: 18.3px;
+}
+.space1, .space2, .space3{
+    width: 98%;
+    max-width: 500px;
+    background-color: rgb(219, 242, 230);
+    height: 450px;
+    margin-top: -170px;
+    border-radius: 14px;
+   margin: 0 auto;
+    margin-bottom: 35px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:17px;
+    padding: 20px;
+  
     top: 0;
     left: 0;
-    height: 100%;
-    padding-top: 60px;
-    z-index: 1000;
+    right: 0;
 }
-.dropdown-btn {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 15px;
-    width: 20% 5%;
-    padding: 9.5px 69px;
-    color: rgb(203, 203, 203);
-    position: fixed;
+.space1 .bt1{
+    border-radius: 10px;
+    color: #040304;
+    background-color: #f1f1f1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+    font-size: large;
+    cursor: pointer;
+}
+.space2 .bt2{
+     border-radius: 10px;
+    color: #040304;
+    background-color: #f1f1f1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+    font-size: large;
+    cursor: pointer;
+}
+.spirit1{
     text-align: left;
-    font-size: 100%;
-    margin-bottom: 20px;
+    padding :12px;
+}
+.newdis{
+    padding-left: 15px;
+}
+
+}
+.newspace{
+    height: 2000px;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    gap: 10px;
-    animation: slideIn 1.5s ease-in-out;
-    margin-left: 949px;
-    height: 90px;
-    margin-top: 0;
-    transition: margin-left 0.9s ease;
-    top: 80px;
-    }
+     background: linear-gradient(179deg, rgb(81, 189, 243) 0%, rgb(211, 211, 211) 0%, rgb(255, 255, 255) 28%, rgb(5, 8, 46) 100%);
+    border-radius: 14px;
+    margin-top: 10px;
+    font-size: 25px;
+    padding: 10px;
+    text-align: left;
+
+}
+
+.space4, .space5, .space6 {
+      width: 90%;
+      max-width: 500px;
+    background-color:  rgb(215, 218, 244);
+    height: 430px;
+    margin-top: -50px;
+    border-radius: 14px;
+   margin: 0 auto;
+    margin-bottom: 55px;
+    font-size: 20px;
+    padding: 17px;
+}
+.itech, .docs, .cmptw {
+    padding: 12px;
+}
+.space4 .service1{
+      border-radius: 10px;
+    color: #040304;
+    background-color: #f1f1f1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+    font-size: large;
+    cursor: pointer;
+}
+.space5 .service1{
+      border-radius: 10px;
+    color: #040304;
+    background-color: #f1f1f1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+    font-size: large;
+    cursor: pointer;
+}
+.space6 .service1{
+      border-radius: 10px;
+    color: #040304;
+    background-color: #f1f1f1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+    font-size: large;
+    cursor: pointer;
+}
+
+.newspace1{
+     height: 2000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+     background: linear-gradient(179deg, rgb(79, 79, 79) 0%, rgb(211, 211, 211) 0%, rgb(255, 255, 255) 28%, rgb(0, 0, 0) 100%);
+    border-radius: 14px;
+    margin-top: -20px;
+    font-size: 19px;
+}
+.Processus, .questions, .call{
+    font-size: 25px;
+    padding: 22px;
+}
+
+.space7, .space8{
+      width: 90%;
+      max-width: 500px;
+    background-color:  rgb(183, 183, 183);
+    height: 570px;
+    margin-top: -50px;
+    border-radius: 14px;
+   margin: 0 auto;
+    margin-bottom: 55px;
+    padding: 16px;
+    text-align: left;
+}
+.space9{
+width: 90%;
+      max-width: 500px;
+    background-color:  rgb(183, 183, 183);
+    height: 270px;
+    margin-top: -50px;
+    border-radius: 14px;
+   margin: 0 auto;
+    margin-bottom: 55px;
+    padding: 10px;
+    text-align: left;
+}
+.newspace2{
+     height: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+     background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(0, 0, 0) 100%);
+    border-radius: 2px;
+    margin-top: -20px;
+}
+.footer{
+    background: #0000;
+    color: #ccc;
+    padding: 40px 20px;
+    display: grid;
+    gap: 40px;
+}
+.footer-section h3{
+color: #fff;
+margin-bottom: 10px;
+font-size: 20px;
+}
+.footer-section ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-section ul li{
+    margin: 10px 0;
+}
+.footer-section a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 16px;
+}
+.footer-section a:hover {
+    color: #fff;
+}
+.footer-social{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+.footer-social  img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    padding: 8px;
+}
 }
 @media (max-width: 768px) and (min-width: 0px) {
 *{ box-sizing: border-box;

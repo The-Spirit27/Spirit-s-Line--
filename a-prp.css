@@ -48,3 +48,16 @@ body {
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 }
+@media (max-width:2000px) {
+   .a-prp {
+    max-width: 2000px;
+ background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
+    border-radius: 10px;
+    margin-top: 12px;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: white;
+}
+}
