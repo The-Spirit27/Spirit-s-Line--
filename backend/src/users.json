@@ -1,0 +1,16 @@
+[
+  {
+    "username": "The_Spirit",
+    "password": "$2b$10$hledBWK53lyv7nEEi2TEaulLUZRYpWHxxgdmYh8KIfsUeVyPE.juK",
+    "role": "admin"
+  },
+  {
+    "username": "Makavély",
+    "password": "$2b$10$jqW0p9AlMDvvpRjKhtNS2./BJ2PYw3jDinFDSMuDAe7cDNrqdU9Ly",
+    "role": "client",
+    "nom": "kolompiga",
+    "prenom": "Ezerchiel",
+    "telephone": "065259878",
+    "statut": "En attente"
+  }
+]

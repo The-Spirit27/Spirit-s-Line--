@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spirit-s-Line | Connexion</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif;
+        
+        display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card {
+             padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 350px;
+             background: rgb(255, 255, 255); backdrop-filter: blur(15px);
+             border: 1px solid rgba(255, 255, 255, 0.934);
+             }
+        .login-card::before{
+            content: "";
+            position: absolute;
+            top : 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('../Images/Image1.png');
+            background-size: cover;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+            margin-left: -52px;
+        }
+        h2 { text-align: center; color: #e5efff; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #f0f2f5; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #2563eb; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #1d4ed8; }
+        .links { text-align: center; margin-top: 20px; font-size: 0.85rem;color: #e5efff; }
+        .links a { color: #2563eb; text-decoration: none; }
+        .icone-spl img{    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: white;
+    padding: 8px;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-left: 37%;
+}
+        @media (max-width: 768px){}
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <h2>Connexion à SPL</h2>
+
+    <div class="icone-spl">
+        <img src="../Images/Image1.png" alt="Logo SPL">
+    </div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">E-mail</label>
+            <input type="email" id="username" placeholder="E-mail" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <div class="links">
+        Pas encore de compte ? <a href="register.html">S'inscrire</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      alert('Veuillez renseigner les champs.');
+      return;
+    }
+
+    try {
+      // Connexion Supabase Auth
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        alert('Échec : ' + error.message);
+        return;
+      }
+
+      const user = data.user;
+
+      // --- Récupération du rôle depuis la table utilisateur ---
+      const { data: profile, error: profileError } = await supabaseClient
+        .from('utilisateur')          // <-- ici ta table SPL
+        .select('role_user')          // <-- colonne de rôle
+        .eq('auth_id', user.id)       // <-- lien avec auth.users.id
+        .single();
+
+      if (profileError) {
+        console.warn("Erreur profil:", profileError.message);
+      }
+
+      const roleFinal = profile ? profile.role_user : 'client';
+
+      // --- Enregistrement dans le localStorage ---
+      const userData = {
+        id: user.id,
+        email: user.email,
+        role: roleFinal
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(userData));
+
+      // --- Redirection ---
+      if (roleFinal === 'ROOT') {
+        alert("Bienvenue Maître SPIRIT 🖤❄️");
+        window.location.replace('admin.html');
+      } else {
+        alert("Connexion réussie !");
+        window.location.replace('../index.html');
+      }
+
+    } catch (err) {
+      console.error("Erreur inattendue:", err);
+    }
+  });
+</script>
+</body>
+</html>

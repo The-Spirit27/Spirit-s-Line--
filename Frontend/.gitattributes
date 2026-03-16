@@ -1,0 +1,26 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+# Normaliser les fins de ligne
+* text=auto
+
+# Fichiers texte
+*.js text
+*.html text
+*.css text
+*.json text
+*.md text
+
+# Images (binaires)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# Fonts
+*.woff binary
+*.woff2 binary
+*.ttf binary
+
+# Supprimer les différences de fin de ligne
+*.sh text eol=lf

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imprimante - SPIRIT</title>
+  <style>
+    /* 🌐 Styles communs */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+.container21 {
+  width: 90%;
+  max-width: 600px;
+  margin: 40px auto;
+  background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  color: #000;
+  box-sizing: border-box;
+}
+
+header {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  text-decoration: underline;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #999;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(57, 183, 199);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(40, 150, 165);
+}
+
+#synthese {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* 📱 Responsive pour les écrans ≤ 768px */
+@media (max-width: 768px) {
+  body{
+      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
+    background-attachment: fixed;
+  }
+  .container21 {
+    width: 95%;
+    padding: 20px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  input, select, textarea {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 2500px) and (min-width: 769px){
+    body{
+      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
+    background-attachment: fixed;
+  }
+  .container21 {
+     max-width: 960px;
+    padding: 20px;
+    margin-top: 130px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  input, select, textarea {
+    font-size: 18px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container21">
+    <header><strong>Configuration d'imprimante</strong></header>
+   <form id="formulaire">
+            <input type="hidden" id="serviceAffiche" value="Configuration d'imprimante">
+            
+            <input type="hidden" id="nom">
+            <input type="hidden" id="prenom">
+            <input type="hidden" id="numero">
+
+            <h2 style="color: var(--neon-green);">Détails de la demande</h2>
+
+               <label for="marque">Modèle de l'imprimante</label>
+    <select name="marque" id="marque" required>
+      <option value="">-- Choisir le Modèle --</option>
+      <option value="HP">EPSON</option>
+      <option value="DELL">CANON</option>
+      <option value="LENOVO">HP</option>
+      <option value="MICROSOFT">XEROX</option>
+      <option value="Autre">Autre...</option>
+    </select>
+
+            <input type="text" id="autreMarque" name="autreMarque" placeholder="Entrez la marque" style="display:none; margin-top:10px;">
+
+            <label for="detailsDemande" style="margin-top:25px; display:block;">Précisions sur le modèle d'imprimante :</label>
+            <textarea id="detailsDemande" placeholder="Ex: CANON L3252, HP Deskjet 3510..." required></textarea>
+
+            <button type="button" id="valider" style="margin-top: 20px;">Valider la commande</button>
+        </form>
+         <div id="synthese" style="display:none; margin-top:20px; color: white;">
+            <h3>Vérifiez vos informations</h3>
+            <p><strong>Service:</strong> <span id="rService"></span></p>
+            <p><strong>Nom:</strong> <span id="rNom"></span></p>
+            <p><strong>Marque:</strong> <span id="rMarque"></span></p>
+            <p><strong>Détails:</strong> <span id="rDetails"></span></p>
+            
+            <div class="buttons">
+                <button type="button" id="confirmer">Confirmer & WhatsApp</button>
+                <button type="button" id="modifier">Modifier</button>
+            </div>
+        </div>
+
+  </div>
+
+<!-- Remplace YOUR_ANON_KEY_HERE par ta clé ANON Supabase et importe supabase-js avant ce script -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true }
+});
+
+const safeGet = id => document.getElementById(id);
+
+// Vérifier session et retourner un objet utilisateur minimal
+async function verifierSession() {
+  try {
+    const { data, error } = await supabaseClient.auth.getSession();
+    if (error) {
+      console.error("Erreur récupération session:", error);
+      window.location.href = "login.html";
+      return null;
+    }
+    const session = data.session;
+    if (!session || !session.user) {
+      window.location.href = "login.html";
+      return null;
+    }
+    return {
+      email: session.user.email,
+      id: session.user.id,
+      username: session.user.user_metadata?.full_name || session.user.email
+    };
+  } catch (e) {
+    console.error("Erreur verifierSession:", e);
+    window.location.href = "login.html";
+    return null;
+  }
+}
+
+
+
+// Préparer la synthèse à afficher
+function preparerSynthese(user) {
+  const service = safeGet('serviceAffiche')?.value || "Service inconnu";
+  const marqueSelect = safeGet('marque');
+  const marque = marqueSelect?.value === 'Autre' ? safeGet('autreMarque').value : marqueSelect?.value;
+  const details = safeGet('detailsDemande')?.value || "";
+
+  safeGet('rService').textContent = service;
+  safeGet('rNom').textContent = user.username;
+  safeGet('rMarque').textContent = marque;
+  safeGet('rDetails').textContent = details;
+
+  safeGet('formulaire').style.display = 'none';
+  safeGet('synthese').style.display = 'block';
+}
+
+// Envoyer la requête : récupérer utilisateur, compte, insérer requete, ouvrir WhatsApp et rediriger
+async function envoyerRequete(user) {
+  try {
+    const service = safeGet('rService')?.textContent || "Service inconnu";
+    const marque = safeGet('rMarque')?.textContent || "Marque inconnue";
+    const details = safeGet('rDetails')?.textContent || "";
+
+    // Récupérer l'utilisateur dans la table 'utilisateur'
+   // Récupérer l'utilisateur dans la table 'utilisateur' (robuste)
+const { data: utilisateur, error: errUser, status, statusText } = await supabaseClient
+  .from('utilisateur')
+  .select('mat_user, pseudo_user, mail_user')
+  .eq('mail_user', user.email)
+  .maybeSingle(); // évite 406 si 0 ou >1 lignes
+
+console.log('Requête utilisateur -> email cherché:', user.email);
+console.log('Réponse utilisateur data:', utilisateur);
+console.log('Réponse utilisateur error:', errUser);
+console.log('HTTP status:', status, statusText);
+
+if (errUser) {
+  // Affiche les détails utiles dans la console
+  console.error('Erreur récupération utilisateur (détails):', errUser);
+  // Inspecte la réponse réseau dans l'onglet Network pour voir le body renvoyé par PostgREST
+  return alert("Impossible de trouver l'utilisateur dans la base. Vérifie la console (Network) pour la réponse du serveur.");
+}
+if (!utilisateur) {
+  return alert("Aucun utilisateur trouvé pour cet email. Vérifie la valeur de user.email et la table 'utilisateur'.");
+}
+
+    // Récupérer le compte associé sans provoquer 406 si plusieurs lignes
+    const { data: compte, error: errCompte } = await supabaseClient
+      .from('compte')
+      .select('num_cpt')
+      .eq('mat_user', utilisateur.mat_user)
+      .maybeSingle(); // évite 406 si 0 ou >1 lignes
+
+    if (errCompte) {
+      console.error('Erreur compte:', errCompte);
+      return alert("Erreur lors de la récupération du compte.");
+    }
+    if (!compte) {
+      return alert("Aucun compte trouvé pour cet utilisateur.");
+    }
+
+    // Préparer l'objet à insérer
+    const dossier = {
+      nom_rqt: service,
+      lib_rqt: `Marque: ${marque}\nDétails: ${details}`,
+      num_cpt: compte.num_cpt,
+      status: 'pending',
+      progress: 0,
+      date_rqt: new Date().toISOString()
+    };
+
+    // Insérer et récupérer la ligne insérée
+    const { data: inserted, error: insertErr } = await supabaseClient
+      .from('requete')
+      .insert([dossier])
+      .select() // demande le retour des colonnes insérées
+      .single();
+
+    if (insertErr) {
+      console.error('Erreur insertion:', insertErr);
+      return alert("Erreur serveur lors de l'enregistrement : " + insertErr.message);
+    }
+
+    console.log('Requête insérée:', inserted);
+
+    // Ouvrir WhatsApp (optionnel)
+    const phone = '241074849344';
+    const msg = `Bonjour SPIRIT, je suis ${utilisateur.pseudo_user}. Demande de ${service} pour ${marque}. Détails : ${details}`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+
+    // Succès : informer et rediriger vers dashboard pour voir la requête
+    alert("✅ Requête envoyée avec succès !");
+    window.location.href = 'dashboard.html'; // adapte le chemin si nécessaire
+
+  } catch (e) {
+    console.error('Erreur envoyerRequete:', e);
+    alert("Une erreur inattendue est survenue. Vérifie la console pour plus de détails.");
+  }
+}
+
+// DOMContentLoaded unique et fusionné
+document.addEventListener('DOMContentLoaded', async () => {
+  const user = await verifierSession();
+  if (!user) return;
+
+  // Gestion "Autre marque"
+  const marqueSelect = safeGet('marque');
+  const autreChamp = safeGet('autreMarque');
+  if (marqueSelect && autreChamp) {
+    marqueSelect.addEventListener('change', () => {
+      autreChamp.style.display = marqueSelect.value === 'Autre' ? 'block' : 'none';
+      autreChamp.required = marqueSelect.value === 'Autre';
+    });
+  }
+
+  // Boutons
+  safeGet('valider')?.addEventListener('click', () => preparerSynthese(user));
+  safeGet('modifier')?.addEventListener('click', () => {
+    safeGet('formulaire').style.display = 'block';
+    safeGet('synthese').style.display = 'none';
+  });
+  safeGet('confirmer')?.addEventListener('click', () => envoyerRequete(user));
+});
+</script>
+</body>

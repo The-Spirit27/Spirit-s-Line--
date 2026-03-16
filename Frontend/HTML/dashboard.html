@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spirit-s-Line | Mon Espace</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+       /* ---------- RESET ---------- */
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+/* ---------- BODY ---------- */
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(145deg,#020617,#1e293b);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+color:white;
+}
+
+/* ---------- CARD ---------- */
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+
+border-radius:16px;
+padding:35px;
+width:100%;
+max-width:520px;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,0.7),
+inset 0 0 0 1px rgba(255,255,255,0.06);
+
+transition:transform .3s ease;
+}
+
+.card:hover{
+transform:translateY(-3px);
+}
+
+/* ---------- TITRE ---------- */
+
+.card h1{
+font-size:26px;
+margin-bottom:15px;
+color:#4ade80;
+letter-spacing:1px;
+}
+
+/* ---------- STATUS ---------- */
+
+.status-box{
+background:rgba(74,222,128,0.12);
+border-left:4px solid #4ade80;
+padding:14px;
+border-radius:10px;
+margin:20px 0;
+color:#e2e8f0;
+}
+
+/* ---------- INFO ---------- */
+
+.info-item{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid rgba(255,255,255,0.08);
+font-size:15px;
+}
+
+.info-item span{
+color:#94a3b8;
+}
+
+/* ---------- BUTTON ---------- */
+
+button{
+width:100%;
+padding:14px;
+margin-top:18px;
+
+border:none;
+border-radius:10px;
+
+background:linear-gradient(135deg,#4ade80,#16a34a);
+color:white;
+
+font-weight:bold;
+font-size:15px;
+
+cursor:pointer;
+
+transition:all .25s ease;
+
+box-shadow:0 6px 20px rgba(74,222,128,0.35);
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 28px rgba(74,222,128,0.5);
+}
+
+/* ---------- MOBILE (SMARTPHONE) ---------- */
+
+@media (max-width:768px){
+
+body{
+padding:15px;
+align-items:flex-start;
+}
+
+/* card mobile */
+.card{
+padding:25px;
+max-width:360px;
+}
+
+/* titre */
+.card h1{
+font-size:20px;
+}
+
+/* infos deviennent verticales */
+.info-item{
+flex-direction:column;
+gap:4px;
+font-size:14px;
+}
+
+/* bouton plus gros pour le pouce */
+button{
+font-size:14px;
+padding:13px;
+}
+
+}
+
+/* ---------- GRAND ECRAN ---------- */
+
+@media (min-width:769px){
+
+.card{
+max-width:750px;
+font-size:18px;
+}
+
+button{
+font-size:18px;
+}
+
+}
+
+    </style>
+    <body>
+      <div class="card">
+  <h2>Mon Profil</h2>
+  <div class="info-item">Pseudo : <span id="display-pseudo">—</span></div>
+  <div class="info-item">Nom : <span id="display-nom">—</span></div>
+  <div class="info-item">Prénom : <span id="display-prenom">—</span></div>
+  <div class="info-item">Téléphone : <span id="display-tel">—</span></div>
+
+  <div class="status-box">
+    Statut dernière requête : <span id="display-statut">—</span>
+    <div class="progress-bar" style="width:100%; background:#ccc; height:15px; border-radius:5px; margin-top:5px;">
+      <div id="display-progress" style="height:100%; width:0%; background:#2563eb; border-radius:5px;"></div>
+    </div>
+    <span id="display-progress-text">0%</span>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="../JavaScript/supabase-init.js"></script>
+<script src="../JavaScript/Client-logic.js"></script>
+</body>
+</html>
