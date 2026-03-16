@@ -13,7 +13,7 @@
   if (pagesProtegees.includes(pageActuelle)){
     if (!userData) {
         alert("⚠️ Vous devez etre connecté pour acceder à ce service.");
-        window.location.href = "HTML/login.html"
+        window.location.href = "login.html"
     }
   }
 
@@ -25,7 +25,7 @@ function utilisateurConnecte (){
 
   if (!userData){
     alert("⚠️ Vous devez etre connecté pour utiliser ce service.");
-    window.location.href = "HTML/login.html";
+    window.location.href = "Frontend/HTML/login.html";
     return false;
   }
   return true;

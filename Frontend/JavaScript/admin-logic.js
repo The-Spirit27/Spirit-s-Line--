@@ -357,7 +357,7 @@ async function verifierSession() {
 
   if (!sessionActive) {
     // Pas de session -> redirection forcée vers l'accueil
-    window.location.replace("../index.html"); // ou "index.html" selon l'emplacement
+    window.location.replace("../../index.html"); // ou "index.html" selon l'emplacement
   }
 }
 

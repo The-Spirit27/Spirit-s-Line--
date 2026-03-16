@@ -219,20 +219,20 @@ function activer(boutonclique) {
     // 4. Chargement dynamique du contenu
   switch (texte) {
     case "acceuil":
-      chargerCSSSpécifique("css/btn-acceuil.css");
-      chargerContenuExterne("html/btn-acceuil.html", contenu);
+      chargerCSSSpécifique("Frontend/css/btn-acceuil.css");
+      chargerContenuExterne("Frontend/html/btn-acceuil.html", contenu);
       break;
     case "paramètres":
-      chargerCSSSpécifique("css/paramètres.css");
-      chargerContenuExterne("html/paramètres.html", contenu);
+      chargerCSSSpécifique("Frontend/css/paramètres.css");
+      chargerContenuExterne("Frontend/html/paramètres.html", contenu);
       break;
     case "guide d'utilisation >":
-      chargerCSSSpécifique("css/guide.css");
-      chargerContenuExterne("html/guide.html", contenu);
+      chargerCSSSpécifique("Frontend/css/guide.css");
+      chargerContenuExterne("Frontend/html/guide.html", contenu);
       break;
     case "à propos du site >":
-      chargerCSSSpécifique("css/info.css");
-      chargerContenuExterne("html/info.html", contenu);
+      chargerCSSSpécifique("Frontend/css/info.css");
+      chargerContenuExterne("Frontend/html/info.html", contenu);
       break;
 
   }
@@ -331,7 +331,7 @@ function accederService (nomDuService) {
 
   if (!token) {
     alert("🔒 Cet accès est réserveraux membres de SPIRIT'S LINE. Veuillez vous connecter.");
-    window.location.href = "HTML/login.html";
+    window.location.href = "Frontend/HTML/login.html";
   } else {
     window.location.href = `${nomDuService}.html` ;
   }
@@ -377,7 +377,7 @@ function gererAffichageSidebar() {
 function deconnexion() {
   localStorage.removeItem('monToken');
   localStorage.removeItem('userData');
-  window.location.href = "index.html";
+  window.location.href = "../../index.html";
 }
 document.addEventListener('DOMContentLoaded', gererAffichageNav);
 
@@ -465,7 +465,7 @@ async function deconnexion() {
   localStorage.removeItem('userData');
   localStorage.removeItem('monToken');
   // redirection
-  window.location.href = 'HTML/login.html';
+  window.location.href = 'Frontend/HTML/login.html';
 }
 
 // Chargement du profil dans la sidebar
@@ -555,7 +555,7 @@ authZone.innerHTML = `
 const dashBtn = safeGet("btn-dashboard");
 if (dashBtn) {
   dashBtn.addEventListener("click", () => {
-    window.location.href = "HTML/dashboard.html";
+    window.location.href = "Frontend/HTML/dashboard.html";
   });
 }
 }
@@ -673,7 +673,7 @@ window.envoyerFormulaire = envoyerFormulaire;
 
 function deconnexion() {
     localStorage.clear();
-    window.location.href = "index.html";
+    window.location.href = "../../index.html";
 }
 
 /* Fonction pour faire défiler la page jusqu'à la section Services */
