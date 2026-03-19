@@ -1,0 +1,40 @@
+# Node
+node_modules/
+
+# variables secrètes
+.env
+.env.*
+!.env.example
+.env.local
+
+# logs
+logs
+*.log
+
+# build
+dist/
+build/
+
+# fichiers système
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/launch.json
+.idea/
+
+# temporaires
+tmp/
+temp/
+.cache/
+
+# uploads utilisateurs
+uploads/
+
+# clés privées
+*.pem
+*.key
+
+# base locale
+*.sqlite
+*.db
