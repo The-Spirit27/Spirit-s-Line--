@@ -248,7 +248,7 @@ async function genererPDF() {
     doc.setFont("helvetica","normal");
     doc.setFontSize(11);
     doc.text(`Client : ${String(userData.pseudo_user || '').toUpperCase()}`, 20, 70);
-    doc.text(`ID Client : #SL-${String(userData.mat_user || '').toString().substring(0,3).toUpperCase()}`, 20, 78);
+    doc.text(`ID Client : #SPL-${String(userData.mat_user || '').toString().substring(0,3).toUpperCase()}`, 20, 78);
     doc.text(`Nom : ${userData.nom_user || '—'}`, 20, 86);
     doc.text(`Prénom : ${userData.prenom_user || '—'}`, 20, 94);
     doc.text(`Téléphone : ${userData.num_user || '—'}`, 20, 102);
