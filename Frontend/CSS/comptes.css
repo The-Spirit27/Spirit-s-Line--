@@ -1,96 +1,200 @@
-/* 🌐 Styles communs */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2;
+/* ================= ANIMATIONS ================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.container27 {
-  width: 90%;
-  max-width: 600px;
-  margin: 40px auto;
-  background: linear-gradient(0deg, rgb(0, 2, 34) 10%, rgb(255, 255, 255) 100%);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  color: #000;
-  box-sizing: border-box;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px rgba(89, 89, 89, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.8); }
+  100% { box-shadow: 0 0 10px rgba(88, 88, 88, 0.4); }
+}
+
+/* ================= BODY ================= */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(180deg, #0a0a0a, #1f1f1f);
+  color: #f5f5f5;
+}
+
+/* ================= CONTAINER ================= */
+
+.container27, .container26 {
+  width: 90%;
+  max-width: 650px;
+  margin: 60px auto;
+
+ background: linear-gradient(0deg, rgb(0, 2, 34) 10%, rgb(255, 255, 255) 100%);
+  padding: 30px;
+  border-radius: 18px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+
+  color: #000;
+
+  animation: fadeInUp 0.9s ease;
+  transition: 0.4s;
+}
+
+/* Effet hover container */
+.container27:hover, .container26:hover {
+  transform: translateY(-5px) scale(1.01);
+}
+
+/* ================= HEADER ================= */
 
 header {
   text-align: center;
-  font-size: 1.25rem;
-  margin-bottom: 20px;
-  text-decoration: underline;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+
+  color: #0a0a0a;
+
+  border-bottom: 2px solid rgb(157, 157, 157);
+  padding-bottom: 10px;
+
+  animation: fadeInDown 1s ease;
 }
+
+/* ================= FORM ================= */
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
+/* Labels */
 label {
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
+/* Inputs modernes */
 input, select, textarea {
   width: 100%;
   padding: 12px;
+
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
+
   border: 1px solid #ccc;
+
   font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box;
+
+  transition: 0.3s;
 }
 
+/* Focus stylé */
 input:focus, select:focus, textarea:focus {
-  border-color: #999;
+  border-color: rgb(25, 67, 73);
   outline: none;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+  box-shadow: 0 0 10px rgba(57,183,199,0.4);
+  transform: scale(1.02);
 }
+
+/* ================= BOUTONS ================= */
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 button {
   flex: 1;
   padding: 12px;
+
   font-size: 1rem;
+
   border: none;
-  border-radius: 8px;
-  background-color: rgb(0, 0, 0) 10%;
-  color:  rgb(38, 39, 55) 10%;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, rgb(57,183,199), rgb(30,150,165));
+  color: white;
+
   cursor: pointer;
-  transition: background-color 0.3s ease;
+
+  transition: 0.3s;
+  box-shadow: 0 0 12px rgba(57,183,199,0.5);
 }
 
+/* Hover stylé */
 button:hover {
-  background-color:  rgb(38, 39, 55) 10%;
+  transform: translateY(-4px) scale(1.05);
+  background: linear-gradient(135deg, rgb(80,200,215), rgb(40,150,165));
+
+  animation: glowPulse 1.5s infinite;
 }
+
+/* Click */
+button:active {
+  transform: scale(0.95);
+}
+
+/* ================= SYNTHÈSE ================= */
 
 #synthese {
-  background-color: #333;
-  color: white;
+  background: #111;
+  color: #fff;
+
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
+
+  box-shadow: 0 0 15px rgba(57,183,199,0.5);
+
+  animation: fadeInUp 1s ease;
 }
 
-/* 📱 Responsive pour les écrans ≤ 768px */
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
-  body{
-      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
+
+  body {
+    background: linear-gradient(180deg, #000, #444);
   }
-  .container27 {
-    width: 95%;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* 🔥 empêche le décalage */
+  padding-top: 20px ;
+}
+  .container27, .container26{
+    width: 84%;
     padding: 20px;
+    margin-top: 20px;
+    
+  }
+  textarea{
+    width: 90%;
+  }
+
+  header {
+    font-size: 1.1rem;
   }
 
   button {
@@ -100,25 +204,20 @@ button:hover {
 
   input, select, textarea {
     font-size: 0.95rem;
+  }
+  select{
+    width: 95%;
   }
 }
-@media (max-width: 2500px) and (min-width: 769px){
-    body{
-      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-  }
-  .container27 {
-  max-width: 960px;
-    padding: 20px;
-    margin-top: 130px;
-  }
 
-  button {
-    font-size: 0.95rem;
-    padding: 10px;
+@media (min-width: 769px) {
+
+  .container27, .container26 {
+    max-width: 900px;
+
   }
 
   input, select, textarea {
-    font-size: 18px;
+    font-size: 17px;
   }
 }

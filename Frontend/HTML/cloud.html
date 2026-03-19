@@ -5,99 +5,201 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cloud - SPIRIT</title>
   <style>
-    /* 🌐 Styles communs */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2;
+ /* ================= ANIMATIONS ================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px rgba(57,183,199,0.4); }
+  50% { box-shadow: 0 0 25px rgba(57,183,199,0.8); }
+  100% { box-shadow: 0 0 10px rgba(57,183,199,0.4); }
+}
+
+/* ================= BODY ================= */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(180deg, #0a0a0a, #1f1f1f);
+  color: #f5f5f5;
+}
+
+/* ================= CONTAINER ================= */
 
 .container21 {
   width: 90%;
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 650px;
+  margin: 60px auto;
+
   background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 18px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+
   color: #000;
-  box-sizing: border-box;
+
+  animation: fadeInUp 0.9s ease;
+  transition: 0.4s;
 }
+
+/* Effet hover container */
+.container21:hover {
+  transform: translateY(-5px) scale(1.01);
+}
+
+/* ================= HEADER ================= */
 
 header {
   text-align: center;
-  font-size: 1.25rem;
-  margin-bottom: 20px;
-  text-decoration: underline;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+
+  color: #0a0a0a;
+
+  border-bottom: 2px solid rgb(57,183,199);
+  padding-bottom: 10px;
+
+  animation: fadeInDown 1s ease;
 }
+
+/* ================= FORM ================= */
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
+/* Labels */
 label {
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
+/* Inputs modernes */
 input, select, textarea {
   width: 100%;
   padding: 12px;
+
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
+
   border: 1px solid #ccc;
+
   font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box;
+
+  transition: 0.3s;
 }
 
+/* Focus stylé */
 input:focus, select:focus, textarea:focus {
-  border-color: #999;
+  border-color: rgb(57,183,199);
   outline: none;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+  box-shadow: 0 0 10px rgba(57,183,199,0.4);
+  transform: scale(1.02);
 }
+
+/* ================= BOUTONS ================= */
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 button {
   flex: 1;
   padding: 12px;
+
   font-size: 1rem;
+
   border: none;
-  border-radius: 8px;
-  background-color: rgb(57, 183, 199);
-  color: white;
+  border-radius: 10px;
+  background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);  color: white;
+
   cursor: pointer;
-  transition: background-color 0.3s ease;
+
+  transition: 0.3s;
+  box-shadow: 0 0 12px rgba(57,183,199,0.5);
 }
 
+/* Hover stylé */
 button:hover {
-  background-color: rgb(40, 150, 165);
+  transform: translateY(-4px) scale(1.05);
+  background: linear-gradient(135deg, rgb(80,200,215), rgb(40,150,165));
+
+  animation: glowPulse 1.5s infinite;
 }
+
+/* Click */
+button:active {
+  transform: scale(0.95);
+}
+
+/* ================= SYNTHÈSE ================= */
 
 #synthese {
-  background-color: #333;
-  color: white;
+  background: #111;
+  color: #fff;
+
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
+
+  box-shadow: 0 0 15px rgba(57,183,199,0.5);
+
+  animation: fadeInUp 1s ease;
 }
 
-/* 📱 Responsive pour les écrans ≤ 768px */
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
-  body{
-      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
+
+  body {
+    background: linear-gradient(180deg, #000, #444);
   }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* 🔥 empêche le décalage */
+  padding-top: 20px ;
+}
   .container21 {
-    width: 95%;
+    width: 84%;
     padding: 20px;
+    margin-top: 20px;
+    
+  }
+  textarea{
+    width: 90%;
+  }
+
+  header {
+    font-size: 1.1rem;
   }
 
   button {
@@ -107,26 +209,21 @@ button:hover {
 
   input, select, textarea {
     font-size: 0.95rem;
+  }
+  select{
+    width: 95%;
   }
 }
-@media (max-width: 2500px) and (min-width: 769px){
-    body{
-      background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-  }
-  .container21 {
-     max-width: 960px;
-    padding: 20px;
-    margin-top: 130px;
-  }
 
-  button {
-    font-size: 0.95rem;
-    padding: 10px;
+@media (min-width: 769px) {
+
+  .container21 {
+    max-width: 900px;
+
   }
 
   input, select, textarea {
-    font-size: 0.95rem;
+    font-size: 17px;
   }
 }
 
@@ -166,7 +263,7 @@ button:hover {
          <div id="synthese" style="display:none; margin-top:20px; color: white;">
             <h3>Vérifiez vos informations</h3>
             <p><strong>Service:</strong> <span id="rService"></span></p>
-            <p><strong>Nom:</strong> <span id="rNom"></span></p>
+            <p><strong>Mail:</strong> <span id="rNom"></span></p>
             <p><strong>Marque:</strong> <span id="rMarque"></span></p>
             <p><strong>Détails:</strong> <span id="rDetails"></span></p>
             

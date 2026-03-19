@@ -88,7 +88,7 @@ async function chargerRequetes() {
     select.addEventListener("change", async (e) => {
       const num_rqt = e.target.dataset.id;
       const status = e.target.value;
-      let progress = status === "pending" ? 10 : status === "processing" ? 50 : 100;
+      let progress = status === "pending" ? 0 : status === "processing" ? 40 : 100;
 
       const { error } = await db
         .from("requete")
@@ -454,6 +454,7 @@ const sidebar = document.querySelector(".sidebar");
 toggleBtn.onclick = () =>{
   sidebar.classList.toggle("active");
 };
+
 
 // Incrément badge
 compteurNouvellesRequetes++;

@@ -524,6 +524,7 @@ td{
   }
   .btn-supprimer{
   white-space:nowrap;
+  width: 90px;
   
 }
 .sidebar{
@@ -573,7 +574,211 @@ td{
 
 
 }
+/* ============================= */
+/* FORMULAIRE UPLOAD OUTILS */
+/* ============================= */
 
+.upload-outil-container{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+box-shadow:0 8px 25px rgba(0,0,0,0.4);
+margin-top:20px;
+max-width:600px;
+transition:0.3s;
+}
+
+.upload-outil-container:hover{
+box-shadow:0 10px 30px rgba(0,255,156,0.15);
+}
+
+.upload-outil-container h2{
+color:#4ade80;
+margin-bottom:20px;
+letter-spacing:1px;
+}
+
+/* FORM */
+
+#uploadOutilForm{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* INPUTS */
+
+#uploadOutilForm input,
+#uploadOutilForm select{
+
+background:#0f172a;
+border:1px solid #334155;
+padding:10px;
+border-radius:8px;
+color:white;
+font-size:14px;
+transition:0.25s;
+margin-left: 200px;
+}
+
+#uploadOutilForm input:focus,
+#uploadOutilForm select:focus{
+
+border-color:#4ade80;
+box-shadow:0 0 8px rgba(74,222,128,0.4);
+outline:none;
+}
+
+/* FILE INPUT */
+
+#fichier_outil{
+
+padding:20px;
+border:2px dashed #334155;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+}
+
+#fichier_outil:hover{
+
+border-color:#4ade80;
+background:rgba(74,222,128,0.05);
+}
+
+/* BOUTON UPLOAD */
+
+#uploadOutilForm button{
+
+background:linear-gradient(135deg,#4ade80,#00ff9c);
+border:none;
+padding:12px;
+border-radius:8px;
+font-weight:bold;
+color:#022c22;
+cursor:pointer;
+transition:0.3s;
+letter-spacing:1px;
+margin-left: 200px ;
+}
+
+#uploadOutilForm button:hover{
+
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,255,156,0.4);
+}
+
+#uploadOutilForm button:active{
+
+transform:scale(0.97);
+}
+
+/* ANIMATION INPUT */
+
+#uploadOutilForm input,
+#uploadOutilForm select{
+
+transform:scale(1);
+}
+
+#uploadOutilForm input:hover,
+#uploadOutilForm select:hover{
+
+transform:scale(1.02);
+}
+
+/* MESSAGE UPLOAD */
+
+.upload-success{
+
+background:#064e3b;
+color:#4ade80;
+padding:10px;
+border-radius:6px;
+margin-top:10px;
+font-size:13px;
+}
+
+.upload-error{
+
+background:#450a0a;
+color:#f87171;
+padding:10px;
+border-radius:6px;
+margin-top:10px;
+font-size:13px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.upload-outil-container{
+
+padding:18px;
+}
+
+#uploadOutilForm input,
+#uploadOutilForm select{
+  margin-left: -4px;
+
+font-size:13px;
+}
+
+#uploadOutilForm button{
+  margin-left: -4px;
+
+font-size:14px;
+}
+textarea {
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+}
+@media(min-width:1024px){
+  textarea {
+ width: 85%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 14px;
+  margin-top: 10px;
+margin-left: 200px;
+}
+}
+
+.progress-bar-styled {
+  width: 100%;
+  max-width: 400px;
+  height: 25px;
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  border: 2px solid #4ade80;
+  margin: 10px 0;
+}
+
+.progress-fill-styled {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  text-align: center;
+  color: #111;
+  font-weight: bold;
+  line-height: 25px;
+  border-radius: 12px 0 0 12px;
+  transition: width 0.2s ease;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -604,6 +809,7 @@ td{
 </div>
 <input type="text" id="searchUser" placeholder="Rechercher un utilisateur...">
 </div>
+
 <!-- Menu avec badge -->
 <a href="dashboard.html" class="menu-item" id="menu-requetes">
   <span class="menu-icon">📨</span>
@@ -665,6 +871,36 @@ td{
     </table>
   </div>
 </div>
+<form id="uploadOutilForm">
+
+<input type="text" id="nom" placeholder="Nom de l'outil" required>
+
+<select id="categorie">
+<option value="pdf">PDF</option>
+<option value="scripts">Scripts</option>
+<option value="applications">Applications</option>
+<option value="archives">Archives</option>
+</select>
+
+<select id="type">
+<option value="gratuit">Gratuit</option>
+<option value="payant">Payant</option>
+</select>
+
+<input type="number" id="prix" placeholder="Prix (0 si gratuit)">
+
+<!-- 🆕 DESCRIPTION -->
+<textarea id="description" placeholder="Description de l'outil..." rows="4" required></textarea>
+
+<input type="file" id="file" required>
+
+<button type="submit">Uploader</button>
+
+<div id="progressContainer" style="display:none; width: 100%; background: #333; border-radius:6px; margin-bottom:10px;">
+  <div id="progressFill" style="width:0%; height:20px; background:#4ade80; text-align:center; color:black; line-height:20px; border-radius:6px;">0%</div>
+</div>
+
+</form>
 <!-- Charger la lib Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -705,8 +941,77 @@ const btn = safeGet('btnDeconnexion');
     if (btn) btn.addEventListener('click', deconnexion);
 
 </script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+const supabase = createClient(
+  "https://ccsrxvwaxkdbphesyies.supabase.co",
+  "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+)
+
+document.getElementById("uploadOutilForm").addEventListener("submit", async (e) => {
+  e.preventDefault()
+
+  const nom = document.getElementById("nom").value
+  const categorie = document.getElementById("categorie").value
+  const type = document.getElementById("type").value
+  const description = document.getElementById("description").value
+  const prix = document.getElementById("prix").value || 0
+  const file = document.getElementById("file").files[0]
+
+  if (!file) return alert("Sélectionnez un fichier.")
+
+  const filePath = `${categorie}/${Date.now()}_${file.name}`
+  const progressContainer = document.getElementById("progressContainer")
+  const progressFill = document.getElementById("progressFill")
+  progressContainer.style.display = "block"
+  progressFill.style.width = "0%"
+  progressFill.innerText = "0%"
+
+  // Upload via Supabase avec suivi de progression
+  const { data, error } = await supabase.storage
+    .from('outils')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false,
+      onProgress: (progress) => {
+        const percent = Math.round(progress * 100)
+        progressFill.style.width = percent + '%'
+        progressFill.innerText = percent + '%'
+      }
+    })
+
+  if (error) {
+    alert("Erreur upload : " + error.message)
+    progressContainer.style.display = "none"
+    return
+  }
+
+  // Récupérer URL publique
+  const { data: publicData } = supabase.storage.from("outils").getPublicUrl(filePath)
+  const url = publicData.publicUrl
+
+  // Enregistrer en DB
+  const { error: dbError } = await supabase.from("outils").insert([{
+    nom_outil: nom,
+    categorie: categorie,
+    type_outil: type,
+    description: description,
+    fichier_url: url,
+    prix: prix
+  }])
+
+  if (dbError) {
+    alert("Erreur en base : " + dbError.message)
+    progressContainer.style.display = "none"
+    return
+  }
+
+  alert("Upload réussi 🚀")
+  progressContainer.style.display = "none"
+  document.getElementById("uploadOutilForm").reset()
+})
+</script>
 <script src="../JavaScript/admin-logic.js"></script>
-
 </body>
 </html>

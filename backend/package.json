@@ -1,1 +1,20 @@
-{"dependencies":{"axios":"^1.13.2","bcrypt":"^6.0.0","cors":"^2.8.5","dotenv":"^17.2.3","express":"^5.2.1","helmet":"^8.1.0","jsonwebtoken":"^9.0.3"},"devDependencies":{"nodemon":"^3.1.11"},"scripts":{"start":"node src/serveur.js","dev":"nodemon src/serveur.js"}}
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "serveur.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon serveur.js",
+    "start": "node serveur.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "axios": "^1.13.6",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

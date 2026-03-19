@@ -6,12 +6,13 @@
     background: linear-gradient(179deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 28%, rgb(31, 114, 140) 100%);
     font-size: large;
     height: 395px;
-    overflow-x: auto;
+    overflow-x: hidden;
     text-align: left;
     display: flex;
     position: relative;
     top: 260px;
     transition: margin-left 0.9s ease;
+
 }
 
 .container5.shifted {

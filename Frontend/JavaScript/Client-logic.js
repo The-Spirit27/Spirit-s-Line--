@@ -166,72 +166,119 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ============================
           GENERER PDF
 ============================ */
-function genererPDF() {
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+// --- Initialisation Supabase ---
+const supabase = createClient(
+  "https://ccsrxvwaxkdbphesyies.supabase.co",
+  "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+);
+
+// --- Fonction pour générer le PDF avec infos Supabase ---
+async function genererPDF() {
   try {
+    // --- Récupérer l'utilisateur connecté ---
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return alert("Utilisateur non connecté");
+
+    // --- Infos utilisateur ---
+    const { data: userData } = await supabase
+      .from('utilisateur')
+      .select('*')
+      .eq('mail_user', user.email)
+      .maybeSingle();
+
+    if (!userData) return alert("Impossible de récupérer vos informations");
+
+    // --- Compte lié ---
+    const { data: compteData } = await supabase
+      .from('compte')
+      .select('num_cpt')
+      .eq('mat_user', userData.mat_user)
+      .maybeSingle();
+
+    if (!compteData) return alert("Impossible de récupérer votre compte");
+
+    // --- Dernière requête ---
+    const { data: lastRequest } = await supabase
+      .from('requete')
+      .select('*')
+      .eq('num_cpt', compteData.num_cpt)
+      .order('date_rqt', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const req = lastRequest
+      ? {
+          service: lastRequest.nom_rqt,
+          status: lastRequest.status,
+          details: lastRequest.lib_rqt,
+          date: lastRequest.date_rqt
+        }
+      : { service: 'N/A', status: 'En attente', details: '', date: '' };
+
+    // --- Génération PDF ---
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const user = JSON.parse(localStorage.getItem('userData') || '{}');
-    const req = window.__lastRequestForPdf || { service:'N/A', status:'En attente', details:'', marque:'' };
-    const statutActuel = req.status || 'En attente';
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
 
-    const bleuTech = [0, 102, 204];
+    const bleuTech = [0,102,204];
     const grisFonce = [30,30,30];
+    const jaune = [255,193,7];
+    const vert = [40,167,69];
 
-    // --- Bandeau supérieur ---
+    // Bandeau supérieur
     doc.setFillColor(...grisFonce);
-    doc.rect(0, 0, 210, 45, 'F');
+    doc.rect(0,0,210,40,'F');
     doc.setTextColor(255,255,255);
     doc.setFont("helvetica","bold");
-    doc.setFontSize(26);
-    doc.text("SPIRIT'S LINE", 20, 22);
+    doc.setFontSize(24);
+    doc.text("SPIRIT'S LINE", 20, 20);
     doc.setFontSize(10);
-    doc.setFont("helvetica","normal");
-    doc.text("VOS SERVICES INFORMATIQUES DE QUALITÉS", 20, 32);
+    doc.text("Vos services informatiques de qualité", 20, 30);
 
-    // --- Bloc infos client ---
+    // Bloc infos client
     doc.setTextColor(...grisFonce);
-    doc.setFontSize(12);
+    doc.setFontSize(14);
     doc.setFont("helvetica","bold");
-    doc.text("DÉTAILS DU REÇU", 20, 60);
+    doc.text("Détails du reçu", 20, 55);
     doc.setDrawColor(...bleuTech);
-    doc.setLineWidth(1);
-    doc.line(20,62,40,62);
+    doc.setLineWidth(0.5);
+    doc.line(20,57,60,57);
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(11);
-    doc.text(`CLIENT : ${String(user.username||'').toUpperCase()}`, 20, 75);
-    doc.text(`ID CLIENT : #SL-${String(user.username||'').substring(0,3).toUpperCase()}`, 20, 82);
-    doc.text(`DATE : ${new Date().toLocaleDateString()}`, 20, 89);
+    doc.text(`Client : ${String(userData.pseudo_user || '').toUpperCase()}`, 20, 70);
+    doc.text(`ID Client : #SL-${String(userData.mat_user || '').toString().substring(0,3).toUpperCase()}`, 20, 78);
+    doc.text(`Nom : ${userData.nom_user || '—'}`, 20, 86);
+    doc.text(`Prénom : ${userData.prenom_user || '—'}`, 20, 94);
+    doc.text(`Téléphone : ${userData.num_user || '—'}`, 20, 102);
+    doc.text(`Date : ${new Date().toLocaleDateString()}`, 20, 110);
 
-    // --- Tableau service / statut ---
+    // Tableau service / statut
     doc.setFillColor(...bleuTech);
-    doc.rect(20,105,170,12,'F');
+    doc.rect(20,125,170,12,'F');
     doc.setTextColor(255,255,255);
     doc.setFont("helvetica","bold");
-    doc.text("SERVICE", 25, 113);
-    doc.text("ÉTAT DU TRAITEMENT", 130, 113);
+    doc.text("Service", 25, 133);
+    doc.text("État du traitement", 130, 133);
 
     doc.setTextColor(...grisFonce);
     doc.setFont("helvetica","normal");
     doc.setDrawColor(220,220,220);
-    doc.rect(20,117,170,30);
-
-    doc.text(`SERVICE : ${req.service || 'N/A'}`, 25, 130);
+    doc.rect(20,137,170,30);
+    doc.text(`Service : ${req.service}`, 25, 150);
     doc.setFontSize(10);
-    doc.text(`DÉTAILS : ${req.details || '—'}`, 25, 138);
+    doc.text(`Détails : ${req.details}`, 25, 158);
 
-    if (statutActuel.toLowerCase().includes("term")) doc.setTextColor(40,167,69);
-    else if (statutActuel.toLowerCase().includes("cours")) doc.setTextColor(0,123,255);
-    else doc.setTextColor(255,150,0);
+    // Couleur du statut
+    const statutActuel = (req.status || '').toLowerCase();
+    if (statutActuel.includes("term")) doc.setTextColor(...vert);
+    else if (statutActuel.includes("cours")) doc.setTextColor(...bleuTech);
+    else doc.setTextColor(...jaune);
 
     doc.setFont("helvetica","bold");
     doc.setFontSize(12);
-    doc.text(String(statutActuel).toUpperCase(), 135, 130);
-
-    doc.setTextColor(...grisFonce);
-    doc.setFontSize(9);
-    doc.setFont("helvetica","italic");
-    doc.text("Ce document est une preuve numérique générée via le dashboard Spirit's Line.", 20, 160);
+    doc.text(req.status ? req.status.toUpperCase() : "EN ATTENTE", 135, 150);
 
     // Pied de page
     doc.setFillColor(245,245,245);
@@ -239,13 +286,19 @@ function genererPDF() {
     doc.setTextColor(100);
     doc.setFont("helvetica","normal");
     doc.setFontSize(8);
-    doc.text("SPIRIT'S LINE - Support technique : support@spiritsline.com",105,292,{align:"center"});
+    doc.text("SPIRIT'S LINE - Support technique : support@spirit-s-line.netlify.app",105,292,{align:"center"});
 
-    doc.save(`Recu_SL_${String(user.username||'client')}.pdf`);
-  } catch (error) {
-    console.error("Erreur PDF:", error);
+    doc.save(`Recu_SPL_${String(userData.pseudo_user||'client')}.pdf`);
+
+  } catch(err) {
+    console.error("Erreur PDF:", err);
     alert("Une erreur est survenue lors de la création du document.");
   }
+}
+// --- Event listener pour le bouton ---
+const pdfBtn = document.getElementById("download-pdf-btn");
+if(pdfBtn){
+  pdfBtn.addEventListener("click", genererPDF);
 }
 
 /* ============================

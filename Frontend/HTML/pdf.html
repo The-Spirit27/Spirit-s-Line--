@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📃Documents & Guides</title>
+<style>
+  body {
+    background: #0a0a14;
+    color: #f5f5f5;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #a855f7;
+    border-bottom: 2px solid #a855f7;
+    padding-bottom: 10px;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+    animation: fadeInDown 1s ease-in-out;
+  }
+
+  .files-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 25px;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  .file-link {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #3b0764, #9333ea);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.4s;
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+    animation: pulseGlow 3s infinite;
+  }
+
+  .file-link:hover {
+    background: linear-gradient(135deg, #9333ea, #c084fc);
+    color: #0a0a14;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.9);
+  }
+
+  .file-card {
+    background: #1e1b4b;
+    padding: 18px;
+    border-radius: 12px;
+    width: 240px;
+    color: #e0e0e0;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    transition: 0.4s;
+    animation: fadeInUp 1.2s ease-in-out;
+  }
+
+  .file-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.8);
+  }
+
+  .file-card h3 {
+    margin: 0 0 12px;
+    color: #c084fc;
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.7);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    animation: bounce 2s infinite;
+  }
+
+  .badge.free {
+    background: #a855f7;
+    color: white;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+  }
+
+  .badge.paid {
+    background: #d946ef;
+    color: white;
+    box-shadow: 0 0 10px rgba(217, 70, 239, 0.7);
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #9333ea, #c084fc);
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+  }
+
+  button:hover {
+    background: linear-gradient(135deg, #c084fc, #9333ea);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.9);
+  }
+
+  .description {
+    font-size: 14px;
+    color: #bdbdbd;
+    margin: 12px 0;
+    line-height: 1.6;
+    transition: 0.3s;
+  }
+
+  .description:hover {
+    color: #e9d5ff;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.7);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 0 12px rgba(147, 51, 234, 0.6); }
+    50% { box-shadow: 0 0 25px rgba(192, 132, 252, 0.9); }
+    100% { box-shadow: 0 0 12px rgba(147, 51, 234, 0.6); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+</style>
+</head>
+<body>
+
+<h1>Documents PDF</h1>
+<div class="files-container" id="pdf-container">
+    <!-- Fichiers PDF seront ajoutés ici -->
+</div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+// --- Supabase client ---
+const supabase = createClient(
+  "https://ccsrxvwaxkdbphesyies.supabase.co",
+  "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+)
+
+// --- Charger les fichiers par catégorie ---
+async function loadFiles(category){
+  const container = document.getElementById(`${category}-container`)
+  if(!container) return console.error("Container introuvable")
+
+  const { data, error } = await supabase
+    .from("outils")
+    .select("*")
+    .eq("categorie", category)
+
+  if(error){
+    container.innerHTML = "Erreur lors du chargement"
+    console.error(error)
+    return
+  }
+
+  container.innerHTML = "" // vider le container avant d'ajouter
+
+  data.forEach(outil => {
+    const div = document.createElement("div")
+    div.className = "file-card"
+
+    div.innerHTML = `
+      <h3>${outil.nom_outil}</h3>
+      <p class="description">${outil.description || "Aucune description"}</p>
+      <span class="badge ${outil.type_outil === "gratuit" ? "free" : "paid"}">
+        ${outil.type_outil}
+      </span>
+      ${
+        outil.type_outil === "gratuit"
+          ? `<a href="${outil.fichier_url}" download>
+               <button>📥 Télécharger</button>
+             </a>`
+          : `<button class="payer-btn" data-id="${outil.id_outil}" data-prix="${outil.prix}">
+               🔒 Acheter (${outil.prix} FCFA)
+             </button>`
+      }
+    `
+
+    container.appendChild(div)
+  })
+
+  const boutonsAcheter = container.querySelectorAll(".payer-btn")
+  boutonsAcheter.forEach(btn => {
+    btn.disabled = true
+    btn.style.backgroundColor = "#ccc"
+    btn.style.color = "#666"
+    btn.style.cursor = "not-allowed"
+
+    btn.addEventListener("click", () => {
+      alert("Cette fonctionnalité sera bientôt disponible !")
+    })
+  })
+
+
+  // --- Ajouter les event listeners pour les fichiers payants ---
+  container.querySelectorAll(".payer-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const idOutil = btn.dataset.id
+      const montant = btn.dataset.prix
+      const phone = prompt("Entrez votre numéro mobile pour le paiement")
+      if(!phone) return alert("Numéro requis pour payer")
+
+      try {
+        const res = await fetch("http://localhost:3000/api/payer", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ id_outil: idOutil, montant, phone })
+});
+        const data = await res.json()
+        if(data.paymentUrl){
+          // Redirection vers Singpay
+          window.location.href = data.paymentUrl
+        } else {
+          alert("Impossible de générer le paiement")
+        }
+
+      } catch(err){
+        console.error(err)
+        alert("Erreur lors du paiement")
+      }
+    })
+  })
+}
+
+
+// --- Lancer le chargement ---
+loadFiles("pdf")
+
+async function payerOutil(id, montant) {
+  const phone = prompt("Entrez votre numéro mobile pour le paiement");
+  if (!phone) return alert("Numéro requis pour payer");
+
+  try {
+   const res = await fetch("http://localhost:3000/api/payer", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    id_outil: id,
+    montant: prix,
+    phone: phone
+  })
+});
+
+const data = await res.json();
+
+if (data.paymentUrl) {
+  window.location.href = data.paymentUrl;
+}
+  } catch (err) {
+    console.error(err);
+    alert("Erreur lors du paiement");
+  }
+}
+</script>
+
+
+</body>
+</html>

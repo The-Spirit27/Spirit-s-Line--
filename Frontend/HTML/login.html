@@ -47,6 +47,26 @@
     margin-left: 37%;
 }
         @media (max-width: 768px){}
+
+        .password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 60px;
+  top: 68%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+}
+
     </style>
 </head>
 <body>
@@ -66,6 +86,7 @@
         <div class="form-group">
             <label for="password">Mot de passe</label>
             <input type="password" id="password" placeholder="••••••••" required>
+            <span id="togglePassword">👁</span>
         </div>
 
         <button type="submit">Se connecter</button>
@@ -142,6 +163,20 @@
       console.error("Erreur inattendue:", err);
     }
   });
+  const passwordInput = document.getElementById("password")
+const togglePassword = document.getElementById("togglePassword")
+
+togglePassword.addEventListener("click", () => {
+
+  if(passwordInput.type === "password"){
+    passwordInput.type = "text"
+    togglePassword.textContent = "🙈"
+  } else {
+    passwordInput.type = "password"
+    togglePassword.textContent = "👁"
+  }
+
+})
 </script>
 </body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPIRIT'S - OUTILS</title>
+  <link rel="stylesheet" href="../CSS/outils.css">
+</head>
+<body>
+
+<div class="container50">
+  <div>Bibliothèque <br><strong>D'OUTILS</strong>
+    <div>
+      <p>Choisissez votre option :</p>
+      <p>
+        <a href="pdf.html"><button class="button" id="pdfContainer1"><span class="text"><strong>📃Documents & Guides ></strong></span></button></a>
+        <a href="scripts.html"><button class="button" id="scriptsContainer1"><span class="text"><strong>💻Scripts & Autonomisation ></strong></span></button></a>
+        <a href="archives.html"><button class="button" id="archivesContainer1"><span class="text"><strong>📦Pack & Archives ></strong></span></button></a>
+        <a href="applications.html"><button class="button" id="appsContainer1"><span class="text"><strong>👛Applications ></strong></span></button></a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container40">
+  <img src="../Images/favicon.ico" alt="Logo" class="Logo">
+  <span class="site-name"><strong>OUTILS</strong></span>
+</div>
+<script src="../JavaScript/Security.js"></script>
+</body>
+<div id="listeOutils"></div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabase = createClient(
+  "https://ccsrxvwaxkdbphesyies.supabase.co",
+  "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+)
+
+const containers = {
+  pdf: document.getElementById("pdfContainer"),
+  scripts: document.getElementById("scriptsContainer"),
+  archives: document.getElementById("archivesContainer"),
+  apps: document.getElementById("appsContainer")
+}
+
+async function chargerOutils() {
+  const { data, error } = await supabase.from("outils").select("*")
+  if(error){ console.error(error); return }
+
+  // vider tous les containers
+  Object.values(containers).forEach(c => { if(c) c.innerHTML = "" })
+
+  data.forEach(outil => {
+    const container = containers[outil.categorie]
+    if(!container) return
+
+    const div = document.createElement("div")
+    div.classList.add("outil-card")
+    div.innerHTML = `
+      <h3>${outil.nom_outil}</h3>
+      <p>${outil.description || "Pas de description"}</p>
+      <p><strong>Type :</strong> ${outil.type_outil}</p>
+      <p><strong>Prix :</strong> ${outil.prix || 0} FCFA</p>
+      ${
+        outil.type_outil === "gratuit"
+        ? `<a href="${outil.fichier_url}" target="_blank"><button>📥 Télécharger</button></a>`
+        : `<button class="payer-btn" data-id="${outil.id_outil}" data-prix="${outil.prix}">
+             🔒 Acheter (${outil.prix} FCFA)
+           </button>`
+      }
+    `
+    container.appendChild(div)
+
+    if(outil.type_outil === "payant"){
+      const payBtn = div.querySelector(".payer-btn")
+      payBtn.addEventListener("click", async () => {
+        const idOutil = payBtn.dataset.id
+        const montant = payBtn.dataset.prix
+        const phone = prompt("Entrez votre numéro mobile pour le paiement")
+        if(!phone) return alert("Numéro requis pour payer")
+
+        try {
+          const res = await fetch("/api/payer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_outil: idOutil, montant, phone })
+          })
+          const data = await res.json()
+          if(data.paymentUrl){
+            window.location.href = data.paymentUrl
+          } else {
+            alert("Impossible de générer le paiement")
+          }
+        } catch(err){
+          console.error(err)
+          alert("Erreur lors du paiement")
+        }
+      })
+    }
+  })
+}
+
+// lancer
+chargerOutils()
+</script>
+
+</body>
+</html>

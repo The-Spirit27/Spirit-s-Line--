@@ -164,7 +164,7 @@ font-size:18px;
 
     </style>
     <body>
-      <div class="card">
+   <div class="card">
   <h2>Mon Profil</h2>
   <div class="info-item">Pseudo : <span id="display-pseudo">—</span></div>
   <div class="info-item">Nom : <span id="display-nom">—</span></div>
@@ -178,9 +178,15 @@ font-size:18px;
     </div>
     <span id="display-progress-text">0%</span>
   </div>
+
+  <!-- Nouveau bouton PDF -->
+  <button id="download-pdf-btn" style="margin-top:15px; padding:10px 15px; background:#2563eb; color:white; border:none; border-radius:5px; cursor:pointer;">
+    📄 Télécharger mon PDF
+  </button>
 </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="../JavaScript/supabase-init.js"></script>
-<script src="../JavaScript/Client-logic.js"></script>
+<script type="module" src="../JavaScript/supabase-init.js"></script>
+<script type="module" src="../JavaScript/Client-logic.js"></script>
 </body>
 </html>

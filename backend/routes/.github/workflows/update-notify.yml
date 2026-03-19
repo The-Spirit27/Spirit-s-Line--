@@ -1,0 +1,19 @@
+name: Notify Users on Update
+
+on:
+  push:
+    branches:
+      - main  # ou la branche que tu considères "production"
+
+jobs:
+  send-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Send update notification
+      run: |
+        curl -X POST https://ton-backend.com/api/notify-update \
+        -H "Content-Type: application/json" \
+        -d '{"title":"Nouvelle mise à jour !","message":"Une nouvelle version de SPL est disponible."}'
