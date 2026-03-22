@@ -1,18 +1,6 @@
 const db = window.supabaseClient;
 
 /* =========================
-VERIFICATION SESSION
-========================= */
-async function verifierSession() {
-  const { data: { session }, error } = await db.auth.getSession();
-  if (error) console.error("Erreur getSession :", error);
-  if (!session) {
-    window.location.href = "login.html";
-    return;
-  }
-}
-
-/* =========================
 CHARGER REQUETES
 ========================= */
 let compteurNouvellesRequetes = 0;
@@ -128,11 +116,11 @@ async function chargerRequetes() {
 
     table.appendChild(ligne);
   });
-}
 
   // --- Réinitialiser le badge quand le tableau est chargé ---
   compteurNouvellesRequetes = 0;
   badge.textContent = "0";
+}
 
 // --- Notifications temps réel pour nouvelles requêtes ---
 if (Notification.permission !== "granted") {
@@ -140,66 +128,66 @@ if (Notification.permission !== "granted") {
 }
 
 db
-.channel('nouvelle-requete')
-.on(
-'postgres_changes',
-{
-  event: 'INSERT',
-  schema: 'public',
-  table: 'requete'
-},
-(payload) => {
+  .channel('nouvelle-requete')
+  .on(
+    'postgres_changes',
+    {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'requete'
+    },
+    (payload) => {
+      console.log("Nouvelle requête :", payload.new);
 
-  console.log("Nouvelle requête :", payload.new);
+      // Notification système
+      if (Notification.permission === "granted") {
+        new Notification("Nouvelle requête reçue", {
+          body: payload.new.nom_rqt
+        });
+      }
 
-  // Notification système
-  if (Notification.permission === "granted") {
-    new Notification("Nouvelle requête reçue", {
-      body: payload.new.nom_rqt
-    });
-  }
+      // Incrément badge
+      compteurNouvellesRequetes++;
+      badge.textContent = compteurNouvellesRequetes;
 
-  // Incrément badge
-  compteurNouvellesRequetes++;
-  badge.textContent = compteurNouvellesRequetes;
-
-  // Recharge tableau
-  chargerRequetes();
-})
-.subscribe();
+      // Recharge tableau
+      chargerRequetes();
+    }
+  )
+  .subscribe();
 
 // --- Charger le tableau au démarrage ---
 document.addEventListener("DOMContentLoaded", chargerRequetes);
+
 /* =========================
-CHANGER STATUT
+CHANGER STATUT (utilisé ailleurs)
 ========================= */
 async function changerStatut(num_rqt, statut){
+  let progress = 0;
 
-let progress = 0;
+  if(statut === "En cours"){
+    progress = 40;
+  }
 
-if(statut === "En cours"){
-progress = 40;
+  if(statut === "Terminé" || statut === "Effectué"){
+    progress = 100;
+  }
+
+  const { error } = await db
+    .from("requete")
+    .update({
+      status: statut,
+      progress: progress
+    })
+    .eq("num_rqt", num_rqt);
+
+  if(error){
+    console.error(error);
+    alert("Erreur modification statut");
+  }
+
+  chargerRequetes();
 }
-
-if(statut === "Terminé" || statut === "Effectué"){
-progress = 100;
-}
-
-const { error } = await supabaseClient
-.from("requete")
-.update({
-status: statut,
-progress: progress
-})
-.eq("num_rqt", num_rqt);
-
-if(error){
-console.error(error);
-alert("Erreur modification statut");
-}
-
-chargerRequetes();
-} 
 
 /* =========================
 CHARGER UTILISATEURS
@@ -226,27 +214,26 @@ async function chargerUtilisateurs() {
     let rootBadge = "";
 
     if (user.role_user === "ROOT") {
-      pseudo = `${pseudo}`;
       rootBadge = '<span class="root-badge">ROOT</span>';
     }
 
     const ligne = document.createElement("tr");
-ligne.innerHTML = `
-  <td class="${user.role_user==="ROOT"?"root-user":""}" data-label="Pseudo">
-    ${pseudo} ${rootBadge}
-  </td>
-  <td data-label="Rôle">${user.role_user}</td>
-  <td data-label="Date inscription">${new Date(user.created_at).toLocaleDateString()}</td>
-  <td data-label="Action">
-    ${
-      user.role_user === "ROOT"
-        ? "🔒 Protégé"
-        : `<button class="btn-supprimer" onclick="supprimerUtilisateur(${user.mat_user}, '${user.pseudo_user}')">
-             Supprimer
-           </button>`
-    }
-  </td>
-`;
+    ligne.innerHTML = `
+      <td class="${user.role_user==="ROOT"?"root-user":""}" data-label="Pseudo">
+        ${pseudo} ${rootBadge}
+      </td>
+      <td data-label="Rôle">${user.role_user}</td>
+      <td data-label="Date inscription">${new Date(user.created_at).toLocaleDateString()}</td>
+      <td data-label="Action">
+        ${
+          user.role_user === "ROOT"
+            ? "🔒 Protégé"
+            : `<button class="btn-supprimer" onclick="supprimerUtilisateur(${user.mat_user}, '${user.pseudo_user}')">
+                 Supprimer
+               </button>`
+        }
+      </td>
+    `;
 
     table.appendChild(ligne);
   });
@@ -454,7 +441,162 @@ const sidebar = document.querySelector(".sidebar");
 toggleBtn.onclick = () =>{
   sidebar.classList.toggle("active");
 };
+// --- Import Supabase ---
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+// --- Config Supabase ---
+const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co"
+const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+// --- Déconnexion ---
+const safeGet = id => document.getElementById(id) || null
+
+async function deconnexion() {
+  try {
+    await supabase.auth.signOut()
+  } catch (err) {
+    console.warn('Erreur signOut:', err)
+  }
+  localStorage.removeItem('userData')
+  localStorage.removeItem('monToken')
+  window.location.href = '../../index.html'
+  alert("Au revoir Maitre SPIRIT🖤❄️🙇‍♂️")
+}
+
+const btn = safeGet('btnDeconnexion')
+if (btn) btn.addEventListener('click', deconnexion)
+
+// --- Upload Outil ---
+const uploadForm = document.getElementById("uploadOutilForm")
+if (uploadForm) {
+  uploadForm.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    const nom = document.getElementById("nom").value
+    const categorie = document.getElementById("categorie").value
+    const type = document.getElementById("type").value
+    const description = document.getElementById("description").value
+    const prix = document.getElementById("prix").value || 0
+    const file = document.getElementById("file").files[0]
+
+    if (!file) return alert("Sélectionnez un fichier.")
+
+    const filePath = `${categorie}/${Date.now()}_${file.name}`
+    const progressContainer = document.getElementById("progressContainer")
+    const progressFill = document.getElementById("progressFill")
+    progressContainer.style.display = "block"
+    progressFill.style.width = "0%"
+    progressFill.innerText = "0%"
+
+    // Upload fichier
+    const { data, error } = await supabase.storage
+      .from('outils')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+        onProgress: (progress) => {
+          const percent = Math.round(progress * 100)
+          progressFill.style.width = percent + '%'
+          progressFill.innerText = percent + '%'
+        }
+      })
+
+    if (error) {
+      alert("Erreur upload : " + error.message)
+      progressContainer.style.display = "none"
+      return
+    }
+
+    // URL publique
+    const { data: publicData } = supabase.storage.from("outils").getPublicUrl(filePath)
+    const url = publicData.publicUrl
+
+    // Enregistrement en DB
+    const { error: dbError } = await supabase.from("outils").insert([{
+      nom_outil: nom,
+      categorie: categorie,
+      type_outil: type,
+      description: description,
+      fichier_url: url,
+      prix: prix
+    }])
+
+    if (dbError) {
+      alert("Erreur en base : " + dbError.message)
+      progressContainer.style.display = "none"
+      return
+    }
+
+    alert("Upload réussi 🚀")
+    progressContainer.style.display = "none"
+    uploadForm.reset()
+  })
+}
+
+// --- Notifications Admin ---
+const clientSelect = document.getElementById("select-client")
+const messageInput = document.getElementById("notif-message")
+const fileInput = document.getElementById("notif-file")
+const sendBtn = document.getElementById("send-notif-btn")
+const logDiv = document.getElementById("notif-log")
+
+async function loadClients() {
+  const { data, error } = await supabase
+    .from("utilisateur")
+    .select("mat_user, pseudo_user, mail_user")
+
+  if (error) return console.error(error)
+
+  data.forEach(client => {
+    const opt = document.createElement("option")
+    opt.value = client.mat_user
+    opt.textContent = `${client.pseudo_user} (${client.mail_user})`
+    clientSelect.appendChild(opt)
+  })
+}
+if (clientSelect) loadClients()
+
+if (sendBtn) {
+  sendBtn.addEventListener("click", async () => {
+
+    const clientId = clientSelect.value
+    const message = messageInput.value
+    const file = fileInput.files[0]
+
+    if (!clientId || (!message && !file)) {
+      return alert("Écrire un message ou sélectionner un fichier.")
+    }
+
+    let fileUrl = null
+    if (file) {
+      const { data, error } = await supabase.storage
+        .from('messages-files')
+        .upload(`${Date.now()}-${file.name}`, file)
+
+      if (error) {
+        console.error(error)
+      } else {
+        fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${data.path}`
+      }
+    }
+
+    const { error: insertError } = await supabase
+  .from("messages")
+  .insert({
+    contenu: "test",
+    user_id: 1
+  });
+
+    if (insertError) return console.error(insertError)
+
+    logDiv.innerHTML += `<div>Envoyé à ${clientSelect.selectedOptions[0].text}: ${message || file.name}</div>`
+
+    messageInput.value = ""
+    fileInput.value = ""
+  })
+}
 
 // Incrément badge
 compteurNouvellesRequetes++;

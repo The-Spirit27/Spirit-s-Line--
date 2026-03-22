@@ -779,6 +779,37 @@ margin-left: 200px;
   transition: width 0.2s ease;
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
+
+
+#admin-notif-section {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: #000;
+}
+
+#notif-message {
+  width: 100%;
+  height: 80px;
+  margin: 10px 0;
+  padding: 5px;
+}
+
+#send-notif-btn {
+  background: #2563eb;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#send-notif-btn:hover {
+  background: #1e4db7;
+}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -871,6 +902,22 @@ margin-left: 200px;
     </table>
   </div>
 </div>
+<div id="admin-notif-section">
+  <h2>Envoyer une notification / message</h2>
+
+  <label for="select-client">Choisir un client :</label>
+  <select id="select-client">
+    <!-- Les options seront générées dynamiquement depuis Supabase -->
+  </select>
+
+  <textarea id="notif-message" placeholder="Écrire votre message ici..."></textarea>
+  <input type="file" id="notif-file" />
+  <button id="send-notif-btn">Envoyer</button>
+
+  <div id="notif-log" style="margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px;">
+    <!-- Log des messages envoyés -->
+  </div>
+</div>
 <form id="uploadOutilForm">
 
 <input type="text" id="nom" placeholder="Nom de l'outil" required>
@@ -901,117 +948,16 @@ margin-left: 200px;
 </div>
 
 </form>
-<!-- Charger la lib Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<script>
-
-/* -------- CONFIG SUPABASE -------- */
-
-const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
-
-/* -------- CLIENT -------- */
-
-const supabaseClient = supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-
-window.supabaseClient = supabaseClient;
-
-/* -------- LOGOUT -------- */
-const safeGet = id => document.getElementById(id) || null;
-async function deconnexion() {
-  try {
-    if (window.supabase && supabase.auth && typeof supabase.auth.signOut === 'function') {
-      await supabase.auth.signOut();
-    }
-  } catch (err) {
-    console.warn('Erreur signOut:', err);
-  }
-  localStorage.removeItem('userData');
-  localStorage.removeItem('monToken');
-  // redirection
-  window.location.href = '../../index.html';
-  alert("Au revoir Maitre SPIRIT🖤❄️🙇‍♂️")
-}
-const btn = safeGet('btnDeconnexion');
-    if (btn) btn.addEventListener('click', deconnexion);
-
-</script>
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const supabase = createClient(
-  "https://ccsrxvwaxkdbphesyies.supabase.co",
-  "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
-)
+  const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
 
-document.getElementById("uploadOutilForm").addEventListener("submit", async (e) => {
-  e.preventDefault()
-
-  const nom = document.getElementById("nom").value
-  const categorie = document.getElementById("categorie").value
-  const type = document.getElementById("type").value
-  const description = document.getElementById("description").value
-  const prix = document.getElementById("prix").value || 0
-  const file = document.getElementById("file").files[0]
-
-  if (!file) return alert("Sélectionnez un fichier.")
-
-  const filePath = `${categorie}/${Date.now()}_${file.name}`
-  const progressContainer = document.getElementById("progressContainer")
-  const progressFill = document.getElementById("progressFill")
-  progressContainer.style.display = "block"
-  progressFill.style.width = "0%"
-  progressFill.innerText = "0%"
-
-  // Upload via Supabase avec suivi de progression
-  const { data, error } = await supabase.storage
-    .from('outils')
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: false,
-      onProgress: (progress) => {
-        const percent = Math.round(progress * 100)
-        progressFill.style.width = percent + '%'
-        progressFill.innerText = percent + '%'
-      }
-    })
-
-  if (error) {
-    alert("Erreur upload : " + error.message)
-    progressContainer.style.display = "none"
-    return
-  }
-
-  // Récupérer URL publique
-  const { data: publicData } = supabase.storage.from("outils").getPublicUrl(filePath)
-  const url = publicData.publicUrl
-
-  // Enregistrer en DB
-  const { error: dbError } = await supabase.from("outils").insert([{
-    nom_outil: nom,
-    categorie: categorie,
-    type_outil: type,
-    description: description,
-    fichier_url: url,
-    prix: prix
-  }])
-
-  if (dbError) {
-    alert("Erreur en base : " + dbError.message)
-    progressContainer.style.display = "none"
-    return
-  }
-
-  alert("Upload réussi 🚀")
-  progressContainer.style.display = "none"
-  document.getElementById("uploadOutilForm").reset()
-})
+  // Client global
+  window.supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 </script>
-<script src="../JavaScript/admin-logic.js"></script>
+
+<script type="module" src="../JavaScript/admin-logic.js"></script>
 </body>
 </html>

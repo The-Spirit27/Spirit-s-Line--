@@ -353,6 +353,239 @@ async function voirMonStatut() {
   }
 }
 
+const bubble = document.getElementById("chat-bubble");
+const box = document.getElementById("chat-box");
+const input = document.getElementById("chat-input");
+const content = document.getElementById("chat-content");
+const badge = document.getElementById("notif-badge");
+const sound = document.getElementById("notif-sound");
+const fileInput = document.getElementById("chat-file");
+
+let unread = 0;
+
+// Toggle chat box
+bubble.addEventListener("click", () => {
+  box.classList.toggle("hidden");
+  unread = 0;
+  badge.classList.add("hidden");
+});
+
+// Envoi message
+document.getElementById("send-btn").addEventListener("click", async () => {
+  const message = input.value;
+  const file = fileInput.files[0];
+
+  if(!message && !file) return;
+
+  // Affiche dans la bulle côté user
+  content.innerHTML += `<div>🧑‍💻 Vous: ${message || file.name}</div>`;
+
+  input.value = "";
+  fileInput.value = "";
+
+  // Upload fichier si présent
+  let fileUrl = null;
+  if(file){
+    const { data, error } = await supabase.storage
+      .from('messages-files')
+      .upload(`${Date.now()}-${file.name}`, file);
+    if(error){
+      console.error(error);
+    } else {
+      fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${data.path}`;
+    }
+  }
+
+  // Insert dans Supabase
+  await supabase.from("messages").insert([
+    { user_id: "ID_UTILISATEUR", contenu: message, file_url: fileUrl, type: "user" }
+  ]);
+});
+
+// Charger les messages
+async function loadMessages(){
+
+  try{
+    const {data : {user}, error: authError} = await supabase.auth.getUser();
+
+    if (authError || !user){
+      console.error("Utilisateur non connecté :", authError);
+        return;
+    }
+  
+   
+
+  const {data : userData, error : userError} = await supabase
+  .from("utilisateur")
+  .select("*")
+  .eq("mail_user", user.email)
+  .maybeSingle();
+
+  if(userError || !userData){
+    console.error("Utilisateur DB introuvable :", userError);
+    return;
+  }
+    const userId = userData.mat_user;
+
+
+    const {data, error} = await supabase
+    .from("messages")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", {ascending : true});
+
+    if (error){
+      console.error("Erreur messages :", error);
+      return;
+    }
+    if (!data) return;
+    content.innerHTML = "";
+
+    data.forEach(msg => {
+      content.innerHTML += `<div>${msg.contenu}</div>`
+    });
+
+ }catch (err){
+  console.error("Erreur loadMessages:", err)
+ }
+}
+loadMessages();
+
+// Fonction pour afficher messages
+function appendMessage(msg){
+  if(msg.type === "user"){
+    content.innerHTML += `<div>🧑‍💻 Vous: ${msg.contenu ? msg.file_url :""} ${msg.file_url ? `<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}</div>`;
+  } else {
+    content.innerHTML += `<div>💬 Admin: ${msg.contenu ? msg.file_url :""} ${msg.file_url ?`<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}</div>`;
+    // Badge + son
+    if(box.classList.contains("hidden")){
+      unread++;
+      badge.textContent = unread;
+      badge.classList.remove("hidden");
+      sound.play();
+    }
+  }
+}
+
+// Realtime Supabase
+supabase.channel('messages')
+  .on('postgres_changes',{ event: 'INSERT', schema:'public', table:'messages' }, payload => {
+    appendMessage(payload.new);
+  })
+  .subscribe();
+async function sendMessage() {
+  try {
+    const input = document.getElementById("message-input");
+    const messageText = input.value.trim();
+
+    if (!messageText) {
+      alert("Message vide !");
+      return;
+    }
+
+    // 🔹 user auth
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      console.error("Utilisateur non connecté");
+      return;
+    }
+
+    // 🔹 user DB
+    const { data: userData, error: userError } = await supabase
+      .from("utilisateur")
+      .select("mat_user")
+      .eq("mail_user", user.email)
+      .maybeSingle();
+
+    if (userError || !userData) {
+      console.error("Utilisateur DB introuvable");
+      return;
+    }
+
+    const userId = Number(userData.mat_user); // 🔥 IMPORTANT
+
+    console.log("DEBUG FINAL :", userId, messageText);
+    console.log(JSON.stringify({
+  user_id: userId,
+  contenu: messageText,
+  file_url: null,
+  type: "user"
+}));
+
+    // 🔥 INSERT CLEAN
+   const { data, error } = await supabase
+  .from("messages")
+  .insert([{
+    user_id: Number(userId),
+    contenu: String(messageText),
+    file_url: null,
+    type: "client"
+  }])
+  .select("*");
+
+    if (error) {
+      console.error("INSERT ERROR :", error);
+      return;
+    }
+
+    input.value = "";
+    loadMessages();
+
+  } catch (err) {
+    console.error("Erreur sendMessage :", err);
+  }
+}
+
+async function deleteNotifications() {
+  try {
+    // 🔹 Récupérer l'utilisateur connecté
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      console.error("Utilisateur non connecté :", authError);
+      return alert("Vous devez être connecté !");
+    }
+
+    // 🔹 Récupérer l'ID de l'utilisateur dans la table utilisateur
+    const { data: userData, error: userError } = await supabase
+      .from("utilisateur")
+      .select("mat_user")
+      .eq("mail_user", user.email)
+      .maybeSingle();
+
+    if (userError || !userData) {
+      console.error("Utilisateur introuvable dans la DB :", userError);
+      return alert("Impossible de trouver vos données.");
+    }
+
+    const userId = Number(userData.mat_user);
+
+    // 🔹 Supprimer toutes les notifications/messages de cet utilisateur
+    const { error: deleteError } = await supabase
+      .from("messages")
+      .delete()
+      .eq("user_id", userId);
+
+    if (deleteError) {
+      console.error("Erreur suppression notifications :", deleteError);
+      return alert("Impossible de supprimer vos notifications !");
+    }
+
+    // 🔹 Vider l'affichage côté client
+    const contentDiv = document.getElementById("content"); // ton container messages
+    if (contentDiv) contentDiv.innerHTML = "";
+
+    alert("Toutes vos notifications ont été supprimées ✅");
+
+  } catch (err) {
+    console.error("Erreur deleteNotifications :", err);
+    alert("Une erreur est survenue lors de la suppression.");
+  }
+}
+const deleteBtn = document.getElementById("delete-notif-btn");
+if (deleteBtn) deleteBtn.addEventListener("click", deleteNotifications);
+
 /* ============================
        EXPOSE GLOBAL FUNCTIONS
 ============================ */
@@ -360,3 +593,5 @@ window.chargerProfil = chargerProfil;
 window.genererPDF = genererPDF;
 window.logout = logout;
 window.voirMonStatut = voirMonStatut;
+window.sendMessage = sendMessage;
+window.deleteNotifications = deleteNotifications;

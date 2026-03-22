@@ -1,166 +1,201 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-   <style>
-    
-.container9 {
-    margin-left: 0;
-    border-radius: 18px;
-    padding: 25.5px;
-    width: 80% 15%;
-    background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);
-    font-size: large;
-    height: 395px;
-    overflow-x: auto;
-    text-align: left;
-    display: flex;
-    position: relative;
-    top: 260px;
-    transition: margin-left 0.9s ease;
+
+<head>
+  <style>
+    /* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.container6.shifted {
-    margin-left: 253px;
+/* ===== BODY ===== */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #000, #1b4332);
+  color: white;
 }
 
-.container9 button {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 36px;
-    padding: 8px;
-    margin: 12px;
-    border-radius: 15px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    border: 1px solid black;
-    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.1);
-    transition: 0.6s;
-    gap: 8px;
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 20px;
+
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+
+  z-index: 1000;
 }
 
-.container21 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 15px;
-    width: 80% 15%;
-    padding: 9.5px 69px;
-    color: rgb(203, 203, 203);
-    position: absolute;
-    text-align: left;
-    font-size: 115%;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: slideIn 1.5s ease-in-out;
-    margin-left: 0;
-    height: 150px;
-    margin-top: 0;
-    transition: margin-left 0.9s ease;
-    top: 0;
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.container21.shifted {
-    margin-left: 253px;
+.logo {
+  width: 35px;
 }
-@media (max-width: 768px) and (min-width: 0px) {
-    body{
-        padding: 10px;
-          background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-    }
-    .container21{
- border-radius: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 90px;
-    }
-   .container9{
-    margin-top: -7px;
-    border-radius: 10px;
-    margin: 0 auto ;
-    top: 150px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   }
-   .container9 button{
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 95%;
-    padding: 12px;
-    background-color: rgb(226, 226, 226);
-    border-radius: 40px;
-   }
+
+.header h1 {
+  font-size: 20px;
 }
-@media (max-width: 2500px) and (min-width: 769px){
-  body{
-        padding: 10px;
-          background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-    }
-    .container21{
- border-radius: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 90px;
-    }
-   .container9{
-    margin-top: -7px;
-    border-radius: 10px;
-    margin: 0 auto ;
-    top: 180px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(0deg, rgb(96, 156, 132) 0%, rgb(255, 255, 255) 100%);
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    padding: 70px;
-   }
-   .container9 button{
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 95%;
-    padding: 12px;
-    background-color: rgb(226, 226, 226);
-    border-radius: 40px;
-   }
+
+/* ===== MAIN ===== */
+.main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 100px 20px 40px;
 }
-   </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPIRIT'S_CONFIG</title>
-  </head>
+
+/* ===== CARD ===== */
+.card {
+  width: 100%;
+  max-width: 700px;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+
+  text-align: center;
+}
+
+/* ===== TEXT ===== */
+.card h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.card span {
+  color: #52b788;
+}
+
+.subtitle {
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: white;
+  color: black;
+
+  text-decoration: none;
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1b4332;
+  color: white;
+  transform: translateY(-5px) scale(1.03);
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card h2 {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 14px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 480px) {
+
+  .main {
+    padding: 90px 10px 20px;
+  }
+
+  .btn {
+    font-size: 13px;
+  }
+}
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPIRIT'S CONFIG</title>
+
+  <link rel="stylesheet" href="../CSS/config.css">
+</head>
+
 <body>
-  <div class="container9">
-  <div> Bienvenue dans le service <br><strong>CONFIG</strong>.
-    <div><p>Choisissez votre option :</p>
-       <p>
-          
-            <a href="cloud.html"><button class="button"  >
-             <br><span class="text"><strong>Transfert de données vers le cloud ></strong></span> 
-            </button></a>
-            <a href="imprimante.html"><button class="button">
-              <br><span class="text"><strong>Configuration d'imprimante ></strong></span>
-            </button></a>
-            <a href="configuration.html"><button class="button"  >
-            <br><span class="text"><strong>Configuration serveurs/reseaux ></strong></span>
-            </button></a>
-       </p>
-     </div>
-   </div>
-</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <img src="../Images/favicon.ico" class="logo">
+    <h1>CONFIG</h1>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="card">
+
+    <h2>Bienvenue dans <span>CONFIG</span></h2>
+    <p class="subtitle">Choisissez votre service :</p>
+
+    <div class="grid">
+
+      <a href="cloud.html" class="btn">☁️ Transfert vers le cloud</a>
+      <a href="imprimante.html" class="btn">🖨️ Configuration imprimante</a>
+      <a href="configuration.html" class="btn">🖧 Serveurs & Réseaux</a>
+
+    </div>
+
+  </div>
+
+</main>
+
 <script src="../JavaScript/Security.js"></script>
 
-<div class="container21">
-  <img src="../Images/favicon.ico" alt="Logo" class="Logo">
-  <span class="site-name"><strong>CONFIG</strong></h1></span><h1>
-</div>
 </body>
+</html>

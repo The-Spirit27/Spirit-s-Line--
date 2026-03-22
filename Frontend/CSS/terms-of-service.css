@@ -1,36 +1,99 @@
-body{
-     background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-      height: 100vh;
-    padding: 70px;
-    color: rgb(170, 170, 170);
+/* ===== GLOBAL ===== */
+body {
+    background: linear-gradient(179deg, #000000 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    padding: 70px 20px;
+    color: #e0e0e0;
     text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-attachment: fixed;
 }
-.terms img{
-    width: 530px;
-    height: 530px;
+
+/* ===== IMAGE PRINCIPALE ===== */
+.terms img {
+    max-width: 400px;
+    height: auto;
     padding: 12px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.terms1{
+
+.terms img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(57, 183, 199, 0.4);
+}
+
+/* ===== TABLE CONTENT ===== */
+.table-content {
+    background: linear-gradient(180deg, #484848 0%, #2a2a2a 100%);
+    padding: 35px 30px;
+    color: #ffffff;
+    border-radius: 28px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    max-width: 800px;
+    margin: 30px auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    animation: fadeInUp 1s ease forwards;
     text-align: left;
 }
-.table-content{
-    background: rgb(71, 71, 71);
-    padding: 30px;
-    color: rgb(255, 255, 255);
-    border-radius: 28px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, 'Times New Roman';
+
+/* ===== TITRES ===== */
+.table-content strong p {
+    font-size: 1.5rem;
+    color: #39b7c7;
+    margin-bottom: 15px;
+    position: relative;
 }
+
+.table-content strong p::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: #39b7c7;
+    border-radius: 2px;
+    margin-top: 5px;
+}
+
+/* ===== PARAGRAPHES ===== */
+.table-content p {
+    margin: 12px 0;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* ===== LIENS ===== */
+.table-content a {
+    color: #39b7c7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.table-content a:hover {
+    color: #50c8d7;
+    text-decoration: underline;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .terms img{
-        width: 70%;
-        height: 230px;
+    .terms img {
+        max-width: 70%;
+        height: auto;
     }
-    .table-content{
+    .table-content {
         width: 90%;
-        top: 0;
-        left: 0;
-        right: 0;
-        margin-left: -20px;
+        padding: 25px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .table-content strong p {
+        font-size: 1.2rem;
     }
 }

@@ -5,66 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spirit-s-Line | Connexion</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif;
-        
-        display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card {
-             padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 350px;
-             background: rgb(255, 255, 255); backdrop-filter: blur(15px);
-             border: 1px solid rgba(255, 255, 255, 0.934);
-             }
-        .login-card::before{
-            content: "";
-            position: absolute;
-            top : 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('../Images/Image1.png');
-            background-size: cover;
-            filter: blur(8px);
-            transform: scale(1.1);
-            z-index: -1;
-            margin-left: -52px;
-        }
-        h2 { text-align: center; color: #e5efff; margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #f0f2f5; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: #2563eb; }
-        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #1d4ed8; }
-        .links { text-align: center; margin-top: 20px; font-size: 0.85rem;color: #e5efff; }
-        .links a { color: #2563eb; text-decoration: none; }
-        .icone-spl img{    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: white;
-    padding: 8px;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin-left: 37%;
+   /* ===== GLOBAL ===== */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
-        @media (max-width: 768px){}
 
-        .password-container {
-  position: relative;
-  width: 100%;
+/* ===== LOGIN CARD ===== */
+.login-card {
+    position: relative;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* ===== BACKGROUND IMAGE ===== */
+.login-card::before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: url('../Images/Image1.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px) brightness(0.6);
+    transform: scale(1.1);
+    z-index: -1;
+}
+
+/* ===== TITLE ===== */
+.login-card h2 {
+    color: #e5efff;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #f0f2f5;
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #39b7c7;
+    box-shadow: 0 0 10px rgba(57,183,199,0.3);
+}
+
+/* ===== PASSWORD TOGGLE ===== */
+.password-container {
+    position: relative;
 }
 
 .password-container input {
-  width: 100%;
-  padding-right: 40px;
+    padding-right: 45px;
 }
 
 #togglePassword {
-  position: absolute;
-  right: 60px;
-  top: 68%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 18px;
+    position: absolute;
+   margin-right: 27px;
+    top: 350px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #39b7c7;
+}
+
+/* ===== BUTTON ===== */
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #1e96a5, #39b7c7);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 5px 15px rgba(57,183,199,0.3);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #39b7c7, #50c8d7);
+    box-shadow: 0 10px 25px rgba(57,183,199,0.5);
+}
+
+/* ===== LINKS ===== */
+.links {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: #e5efff;
+}
+
+.links a {
+    color: #39b7c7;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: #50c8d7;
+}
+
+/* ===== ICON SPL ===== */
+.icone-spl img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    padding: 8px;
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 25px 20px;
+    }
+
+    .login-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .password-container input {
+        padding-right: 40px;
+    }
+
+    #togglePassword {
+        right: 10px;
+        font-size: 16px;
+    }
 }
 
     </style>

@@ -1,172 +1,140 @@
 /* ================= ANIMATIONS ================= */
-
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes glowPulse {
-  0% { box-shadow: 0 0 10px rgba(57,183,199,0.4); }
-  50% { box-shadow: 0 0 25px rgba(57,183,199,0.8); }
-  100% { box-shadow: 0 0 10px rgba(57,183,199,0.4); }
+  0% { box-shadow: 0 0 5px rgba(57, 183, 199, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(57, 183, 199, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(57, 183, 199, 0.2); }
 }
 
 /* ================= BODY ================= */
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   margin: 0;
-  padding: 20px;
-  background: linear-gradient(180deg, #0a0a0a, #1f1f1f);
-  color: #f5f5f5;
+  padding: 0;
+  background: radial-gradient(circle at top, #1a1a1a, #050505);
+  background-attachment: fixed;
+  color: #e0e0e0;
 }
 
-/* ================= CONTAINER ================= */
-
+/* ================= CONTAINERS ================= */
 .container20, .container21, .container22, .container24 {
   width: 90%;
-  max-width: 650px;
+  max-width: 750px;
   margin: 60px auto;
-
-  background: linear-gradient(0deg, rgb(57, 183, 199), rgb(255, 255, 255));
-  padding: 30px;
-  border-radius: 18px;
-
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-
-  color: #000;
-
-  animation: fadeInUp 0.9s ease;
-  transition: 0.4s;
+  
+  /* Ton dégradé Blanc -> Bleu Cyan */
+  background: linear-gradient(180deg, #ffffff 0%, #39b7c7 100%);
+  
+  padding: 40px;
+  border-radius: 24px;
+  
+  /* On change la couleur du texte à l'intérieur car le fond est clair */
+  color: #1a1a1a;
+  
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* Effet hover container */
 .container20:hover, .container21:hover, .container22:hover, .container24:hover {
-  transform: translateY(-5px) scale(1.01);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(57, 183, 199, 0.3);
 }
 
 /* ================= HEADER ================= */
-
 header {
   text-align: center;
-  font-size: 1.4rem;
-  margin-bottom: 25px;
-
-  color: #0a0a0a;
-
-  border-bottom: 2px solid rgb(57,183,199);
-  padding-bottom: 10px;
-
-  animation: fadeInDown 1s ease;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 15px;
 }
 
-/* ================= FORM ================= */
-
+/* ================= FORM ELEMENTS ================= */
 form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
-/* Labels */
 label {
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-left: 5px;
 }
 
-/* Inputs modernes */
 input, select, textarea {
   width: 100%;
-  padding: 12px;
-
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  color: #000;
   font-size: 1rem;
-  border-radius: 10px;
-
-  border: 1px solid #ccc;
-
-  font-family: 'Segoe UI', sans-serif;
-
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
-/* Focus stylé */
 input:focus, select:focus, textarea:focus {
-  border-color: rgb(57,183,199);
   outline: none;
-
-  box-shadow: 0 0 10px rgba(57,183,199,0.4);
-  transform: scale(1.02);
+  border-color: #39b7c7;
+  background: #ffffff;
+  box-shadow: 0 0 15px rgba(57, 183, 199, 0.3);
+  transform: scale(1.01);
 }
 
 /* ================= BOUTONS ================= */
-
 .buttons {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 button {
   flex: 1;
-  padding: 12px;
-
-  font-size: 1rem;
-
+  padding: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
   border: none;
-  border-radius: 10px;
-
-  background: linear-gradient(135deg, rgb(57,183,199), rgb(30,150,165));
-  color: white;
-
+  border-radius: 12px;
   cursor: pointer;
-
-  transition: 0.3s;
-  box-shadow: 0 0 12px rgba(57,183,199,0.5);
+  
+  /* Dégradé Bleu Sombre vers Cyan */
+  background: linear-gradient(135deg, #1e96a5, #39b7c7);
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(57, 183, 199, 0.4);
 }
 
-/* Hover stylé */
 button:hover {
-  transform: translateY(-4px) scale(1.05);
-  background: linear-gradient(135deg, rgb(80,200,215), rgb(40,150,165));
-
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #39b7c7, #50c8d7);
   animation: glowPulse 1.5s infinite;
 }
 
-/* Click */
 button:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
-/* ================= SYNTHÈSE ================= */
-
+/* ================= SYNTHÈSE (Zone noire) ================= */
 #synthese {
-  background: #111;
-  color: #fff;
-
-  padding: 20px;
-  border-radius: 12px;
-
-  box-shadow: 0 0 15px rgba(57,183,199,0.5);
-
-  animation: fadeInUp 1s ease;
+  background: #000;
+  color: #39b7c7; /* Texte cyan sur fond noir pour le style */
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 30px;
+  border: 1px solid rgba(57, 183, 199, 0.3);
+  box-shadow: inset 0 0 20px rgba(57, 183, 199, 0.1);
 }
 
 /* ================= RESPONSIVE ================= */

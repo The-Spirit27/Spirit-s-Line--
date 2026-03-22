@@ -1,98 +1,148 @@
-.container4 {
-    margin-left: 0px ;
-    border-radius: 18px;
-    padding: 25.5px;
-    width: 80% 15%;
-    background: #FFFF;
-    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgb(126, 126, 126) 100%);
-    font-size: large;
-    height: 395px;
-    margin-bottom: -32.2%;
-    animation: slideIn1 1s ease-in-out;
-    padding-bottom: -190.1%;
-    overflow-x: auto;
-    text-align: left;
-    display: flex;
-    position: relative;
-    top: 260px;
+/* ==========================
+   ANIMATIONS
+========================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
-.container4 button {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
-    font-size: 36px;
-    padding: 12px;
-    margin: 12px;
-    border-radius: 15px;
-    width: 437px;
-    text-align: left;
-    border-color: #ffffff;
-    cursor: pointer;
-    border: 1px solid rgb(255, 255, 255);
-    box-shadow: 10 12px 1
-    5px rgba(0, 0, 0, 0.1);
-    transition: 0.6s;
-    gap: 8px;
-     background: #040304;
-    background: radial-gradient(circle, rgb(216, 216, 216) 0%, rgb(0, 0, 0) 100%);
-    color: #FFFF;
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 5px rgba(57, 183, 199, 0.2); }
+  50% { box-shadow: 0 0 18px rgba(57, 183, 199, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(57, 183, 199, 0.2); }
 }
+
+/* ==========================
+   BODY
+========================== */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #1a1a1a, #050505);
+  background-attachment: fixed;
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+/* ==========================
+   HEADER / CONTAINER19
+========================== */
 .container19 {
-   
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 15px;
-    width: 80% 15%;
-    padding: 9.5px 69px;
-    color: rgb(203, 203, 203);
-    position: absolute;
-    text-align: left;
-    font-size: 115%;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: slideIn 1.5s ease-in-out;
-    margin-left: 0;
-    height: 150px;
-    margin-top: 0;
-    transition: margin-left 0.9s ease;
-    top: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 700px;
+  background: #1f1f1f;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  color: #39b7c7;
+  font-weight: 600;
+  font-size: 1.4rem;
+  animation: fadeInUp 0.8s ease-out;
+  transition: box-shadow 0.3s ease;
 }
 
-@media (max-width: 768px) and (min-width: 0px) {
-    body{
-        padding: 10px;
-    }
-    .container19{
- border-radius: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 90px;
-    }
-   .container4{
-    margin-top: -7px;
-    border-radius: 10px;
-    margin: 0 auto ;
-    top: 100px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(179deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28%, rgb(126, 126, 126) 100%);
-    text-align: center;
-    padding: 10px;
-   }
-   .container4 button{
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 95%;
-    padding: 12px;
-    background-color: rgb(226, 226, 226);
-    border-radius: 40px;
-    margin-left: 0;
+.container19:hover {
+  box-shadow: 0 15px 40px rgba(57,183,199,0.5);
+}
 
-   }
-   
+.container19 .Logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container19 .Logo:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 0 20px #39b7c7, 0 0 40px rgba(57,183,199,0.4);
+}
+
+.container19 .site-name {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================
+   MAIN BUTTON CONTAINER / CONTAINER4
+========================== */
+.container4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 85%;
+  max-width: 650px;
+  padding: 30px;
+  background: linear-gradient(180deg, #ffffff 0%, #39b7c7 100%);
+  border-radius: 24px;
+  color: #1a1a1a;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  animation: fadeInUp 0.8s ease-out;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.container4:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(57,183,199,0.3);
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+.container4 .button {
+  width: 100%;
+  padding: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #1e96a5 0%, #39b7c7 100%);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(57,183,199,0.4);
+  transition: all 0.3s ease;
+}
+
+.container4 .button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #39b7c7 0%, #50c8d7 100%);
+  animation: glowPulse 1.5s infinite;
+}
+
+.container4 .button:active {
+  transform: scale(0.96);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 768px) {
+  .container19, .container4 {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .container19 .Logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .container19 .site-name {
+    font-size: 1.2rem;
+  }
+.site-name{
+    margin-left: 5px;
+}
+  .container4 .button {
+    font-size: 1rem;
+    padding: 14px;
+    border-radius: 10px;
+  }
 }

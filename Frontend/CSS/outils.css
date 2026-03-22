@@ -1,159 +1,141 @@
-.container50 {
-    margin-left: 0;
-    border-radius: 18px;
-    padding: 25.5px;
-    width: 80% 15%;
-    background: linear-gradient(179deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 28%, rgb(181, 79, 171) 100%);
-    font-size: large;
-    height: 395px;
-    overflow-x: auto;
-    text-align: left;
-    display: flex;
-    position: relative;
-    top: 260px;
-    transition: margin-left 0.9s ease;
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.container50.shifted {
-    margin-left: 253px;
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  /* Dégradé de fond : Noir vers un Violet très sombre */
+  background: linear-gradient(135deg, #000000, #1a0a2e);
+  background-attachment: fixed;
+  color: white;
+  min-height: 100vh;
 }
 
-.container50 button {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 36px;
-    padding: 8px;
-    margin: 12px;
-    border-radius: 15px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    border: 1px solid black;
-    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.1);
-    transition: 0.6s;
-    gap: 8px;
-}
-
+/* ===== CONTAINER 40 (HEADER/TOP SECTION) ===== */
 .container40 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background: radial-gradient(circle, rgb(54, 54, 54) 0%, rgb(0, 0, 0) 100%);
-    border-radius: 15px;
-    width: 80% 15%;
-    padding: 9.5px 69px;
-    color: rgb(203, 203, 203);
-    position: absolute;
-    text-align: left;
-    font-size: 115%;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: slideIn 1.5s ease-in-out;
-    margin-left: 0;
-    height: 150px;
-    margin-top: 0;
-    transition: margin-left 0.9s ease;
-    top: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  z-index: 1000;
+  
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 15px;
+
+  /* Glassmorphism sombre */
+  background: rgba(10, 5, 20, 0.7); /* Teinte de fond très légèrement violette */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  transition: margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .container40.shifted {
-    margin-left: 253px;
+  margin-left: 253px;
 }
-@media (max-width: 768px) and (min-width: 0px) {
-    body{
-        padding: 10px;
-          background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-    }
-    .container40{
- border-radius: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 90px;
-    }
-   .container50{
-    margin-top: -7px;
-    border-radius: 10px;
-    margin: 0 auto ;
-    top: 150px;
-    left: 0;
-    right: 0;
-background: linear-gradient(179deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 28%, rgb(181, 79, 171) 100%);
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   }
-   .container50 button{
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 95%;
-    padding: 12px;
-    background-color: rgb(226, 226, 226);
-    border-radius: 40px;
-   }
-}
-@media (max-width: 2500px) and (min-width: 769px){
-     body{
-        padding: 10px;
-          background: linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 28%, rgb(90, 90, 90) 100%);
-    background-attachment: fixed;
-    font-size: 20px;
-    }
-    .container40{
- border-radius: 5px;
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 90px;
-    }
-   .container50{
-    margin-top: -7px;
-    border-radius: 10px;
-    margin: 0 auto ;
-    top: 200px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(179deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 28%, rgb(181, 79, 171) 100%);
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   }
-   .container50 button{
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 95%;
-    padding: 12px;
-    background-color: rgb(226, 226, 226);
-    border-radius: 40px;
-   }
 
+/* ===== CONTAINER 50 (MAIN CARD/SECTION) ===== */
+.container50 {
+  position: relative;
+  top: 140px; /* Espace pour le header fixe */
+  margin: 0 auto 40px;
+  width: 90%;
+  max-width: 800px;
+  padding: 30px;
+  
+  /* Style de la carte Glassmorphism */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  
+  text-align: center;
+  transition: margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.outil-card{
-  background: white;
-  padding: 15px;
+
+.container50.shifted {
+  margin-left: calc(253px + 5%);
+}
+
+/* ===== BUTTONS DANS CONTAINER 50 ===== */
+.container50 button {
+  display: block;
+  width: 100%;
   margin: 15px 0;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  padding: 16px;
+  
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  background: #ffffff; /* Bouton blanc par défaut */
+  
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.3s all ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container50 button:hover {
+  background: #8e44ad; /* Violet vibrant au survol */
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4); /* Ombre portée violette */
+}
+
+/* ===== OUTIL CARD (INNER CARDS) ===== */
+.outil-card {
+  background: rgba(255, 255, 255, 0.03); /* Encore plus subtil */
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   text-align: left;
 }
 
-.outil-card h3{
-  margin-bottom: 8px;
+.outil-card h3 {
+  color: #c39bd3; /* Violet clair pour les titres */
+  margin-bottom: 10px;
 }
 
-.outil-card button{
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #1f728c;
+.outil-card button {
+  width: auto;
+  padding: 10px 25px;
+  font-size: 14px;
+  background: #4a235a; /* Violet très sombre */
   color: white;
-  font-weight: bold;
 }
 
-.outil-card button:hover{
-  background: #155a6b;
+.outil-card button:hover {
+  background: #6c3483; /* Violet moyen au survol */
+}
+
+/* ===== RESPONSIVE / MOBILE ===== */
+@media (max-width: 768px) {
+  .container40 {
+    padding: 0 20px;
+    height: 70px;
+  }
+
+  .container50 {
+    top: 100px;
+    width: 95%;
+    padding: 20px;
+  }
+
+  .container50 button {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .container50.shifted, .container40.shifted {
+    margin-left: 0; /* On annule le shift sur mobile */
+  }
 }
