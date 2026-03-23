@@ -191,8 +191,7 @@ async function changerStatut(num_rqt, statut){
 
 /* =========================
 CHARGER UTILISATEURS
-========================= */
-async function chargerUtilisateurs() {
+========================= */async function chargerUtilisateurs() {
   const { data, error } = await db
     .from("utilisateur")
     .select("*")
@@ -204,7 +203,11 @@ async function chargerUtilisateurs() {
   }
 
   // Mettre ROOT en première position
-  data.sort((a, b) => (b.role_user === "ROOT") ? 1 : -1);
+  data.sort((a, b) => {
+    if (a.role_user === "ROOT") return -1;
+    if (b.role_user === "ROOT") return 1;
+    return 0;
+  });
 
   const table = document.getElementById("listeInscrits");
   table.innerHTML = "";
@@ -218,27 +221,46 @@ async function chargerUtilisateurs() {
     }
 
     const ligne = document.createElement("tr");
-    ligne.innerHTML = `
-      <td class="${user.role_user==="ROOT"?"root-user":""}" data-label="Pseudo">
-        ${pseudo} ${rootBadge}
-      </td>
-      <td data-label="Rôle">${user.role_user}</td>
-      <td data-label="Date inscription">${new Date(user.created_at).toLocaleDateString()}</td>
-      <td data-label="Action">
-        ${
-          user.role_user === "ROOT"
-            ? "🔒 Protégé"
-            : `<button class="btn-supprimer" onclick="supprimerUtilisateur(${user.mat_user}, '${user.pseudo_user}')">
-                 Supprimer
-               </button>`
-        }
-      </td>
-    `;
+
+    // Création des cellules
+    const tdPseudo = document.createElement("td");
+    tdPseudo.className = user.role_user === "ROOT" ? "root-user" : "";
+    tdPseudo.dataset.label = "Pseudo";
+    tdPseudo.innerHTML = `${pseudo} ${rootBadge}`;
+
+    const tdRole = document.createElement("td");
+    tdRole.dataset.label = "Rôle";
+    tdRole.textContent = user.role_user;
+
+    const tdDate = document.createElement("td");
+    tdDate.dataset.label = "Date inscription";
+    tdDate.textContent = new Date(user.created_at).toLocaleDateString();
+
+    const tdAction = document.createElement("td");
+    tdAction.dataset.label = "Action";
+
+    if (user.role_user === "ROOT") {
+      tdAction.textContent = "🔒 Protégé";
+    } else {
+      const btnSupprimer = document.createElement("button");
+      btnSupprimer.className = "btn-supprimer";
+      btnSupprimer.textContent = "Supprimer";
+      // Ajout de l'événement click proprement
+      btnSupprimer.addEventListener("click", () => {
+        supprimerUtilisateur(user.mat_user, user.pseudo_user);
+      });
+      tdAction.appendChild(btnSupprimer);
+    }
+
+    // Ajout des cellules à la ligne
+    ligne.appendChild(tdPseudo);
+    ligne.appendChild(tdRole);
+    ligne.appendChild(tdDate);
+    ligne.appendChild(tdAction);
 
     table.appendChild(ligne);
   });
 }
-
 /* =========================
 SUPPRIMER UTILISATEUR
 ========================= */
@@ -349,54 +371,70 @@ async function verifierSession() {
 }
 
 document.addEventListener("DOMContentLoaded", verifierSession);
-
 async function chargerNotificationsRequetes() {
 
   const badge = document.getElementById("badge-requetes");
-  if(!badge) return;
+  if (!badge) return;
 
   try {
 
-    // récupérer session utilisateur
     const { data } = await window.supabaseClient.auth.getSession();
     const session = data?.session;
 
-    if(!session){
+    if (!session) {
       badge.style.display = "none";
       return;
     }
 
-    const userId = session.user.id;
+    const authId = session.user.id;
 
-    // récupérer les requêtes de l'utilisateur
-    const { data: requetes, error } = await window.supabaseClient
+    // 🔥 1. récupérer mat_user via auth_id
+    const { data: userData, error: userError } = await db
+      .from("utilisateur")
+      .select("mat_user")
+      .eq("auth_id", authId)
+      .single();
+
+    if (userError || !userData) {
+      console.error("Erreur user :", userError);
+      return;
+    }
+
+    // 🔥 2. récupérer num_cpt
+    const { data: compteData, error: compteError } = await db
+      .from("compte")
+      .select("num_cpt")
+      .eq("mat_user", userData.mat_user)
+      .single();
+
+    if (compteError || !compteData) {
+      console.error("Erreur compte :", compteError);
+      return;
+    }
+
+    const numCpt = compteData.num_cpt;
+
+    // 🔥 3. récupérer requêtes
+    const { data: requetes, error } = await db
       .from("requete")
       .select("status")
-      .eq("mat_user", userId);
+      .eq("num_cpt", numCpt);
 
-    if(error){
+    if (error) {
       console.error("Erreur récupération notifications :", error);
       return;
     }
 
-    // compter les requêtes en attente ou en cours
     const notifications = requetes.filter(r =>
       r.status === "pending" || r.status === "processing"
     ).length;
 
-    // mettre à jour le badge
     badge.innerText = notifications;
+    badge.style.display = notifications > 0 ? "inline-block" : "none";
 
-    if(notifications > 0){
-      badge.style.display = "inline-block";
-    } else {
-      badge.style.display = "none";
-    }
-
-  } catch(err){
+  } catch (err) {
     console.error("Erreur notifications :", err);
   }
-
 }
 function createChart(users, requests, progress, done){
 
@@ -611,11 +649,14 @@ badge.classList.remove('pulse'); // stop animation
 
 
 // Démarrer l'initialisation après le chargement complet du DOM
-document.addEventListener("DOMContentLoaded", initPage);
+document.addEventListener("DOMContentLoaded", () => {
+  verifierSession();
+  chargerRequetes();
+  chargerUtilisateurs();
+  updateStats();
+  chargerNotificationsRequetes();
+  initPage();
+});
 /* =========================
 INITIALISATION
 ========================= */
-verifierSession();
-chargerRequetes();
-chargerUtilisateurs();
-updateStats();

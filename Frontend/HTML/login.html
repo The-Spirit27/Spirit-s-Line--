@@ -195,6 +195,9 @@ button:hover {
         </div>
 
         <button type="submit">Se connecter</button>
+        <div class="forgot-password">
+    <a href="#" id="forgotPasswordLink">Mot de passe oublié ?</a>
+</div>
     </form>
 
     <div class="links">
@@ -268,6 +271,7 @@ button:hover {
       console.error("Erreur inattendue:", err);
     }
   });
+
   const passwordInput = document.getElementById("password")
 const togglePassword = document.getElementById("togglePassword")
 
@@ -282,6 +286,31 @@ togglePassword.addEventListener("click", () => {
   }
 
 })
+document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('username').value.trim();
+
+  if (!email) {
+    alert("Veuillez entrer votre e-mail pour réinitialiser le mot de passe.");
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/Frontend/HTML/reset-password.html' // page de reset si tu veux
+    });
+
+    if (error) {
+      alert("Erreur : " + error.message);
+    } else {
+      alert("Un e-mail de réinitialisation a été envoyé si l'adresse est valide !");
+    }
+  } catch (err) {
+    console.error("Erreur réinitialisation :", err);
+    alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+  }
+});
 </script>
 </body>
 </html>

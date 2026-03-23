@@ -148,6 +148,24 @@ button:hover {
         width: 70px;
         height: 70px;
     }
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 45px;
+}
+
+#togglePassword {
+    position: absolute;
+   margin-right: -21px;
+    top: 80.5%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #39b7c7;
 }</style>
 </head>
 <body>
@@ -193,6 +211,7 @@ button:hover {
     <div class="form-group">
       <label for="password">Mot de passe</label>
       <input type="password" id="password" placeholder="••••••••" required>
+       <span id="togglePassword">👁</span>
     </div>
 
     <!-- Bouton -->
@@ -278,6 +297,20 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
   });
 })();
+  const passwordInput = document.getElementById("password")
+const togglePassword = document.getElementById("togglePassword")
+
+togglePassword.addEventListener("click", () => {
+
+  if(passwordInput.type === "password"){
+    passwordInput.type = "text"
+    togglePassword.textContent = "🙈"
+  } else {
+    passwordInput.type = "password"
+    togglePassword.textContent = "👁"
+  }
+
+})
 </script>
 </body>
 </html>
