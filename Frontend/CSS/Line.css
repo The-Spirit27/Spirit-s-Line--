@@ -105,7 +105,9 @@ body{
   gap: 10px;
 
   width: 100%;
-  padding: 12px;
+  max-width: 180px;
+  padding: 15px;
+  margin: 10px;
 
   border-radius: 12px;
   border: none;
@@ -596,7 +598,8 @@ html{
   /* BOUTONS */
   .sidebar button {
     font-size: 13px;
-    padding: 10px;
+    padding: 15px;
+
   }
 
   .sidebar-btn {
@@ -647,7 +650,7 @@ html{
   /* BOUTONS */
   .sidebar button {
     font-size: 12px;
-    padding: 8px;
+    padding: 14px;
   }
 
   .sidebar-btn {
@@ -677,6 +680,8 @@ html{
 
   .sidebar button {
     font-size: 11px;
+    padding: 14px;
+    margin: 10px;
   }
 
 }

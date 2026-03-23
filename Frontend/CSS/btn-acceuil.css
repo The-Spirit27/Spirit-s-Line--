@@ -147,7 +147,7 @@ body {
 }
 
 /* CARDS (toutes les space réunies) */
-.space4, .space5, .space6, .space7, .space8, .space9, .space10 {
+.space4, .space5, .space6, .space7, .space8, .space9, .space10, .space11 {
   width: 90%;
   max-width: 1100px;
   background: rgba(255, 255, 255, 0.15);
@@ -161,13 +161,13 @@ body {
 
 /* EFFET HOVER SUR LES BLOCS */
 .space4:hover, .space5:hover, .space6:hover,
-.space7:hover, .space8:hover, .space9:hover, .space10:hover {
+.space7:hover, .space8:hover, .space9:hover, .space10:hover, .space11:hover {
   transform: translateY(-8px) scale(1.01);
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
 /* HAUTEURS SPÉCIFIQUES */
-.space4, .space5, .space6, .space10 { height: 430px; }
+.space4, .space5, .space6, .space10, .space11 { height: 430px; }
 .space7, .space8 { height: 570px; }
 .space9 { height: 270px; }
 
@@ -522,7 +522,7 @@ body {
   /* CARDS */
   .space1, .space2, .space3,
   .space4, .space5, .space6,
-  .space7, .space8, .space9, .space10 {
+  .space7, .space8, .space9, .space10, .space11 {
     max-width: 90%;
     font-size: 18px;
     height: auto;
@@ -588,7 +588,7 @@ body {
   /* CARDS */
   .space1, .space2, .space3,
   .space4, .space5, .space6,
-  .space7, .space8, .space9, .space10 {
+  .space7, .space8, .space9, .space10, .space11 {
     width: 95%;
     font-size: 16px;
     padding: 15px;
