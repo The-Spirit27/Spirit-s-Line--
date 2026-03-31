@@ -92,10 +92,24 @@
         <a href="Frontend/HTML/privacy-policy.html">Lire la politique</a>
     </div>
 </div>
-    <script src="https://ccsrxvwaxkdbphesyies.supabase.co"></script>
-    <script src="Frontend/JavaScript/supabase-init.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-    <script src="Frontend/JavaScript/Line.js" defer></script>
-    <script src="Frontend/JavaScript/Security.js"></script>
+  const supabaseUrl = "https://ccsrxvwaxkdbphesyies.supabase.co";
+  const supabaseKey = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
+
+  export const supabase = createClient(supabaseUrl, supabaseKey);
+</script>
+<script type="module" src="Frontend/JavaScript/supabase-init.js"></script>
+<script type="module" src="Frontend/JavaScript/auth.js"></script>
+<script src="Frontend/JavaScript/Security.js"></script>
+<script src="Frontend/JavaScript/Line.js" defer></script>
+
+
+
+
+
+
 </body>
 </html>

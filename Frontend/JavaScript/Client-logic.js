@@ -352,7 +352,9 @@ async function voirMonStatut() {
     console.error('Erreur voirMonStatut:', err);
   }
 }
-
+// ============================
+// ELEMENTS DOM
+// ============================
 const bubble = document.getElementById("chat-bubble");
 const box = document.getElementById("chat-box");
 const input = document.getElementById("chat-input");
@@ -363,229 +365,236 @@ const fileInput = document.getElementById("chat-file");
 
 let unread = 0;
 
-// Toggle chat box
+// ============================
+// VARIABLES GLOBALES
+// ============================
+let currentUser = null;
+let userDB = null;
+let conversationId = null;
+
+// ============================
+// TOGGLE BULLE
+// ============================
 bubble.addEventListener("click", () => {
   box.classList.toggle("hidden");
   unread = 0;
   badge.classList.add("hidden");
 });
 
-// Envoi message
-document.getElementById("send-btn").addEventListener("click", async () => {
-  const message = input.value;
-  const file = fileInput.files[0];
+// ============================
+// FONCTIONS CHAT
+// ============================
 
-  if(!message && !file) return;
+// Affiche un message dans le chat
+function appendMessage(msg) {
+  let messageHTML = "";
 
-  // Affiche dans la bulle côté user
-  content.innerHTML += `<div>🧑‍💻 Vous: ${message || file.name}</div>`;
+  if (msg.type === "user") {
+    messageHTML = `
+      <div class="message user">
+        🧑‍💻 Vous: 
+        ${msg.contenu ? msg.contenu : ""}
+        ${msg.file_url ? `<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}
+      </div>
+    `;
+  } else if (msg.type === "admin") {
+    messageHTML = `
+      <div class="message admin">
+        💬 Admin: 
+        ${msg.contenu ? msg.contenu : ""}
+        ${msg.file_url ? `<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}
+      </div>
+    `;
 
-  input.value = "";
-  fileInput.value = "";
-
-  // Upload fichier si présent
-  let fileUrl = null;
-  if(file){
-    const { data, error } = await supabase.storage
-      .from('messages-files')
-      .upload(`${Date.now()}-${file.name}`, file);
-    if(error){
-      console.error(error);
-    } else {
-      fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${data.path}`;
-    }
-  }
-
-  // Insert dans Supabase
-  await supabase.from("messages").insert([
-    { user_id: "ID_UTILISATEUR", contenu: message, file_url: fileUrl, type: "user" }
-  ]);
-});
-
-// Charger les messages
-async function loadMessages(){
-
-  try{
-    const {data : {user}, error: authError} = await supabase.auth.getUser();
-
-    if (authError || !user){
-      console.error("Utilisateur non connecté :", authError);
-        return;
-    }
-  
-   
-
-  const {data : userData, error : userError} = await supabase
-  .from("utilisateur")
-  .select("*")
-  .eq("mail_user", user.email)
-  .maybeSingle();
-
-  if(userError || !userData){
-    console.error("Utilisateur DB introuvable :", userError);
-    return;
-  }
-    const userId = userData.mat_user;
-
-
-    const {data, error} = await supabase
-    .from("messages")
-    .select("*")
-    .eq("user_id", userId)
-    .order("created_at", {ascending : true});
-
-    if (error){
-      console.error("Erreur messages :", error);
-      return;
-    }
-    if (!data) return;
-    content.innerHTML = "";
-
-    data.forEach(msg => {
-      content.innerHTML += `<div>${msg.contenu}</div>`
-    });
-
- }catch (err){
-  console.error("Erreur loadMessages:", err)
- }
-}
-loadMessages();
-
-// Fonction pour afficher messages
-function appendMessage(msg){
-  if(msg.type === "user"){
-    content.innerHTML += `<div>🧑‍💻 Vous: ${msg.contenu ? msg.file_url :""} ${msg.file_url ? `<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}</div>`;
-  } else {
-    content.innerHTML += `<div>💬 Admin: ${msg.contenu ? msg.file_url :""} ${msg.file_url ?`<a href="${msg.file_url}" target="_blank">${msg.file_url.split('/').pop()}</a>` : ""}</div>`;
-    // Badge + son
-    if(box.classList.contains("hidden")){
+    // Badge + son si la fenêtre est cachée
+    if (box.classList.contains("hidden")) {
       unread++;
       badge.textContent = unread;
       badge.classList.remove("hidden");
       sound.play();
     }
   }
+
+  content.innerHTML += messageHTML;
+  content.scrollTop = content.scrollHeight;
 }
 
-// Realtime Supabase
-supabase.channel('messages')
-  .on('postgres_changes',{ event: 'INSERT', schema:'public', table:'messages' }, payload => {
-    appendMessage(payload.new);
-  })
-  .subscribe();
+// Charger tous les messages existants
+async function loadMessages() {
+  if (!conversationId) return;
+
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("LOAD ERROR:", error);
+    return;
+  }
+
+  content.innerHTML = "";
+  data.forEach(msg => appendMessage(msg));
+}
+
+// Envoyer un message
 async function sendMessage() {
-  try {
-    const input = document.getElementById("message-input");
-    const messageText = input.value.trim();
+  const messageText = input.value.trim();
+  const file = fileInput.files[0];
 
-    if (!messageText) {
-      alert("Message vide !");
-      return;
+  if (!messageText && !file) return;
+  if (!conversationId || !userDB) return;
+
+  let fileUrl = null;
+  if (file) {
+    const { data: fileData, error: fileError } = await supabase.storage
+      .from('messages-files')
+      .upload(`${Date.now()}-${file.name}`, file);
+
+    if (fileError) {
+      console.error("UPLOAD ERROR:", fileError);
+    } else {
+      fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${fileData.path}`;
     }
-
-    // 🔹 user auth
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      console.error("Utilisateur non connecté");
-      return;
-    }
-
-    // 🔹 user DB
-    const { data: userData, error: userError } = await supabase
-      .from("utilisateur")
-      .select("mat_user")
-      .eq("mail_user", user.email)
-      .maybeSingle();
-
-    if (userError || !userData) {
-      console.error("Utilisateur DB introuvable");
-      return;
-    }
-
-    const userId = Number(userData.mat_user); // 🔥 IMPORTANT
-
-    console.log("DEBUG FINAL :", userId, messageText);
-    console.log(JSON.stringify({
-  user_id: userId,
-  contenu: messageText,
-  file_url: null,
-  type: "user"
-}));
-
-    // 🔥 INSERT CLEAN
-   const { data, error } = await supabase
+  }
+    console.log({
+  user_id: Number(userDB.mat_user),
+  contenu: messageText || null,
+  file_url: fileUrl || null,
+  type: "user",
+  conversation_id: Number(conversationId)
+});
+  const { data, error } = await supabase
   .from("messages")
   .insert([{
-    user_id: Number(userId),
-    contenu: String(messageText),
-    file_url: null,
-    type: "client"
+    user_id: Number(userDB.mat_user),
+    contenu: messageText || null,
+    file_url: fileUrl || null,
+    type: "user",
+    conversation_id: Number(conversationId)
   }])
-  .select("*");
-
-    if (error) {
-      console.error("INSERT ERROR :", error);
-      return;
-    }
-
-    input.value = "";
-    loadMessages();
-
-  } catch (err) {
-    console.error("Erreur sendMessage :", err);
+  .select()
+  .single();
+  if (error) {
+    console.error("INSERT ERROR:", error);
+    return;
   }
+
+  appendMessage(data);
+
+  // Reset inputs
+  input.value = "";
+  fileInput.value = "";
 }
 
-async function deleteNotifications() {
-  try {
-    // 🔹 Récupérer l'utilisateur connecté
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+// Supprime les notifications admin
+async function deleteNotifications() {  
+  if (!conversationId) return;  
 
-    if (authError || !user) {
-      console.error("Utilisateur non connecté :", authError);
-      return alert("Vous devez être connecté !");
-    }
+  const { error } = await supabase  
+    .from("messages")  
+    .delete()  
+    .eq("conversation_id", conversationId); // ❌ on enlève le filtre type  
 
-    // 🔹 Récupérer l'ID de l'utilisateur dans la table utilisateur
-    const { data: userData, error: userError } = await supabase
-      .from("utilisateur")
-      .select("mat_user")
-      .eq("mail_user", user.email)
-      .maybeSingle();
+  if (error) {  
+    console.error("DELETE ERROR:", error);  
+    return alert("Erreur suppression !");  
+  }  
 
-    if (userError || !userData) {
-      console.error("Utilisateur introuvable dans la DB :", userError);
-      return alert("Impossible de trouver vos données.");
-    }
-
-    const userId = Number(userData.mat_user);
-
-    // 🔹 Supprimer toutes les notifications/messages de cet utilisateur
-    const { error: deleteError } = await supabase
-      .from("messages")
-      .delete()
-      .eq("user_id", userId);
-
-    if (deleteError) {
-      console.error("Erreur suppression notifications :", deleteError);
-      return alert("Impossible de supprimer vos notifications !");
-    }
-
-    // 🔹 Vider l'affichage côté client
-    const contentDiv = document.getElementById("content"); // ton container messages
-    if (contentDiv) contentDiv.innerHTML = "";
-
-    alert("Toutes vos notifications ont été supprimées ✅");
-
-  } catch (err) {
-    console.error("Erreur deleteNotifications :", err);
-    alert("Une erreur est survenue lors de la suppression.");
-  }
+  loadMessages();  
+  alert("🗑️ Tous les messages supprimés ✅");  
 }
-const deleteBtn = document.getElementById("delete-notif-btn");
-if (deleteBtn) deleteBtn.addEventListener("click", deleteNotifications);
 
+// ============================
+// INIT APP
+// ============================
+async function initApp() {
+  // Récupérer utilisateur Supabase
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) {
+    console.error("Utilisateur non connecté");
+    return;
+  }
+
+  currentUser = data.user;
+
+  // Récupérer user DB
+  const { data: userData, error: userError } = await supabase
+    .from("utilisateur")
+    .select("*")
+    .eq("mail_user", currentUser.email)
+    .single();
+
+  if (userError || !userData) {
+    console.error("Utilisateur DB introuvable");
+    return;
+  }
+
+  userDB = userData;
+
+  // Initialiser ou créer conversation
+  const { data: convData } = await supabase
+    .from("conversations")
+    .select("*")
+    .eq("user_id", userDB.mat_user)
+    .maybeSingle();
+
+  if (convData) {
+    conversationId = convData.id;
+  } else {
+    const { data: newConv } = await supabase
+      .from("conversations")
+      .insert({ user_id: userDB.mat_user })
+      .select()
+      .single();
+    conversationId = newConv.id;
+  }
+
+  // Charger messages existants
+  await loadMessages();
+
+  // Souscrire aux nouveaux messages
+  subscribeMessages();
+}
+
+// ============================
+// SUBSCRIBE LIVE
+// ============================
+function subscribeMessages() {
+  if (!conversationId) return;
+
+  supabase
+    .channel("user-chat")
+    .on("postgres_changes", {
+      event: "INSERT",
+      schema: "public",
+      table: "messages"
+    }, payload => {
+      if (payload.new.conversation_id === conversationId) {
+        appendMessage(payload.new);
+
+        if (box.classList.contains("hidden") && payload.new.type === "admin") {
+          unread++;
+          badge.textContent = unread;
+          badge.classList.remove("hidden");
+          sound.play();
+        }
+      }
+    })
+    .subscribe();
+}
+
+// ============================
+// EVENT LISTENERS
+// ============================
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("delete-notif-btn").addEventListener("click", deleteNotifications);
+
+// ============================
+// LANCEMENT
+// ============================
+initApp();
 /* ============================
        EXPOSE GLOBAL FUNCTIONS
 ============================ */

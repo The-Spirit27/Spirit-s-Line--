@@ -571,7 +571,13 @@ td{
 
   }
   
-
+ #admin-notif-section{
+    max-width: 300px;
+    width: 60%;
+  }
+  #select-client{
+    max-width: 250px;
+  }
 
 }
 /* ============================= */
@@ -713,7 +719,8 @@ font-size:13px;
 /* RESPONSIVE */
 
 @media(max-width:768px){
-
+ 
+  
 .upload-outil-container{
 
 padding:18px;
@@ -810,6 +817,292 @@ margin-left: 200px;
 #send-notif-btn:hover {
   background: #1e4db7;
 }
+/* =========================
+   SECTION NOTIFICATIONS
+========================= */
+#admin-notif-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #0f172a;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,255,150,0.1);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#admin-notif-section h2 {
+  margin-bottom: 15px;
+}
+
+#notif-message {
+  width: 100%;
+  height: 80px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  background: #1e293b;
+  color: white;
+  resize: none;
+  outline: none;
+}
+
+#notif-message::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+#send-notif-btn {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #00ff9c;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#send-notif-btn:hover {
+  background: #00cc7a;
+  transform: scale(1.03);
+}
+
+#notif-log {
+  margin-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #020617;
+  border-radius: 8px;
+}
+
+/* =========================
+   ADMIN INBOX GLOBAL
+========================= */
+#admin-inbox {
+  display: flex;
+  height: 500px;
+  background: #0f172a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,255,150,0.1);
+  margin-top: 10px;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  width: 900px;
+  margin-left: 310px;
+}
+
+/* =========================
+   LISTE DES CLIENTS (GAUCHE)
+========================= */
+#conversation-list {
+  width: 35%;
+  min-width: 250px;
+}
+
+
+
+#conversation-list div {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#conversation-list div:hover {
+  background: rgba(0,255,150,0.1);
+  color: #00ff9c;
+}
+
+#conversation-list .active {
+  background: rgba(0,255,150,0.2);
+  color: #00ff9c;
+  font-weight: bold;
+}
+
+/* =========================
+   ZONE CHAT (DROITE)
+========================= */
+#conversation-messages {
+  width: 65%;
+}
+
+#admin-chat-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background: #020617;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.message.user {
+  background: #1e293b;
+  align-self: flex-start;
+  border-left: 3px solid #38bdf8;
+}
+
+.message.admin {
+  background: #022c22;
+  align-self: flex-end;
+  border-right: 3px solid #00ff9c;
+}
+
+.message a {
+  display: block;
+  margin-top: 5px;
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.message a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   INPUT + BOUTON
+========================= */
+#admin-reply {
+  width: 95%;
+  height: 60px;
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  background: #1e293b;
+  color: white;
+  resize: none;
+  outline: none;
+  margin-left: -2px;
+}
+
+#admin-reply::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+#admin-send-reply {
+  margin-top: 8px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #00ff9c;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#admin-send-reply:hover {
+  background: #00cc7a;
+  transform: scale(1.03);
+}
+
+/* =========================
+   SCROLLBAR CUSTOM
+========================= */
+#conversation-list::-webkit-scrollbar,
+#admin-chat-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#conversation-list::-webkit-scrollbar-thumb,
+#admin-chat-content::-webkit-scrollbar-thumb {
+  background: #00ff9c;
+  border-radius: 10px;
+}
+
+/* =========================
+   📱 RESPONSIVE MOBILE
+========================= */
+@media screen and (max-width: 768px) {
+
+  #admin-inbox {
+    flex-direction: column;
+    height: 100vh;
+    border-radius: 0;
+    margin-left: 5px;
+    max-width: 450px;
+    width: 97%;
+  }
+
+  /* Liste clients */
+  #conversation-list {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Chat en mode écran plein */
+  #conversation-messages {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+    
+  }
+
+  #conversation-messages.active {
+    left: 0;
+  }
+
+  /* Header */
+  #chat-header {
+    flex-shrink: 0;
+  }
+
+  /* Messages prennent tout l’espace */
+  #admin-chat-content {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 0;
+    width: 86%;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  /* Zone input FIX PRO */
+  #admin-reply {
+    position: sticky;
+    bottom: 0;
+    width: 90%;
+    border-radius: 5px;
+    margin-left: 12px;
+    
+  }
+
+  #admin-send-reply {
+    width: 90%;
+    border-radius: 10px;
+    margin-left: 21px;
+  }
+
+  .message {
+    max-width: 80%;
+    font-size: 14px;
+  }
+  .hidden {
+  display: none !important;
+}
+ 
+}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -842,7 +1135,7 @@ margin-left: 200px;
 </div>
 
 <!-- Menu avec badge -->
-<a href="dashboard.html" class="menu-item" id="menu-requetes">
+<a class="menu-item" id="menu-requetes">
   <span class="menu-icon">📨</span>
   <span class="menu-text">Requêtes</span>
   <span id="badge-requetes" class="badge">0</span>
@@ -901,22 +1194,51 @@ margin-left: 200px;
       <tbody id="listeInscrits"></tbody>
     </table>
   </div>
-</div>
+</div><!-- =========================
+     SECTION NOTIFICATIONS
+========================= -->
 <div id="admin-notif-section">
   <h2>Envoyer une notification / message</h2>
 
   <label for="select-client">Choisir un client :</label>
   <select id="select-client">
-    <!-- Les options seront générées dynamiquement depuis Supabase -->
+    <!-- Options générées dynamiquement depuis Supabase -->
   </select>
 
   <textarea id="notif-message" placeholder="Écrire votre message ici..."></textarea>
   <input type="file" id="notif-file" />
   <button id="send-notif-btn">Envoyer</button>
 
-  <div id="notif-log" style="margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px;">
+  <div id="notif-log">
     <!-- Log des messages envoyés -->
   </div>
+</div>
+
+<!-- =========================
+     SECTION BOÎTE DE RÉCEPTION
+========================= -->
+
+  <h2 style="text-align:center;">Boîte de réception</h2>
+
+<div id="admin-inbox">
+
+  <!-- Liste des conversations -->
+  <div id="conversation-list">
+    <!-- Liste des clients -->
+  </div>
+
+  <!-- Zone de chat -->
+  <div id="conversation-messages">
+    <div id="chat-header">
+  <span id="back-btn">⬅️</span>
+  <strong id="chat-username">Client</strong>
+</div>
+    <div id="admin-chat-content"></div>
+
+    <textarea id="admin-reply" placeholder="Répondre..."></textarea>
+    <button id="admin-send-reply">Envoyer</button>
+  </div>
+  
 </div>
 <form id="uploadOutilForm">
 
@@ -959,5 +1281,10 @@ margin-left: 200px;
 </script>
 
 <script type="module" src="../JavaScript/admin-logic.js"></script>
+<script type="module" src="../JavaScript/auth.js"></script>
+<!-- <script>
+  requireAdmin();
+</script> -->
+
 </body>
 </html>

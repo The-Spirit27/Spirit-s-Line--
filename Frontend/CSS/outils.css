@@ -139,3 +139,14 @@ body {
     margin-left: 0; /* On annule le shift sur mobile */
   }
 }
+.info-box {
+  background: rgba(170, 0, 255, 0.08);
+  border-left: 4px solid #d400ff;
+  padding: 12px 15px;
+  margin: 15px 0 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #eaeaea;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(255, 0, 234, 0.1);
+}

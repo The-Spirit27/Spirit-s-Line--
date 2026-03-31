@@ -572,20 +572,37 @@ if (uploadForm) {
     uploadForm.reset()
   })
 }
-
-// --- Notifications Admin ---
+// ===============================
+// 📌 VARIABLES
+// ===============================
 const clientSelect = document.getElementById("select-client")
 const messageInput = document.getElementById("notif-message")
 const fileInput = document.getElementById("notif-file")
 const sendBtn = document.getElementById("send-notif-btn")
 const logDiv = document.getElementById("notif-log")
 
+const convList = document.getElementById("conversation-list")
+const chatContent = document.getElementById("admin-chat-content")
+
+const conversationMessages = document.getElementById("conversation-messages")
+const backBtn = document.getElementById("back-btn")
+
+let selectedConversation = null
+
+
+// ===============================
+// 📌 LOAD CLIENTS (SELECT)
+// ===============================
 async function loadClients() {
+  if (!clientSelect) return
+
   const { data, error } = await supabase
     .from("utilisateur")
     .select("mat_user, pseudo_user, mail_user")
 
   if (error) return console.error(error)
+
+  clientSelect.innerHTML = "<option value=''>Choisir un client</option>"
 
   data.forEach(client => {
     const opt = document.createElement("option")
@@ -594,8 +611,13 @@ async function loadClients() {
     clientSelect.appendChild(opt)
   })
 }
-if (clientSelect) loadClients()
 
+loadClients()
+
+
+// ===============================
+// 📌 ENVOI NOTIFICATION
+// ===============================
 if (sendBtn) {
   sendBtn.addEventListener("click", async () => {
 
@@ -608,34 +630,200 @@ if (sendBtn) {
     }
 
     let fileUrl = null
+
+    // 📎 Upload fichier
     if (file) {
+      const fileName = `${Date.now()}-${file.name}`
+
       const { data, error } = await supabase.storage
         .from('messages-files')
-        .upload(`${Date.now()}-${file.name}`, file)
+        .upload(fileName, file)
 
       if (error) {
         console.error(error)
-      } else {
-        fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${data.path}`
+        return
       }
+
+      fileUrl = `https://ccsrxvwaxkdbphesyies.supabase.co/storage/v1/object/public/messages-files/${data.path}`
     }
 
+    // ⚠️ IMPORTANT → récupérer la vraie conversation
+    const { data: convData } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("user_id", clientId)
+      .single()
+
+    if (!convData) return alert("Conversation introuvable")
+
     const { error: insertError } = await supabase
-  .from("messages")
-  .insert({
-    contenu: "test",
-    user_id: 1
-  });
+      .from("messages")
+      .insert([{
+        contenu: message,
+        user_id: Number(clientId),
+        conversation_id: convData.id,
+        type: "admin",
+        file_url: fileUrl
+      }])
 
     if (insertError) return console.error(insertError)
 
-    logDiv.innerHTML += `<div>Envoyé à ${clientSelect.selectedOptions[0].text}: ${message || file.name}</div>`
+    logDiv.innerHTML += `<div>Envoyé à ${clientSelect.selectedOptions[0].text}</div>`
 
     messageInput.value = ""
     fileInput.value = ""
   })
 }
 
+
+// ===============================
+// 📌 LOAD CONVERSATIONS
+// ===============================
+async function loadConversations() {
+
+  const { data, error } = await supabase
+    .from("conversations")
+    .select(`
+      id,
+      utilisateur:user_id (
+        mat_user,
+        pseudo_user,
+        mail_user
+      )
+    `)
+
+  if (error) return console.error(error)
+
+  convList.innerHTML = ""
+
+  data.forEach(conv => {
+
+    const div = document.createElement("div")
+    div.classList.add("client")
+    div.textContent = conv.utilisateur.pseudo_user
+
+    div.addEventListener("click", () => {
+      selectedConversation = conv.id
+
+      loadAdminMessages(conv.id)
+      openChat() // 🔥 CORRECTION PRINCIPALE
+    })
+
+    convList.appendChild(div)
+  })
+}
+
+loadConversations()
+
+
+// ===============================
+// 📌 LOAD MESSAGES
+// ===============================
+async function loadAdminMessages(conversationId) {
+
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true })
+
+  if (error) return console.error(error)
+
+  chatContent.innerHTML = ""
+
+  data.forEach(msg => {
+
+    const div = document.createElement("div")
+    div.classList.add("message")
+
+    if (msg.type === "user") {
+      div.classList.add("user")
+      div.innerHTML = `🧑‍💻 ${msg.contenu || ""}`
+    } else {
+      div.classList.add("admin")
+      div.innerHTML = `💬 ${msg.contenu || ""}`
+    }
+
+    if (msg.file_url) {
+      div.innerHTML += `<br><a href="${msg.file_url}" target="_blank">📎 Fichier</a>`
+    }
+
+    chatContent.appendChild(div)
+  })
+
+  chatContent.scrollTop = chatContent.scrollHeight
+}
+
+
+// ===============================
+// 📌 ENVOYER MESSAGE ADMIN
+// ===============================
+const sendReplyBtn = document.getElementById("admin-send-reply")
+
+if (sendReplyBtn) {
+  sendReplyBtn.addEventListener("click", async () => {
+
+    const message = document.getElementById("admin-reply").value
+
+    if (!message || !selectedConversation) {
+      return alert("Choisir une conversation")
+    }
+
+    const { error } = await supabase
+      .from("messages")
+      .insert([{
+        contenu: message,
+        conversation_id: selectedConversation,
+        type: "admin"
+      }])
+
+    if (error) return console.error(error)
+
+    document.getElementById("admin-reply").value = ""
+
+    loadAdminMessages(selectedConversation)
+  })
+}
+
+
+// ===============================
+// 📌 TEMPS RÉEL
+// ===============================
+supabase
+  .channel("admin-live")
+  .on("postgres_changes", {
+    event: "INSERT",
+    schema: "public",
+    table: "messages"
+  }, payload => {
+
+    if (payload.new.conversation_id === selectedConversation) {
+      loadAdminMessages(selectedConversation)
+    }
+
+  })
+  .subscribe()
+
+
+// ===============================
+// 📌 RESPONSIVE MOBILE
+// ===============================
+function openChat() {
+  if (window.innerWidth <= 768) {
+    conversationMessages.classList.add("active");
+
+    // 🔥 cacher le toggle
+    toggleBtn?.classList.add("hidden");
+  }
+}
+  
+
+backBtn?.addEventListener("click", () => {
+  conversationMessages.classList.remove("active");
+
+  // 🔥 réafficher le toggle
+  toggleBtn?.classList.remove("hidden");
+});
 // Incrément badge
 compteurNouvellesRequetes++;
 badge.textContent = compteurNouvellesRequetes;
@@ -656,6 +844,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateStats();
   chargerNotificationsRequetes();
   initPage();
+  
 });
 /* =========================
 INITIALISATION

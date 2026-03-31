@@ -469,6 +469,14 @@ async function deconnexion() {
 }
 
 // Chargement du profil dans la sidebar
+// ---------------------------------------------------
+// Global currentProfile pour tout le site
+// ---------------------------------------------------
+let currentProfile = null;
+
+// ---------------------------------------------------
+// Charger le profil utilisateur et mettre à jour la sidebar
+// ---------------------------------------------------
 async function chargerProfilUtilisateur() {
   const authZone = safeGet('sidebar-auth-zone');
   const bruteData = localStorage.getItem('userData');
@@ -476,33 +484,45 @@ async function chargerProfilUtilisateur() {
   console.log('Tentative de chargement du profil...');
   console.log('Données trouvées (localStorage):', bruteData);
 
-  // Essayer d'obtenir la session Supabase en priorité
   let profile = null;
+
+  // 🔹 Essayer d'obtenir la session Supabase en priorité
   try {
     if (window.supabase && supabase.auth && typeof supabase.auth.getSession === 'function') {
       const { data: sessionData } = await supabase.auth.getSession();
       const session = sessionData?.session ?? null;
+
       if (session?.user) {
+        // Récupérer le profil en base
+        const { data: userData, error } = await supabase
+          .from("utilisateur")
+          .select("pseudo_user, mail_user, role")
+          .eq("mat_user", session.user.id)
+          .single();
+
+        if (error) console.error(error);
+
         profile = {
-          username: session.user.user_metadata?.display_name || session.user.email || session.user.id,
-          email: session.user.email || '',
-          id: session.user.id
+          username: userData?.pseudo_user || session.user.email,
+          email: userData?.mail_user || session.user.email,
+          id: session.user.id,
+          role: userData?.role || "user"
         };
       }
     }
   } catch (err) {
     console.warn('Impossible de récupérer la session Supabase :', err);
   }
-  
 
-  // Si pas de session Supabase, fallback sur localStorage
+  // 🔹 Fallback sur localStorage si pas de session
   if (!profile && bruteData && bruteData !== 'undefined') {
     try {
       const parsed = JSON.parse(bruteData);
       profile = {
         username: parsed.username || parsed.email || 'Utilisateur',
         email: parsed.email || '',
-        id: parsed.id || null
+        id: parsed.id || null,
+        role: parsed.role || "user"
       };
     } catch (err) {
       console.warn('Erreur parsing userData:', err);
@@ -510,65 +530,109 @@ async function chargerProfilUtilisateur() {
     }
   }
 
+  // 🔹 Mettre à jour la sidebar si profile disponible
   if (authZone && profile) {
     const safeName = escapeHtml(profile.username);
-    const role = profile.role || "user"; // user par défaut
 
-authZone.innerHTML = `
-<div class="sidebar-user">
+    // Considérer admin + ROOT comme admin
+    const isAdmin = profile.role === "admin" || profile.role === "ROOT";
 
-  <div class="sidebar-avatar">
-    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=0D8ABC&color=fff"
-         alt="Avatar ${safeName}"
-         id="avatar-dashboard"
-         style="cursor:pointer;">
-  </div>
+    authZone.innerHTML = `
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">
+          <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=0D8ABC&color=fff"
+               alt="Avatar ${safeName}"
+               id="avatar-dashboard"
+               style="cursor:pointer;">
+        </div>
 
-  <div class="sidebar-user-info">
-    <span class="sidebar-username">${safeName}</span>
-    <span class="sidebar-role">${role === "admin" ? "🛡️ Admin" : "👤 Utilisateur"}</span>
-  </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-username">${safeName}</span>
+          <span class="sidebar-role">${isAdmin ? "🛡️ Admin" : "👤 Utilisateur"}</span>
+        </div>
 
-  <div class="sidebar-actions">
+        <div class="sidebar-actions">
+          <button id="btn-dashboard" class="sidebar-btn dashboard-btn">
+            📊 ${isAdmin ? "Admin Panel" : "Mon Dashboard"}
+          </button>
 
-    <button id="btn-dashboard" class="sidebar-btn dashboard-btn">
-      📊 ${role === "admin" ? "Admin Panel" : "Mon Dashboard"}
-    </button>
+          <button id="btn-deconnexion" class="sidebar-btn logout-btn">
+            🚪 Déconnexion
+          </button>
+        </div>
+      </div>
+    `;
 
-    <button id="btn-deconnexion" class="sidebar-btn logout-btn">
-      🚪 Déconnexion
-    </button>
+    // Déconnexion
+    const btnLogout = safeGet('btn-deconnexion');
+    if (btnLogout) btnLogout.addEventListener('click', deconnexion);
 
-  </div>
-
-</div>
-`;
-    // Attacher le handler de déconnexion
-    const btn = safeGet('btn-deconnexion');
-    if (btn) btn.addEventListener('click', deconnexion);
+    // Dashboard / Admin Panel
+    const dashBtn = safeGet('btn-dashboard');
+    if (dashBtn) dashBtn.addEventListener('click', openDashboard);
 
     console.log('✅ Sidebar mise à jour avec le profil !');
   } else {
     console.log('❌ Pas de données utilisateur, on garde les boutons par défaut.');
   }
-  // Bouton dashboard
-const dashBtn = safeGet("btn-dashboard");
-if (dashBtn) {
-  dashBtn.addEventListener("click", () => {
+
+  // Rendre le profile global
+  currentProfile = profile;
+}
+
+// ---------------------------------------------------
+// Fonction pour ouvrir le dashboard / admin
+// ---------------------------------------------------
+function openDashboard() {
+  if (!currentProfile) {
+    console.warn("❌ Profil non chargé");
+    return;
+  }
+
+  if (currentProfile.role === "admin" || currentProfile.role === "ROOT") {
+    window.location.href = "Frontend/HTML/admin.html";
+  } else {
     window.location.href = "Frontend/HTML/dashboard.html";
-  });
+  }
 }
-}
+
+// ---------------------------------------------------
+// Exposer globalement si besoin
+// ---------------------------------------------------
+window.chargerProfilUtilisateur = chargerProfilUtilisateur;
+window.openDashboard = openDashboard;
+
+// ---------------------------------------------------
+// Charger automatiquement au DOMContentLoaded
+// ---------------------------------------------------
+document.addEventListener('DOMContentLoaded', async () => {
+  await chargerProfilUtilisateur();
+});
 const dashboardBtn = safeGet("btn-dashboard");
 const avatar = safeGet("avatar-dashboard");
 
-function openDashboard(){
-  if(profile.role === "admin" || profile.role === "root"){
-    window.location.href = "admin.html";
-  } else {
-    window.location.href = "dashboard.html";
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!window.supabase || !supabase.auth) {
+    console.error("❌ Supabase non initialisé !");
+    return;
   }
-}
+
+  try {
+    // ⚡ Syntaxe v2
+    const { data: { session } } = await supabase.auth.getSession();
+    console.log("Session :", session);
+
+    if (!session) {
+      window.location.href = "login.html";
+    } else {
+      await chargerProfilUtilisateur();
+    }
+
+  } catch (err) {
+    console.error("Erreur lors de la récupération de la session :", err);
+  }
+});
 
 dashboardBtn?.addEventListener("click", openDashboard);
 avatar?.addEventListener("click", openDashboard);

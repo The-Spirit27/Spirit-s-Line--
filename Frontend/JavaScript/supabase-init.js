@@ -1,12 +1,11 @@
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  // ---------- Supabase Init ----------
-  const SUPABASE_URL = "https://ccsrxvwaxkdbphesyies.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"; // ta clé ANON
+const supabaseUrl = "https://ccsrxvwaxkdbphesyies.supabase.co";
+const supabaseKey = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
 
-  // Créer le client et le mettre dans window
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  window.supabaseClient = supabaseClient;
-
-  // Pour faciliter l'accès depuis admin-logic.js
-  const {data : sessionData } = await
-  window.supabaseClient.auth.getSession();
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});

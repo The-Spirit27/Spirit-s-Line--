@@ -57,158 +57,170 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true }
 });
 
+const PRIX_SERVICE = 15000;
+
 const safeGet = id => document.getElementById(id);
 
-// Vérifier session et retourner un objet utilisateur minimal
+// 🔐 Vérifier session
 async function verifierSession() {
   try {
     const { data, error } = await supabaseClient.auth.getSession();
-    if (error) {
-      console.error("Erreur récupération session:", error);
+
+    if (error || !data.session || !data.session.user) {
       window.location.href = "login.html";
       return null;
     }
-    const session = data.session;
-    if (!session || !session.user) {
-      window.location.href = "login.html";
-      return null;
-    }
+
+    const user = data.session.user;
+
     return {
-      email: session.user.email,
-      id: session.user.id,
-      username: session.user.user_metadata?.full_name || session.user.email
+      email: user.email,
+      id: user.id,
+      username: user.user_metadata?.full_name || user.email
     };
+
   } catch (e) {
-    console.error("Erreur verifierSession:", e);
+    console.error(e);
     window.location.href = "login.html";
     return null;
   }
 }
 
+// ✅ Validation
+function formulaireValide() {
+  const marque = safeGet('marque').value;
+  const details = safeGet('detailsDemande').value;
 
+  if (!marque || !details) {
+    alert("⚠️ Remplis tous les champs");
+    return false;
+  }
 
-// Préparer la synthèse à afficher
+  if (marque === "Autre" && !safeGet('autreMarque').value) {
+    alert("⚠️ Précise la marque");
+    return false;
+  }
+
+  return true;
+}
+
+// 📊 Synthèse
 function preparerSynthese(user) {
-  const service = safeGet('serviceAffiche')?.value || "Service inconnu";
+  const service = safeGet('serviceAffiche').value;
+
   const marqueSelect = safeGet('marque');
-  const marque = marqueSelect?.value === 'Autre' ? safeGet('autreMarque').value : marqueSelect?.value;
-  const details = safeGet('detailsDemande')?.value || "";
+  const marque = marqueSelect.value === 'Autre'
+    ? safeGet('autreMarque').value
+    : marqueSelect.value;
+
+  const details = safeGet('detailsDemande').value;
 
   safeGet('rService').textContent = service;
   safeGet('rNom').textContent = user.username;
   safeGet('rMarque').textContent = marque;
   safeGet('rDetails').textContent = details;
+  safeGet('rPrix').textContent = PRIX_SERVICE + " Fcfa";
 
   safeGet('formulaire').style.display = 'none';
   safeGet('synthese').style.display = 'block';
 }
 
-// Envoyer la requête : récupérer utilisateur, compte, insérer requete, ouvrir WhatsApp et rediriger
+// 🚀 Envoi
 async function envoyerRequete(user) {
   try {
-    const service = safeGet('rService')?.textContent || "Service inconnu";
-    const marque = safeGet('rMarque')?.textContent || "Marque inconnue";
-    const details = safeGet('rDetails')?.textContent || "";
+    const service = safeGet('rService').textContent;
+    const marque = safeGet('rMarque').textContent;
+    const details = safeGet('rDetails').textContent;
+    const prix = safeGet('rPrix').textContent;
 
-    // Récupérer l'utilisateur dans la table 'utilisateur'
-   // Récupérer l'utilisateur dans la table 'utilisateur' (robuste)
-const { data: utilisateur, error: errUser, status, statusText } = await supabaseClient
-  .from('utilisateur')
-  .select('mat_user, pseudo_user, mail_user')
-  .eq('mail_user', user.email)
-  .maybeSingle(); // évite 406 si 0 ou >1 lignes
+    // 🔍 utilisateur
+    const { data: utilisateur, error: errUser } = await supabaseClient
+      .from('utilisateur')
+      .select('mat_user, pseudo_user, mail_user')
+      .eq('mail_user', user.email)
+      .maybeSingle();
 
-console.log('Requête utilisateur -> email cherché:', user.email);
-console.log('Réponse utilisateur data:', utilisateur);
-console.log('Réponse utilisateur error:', errUser);
-console.log('HTTP status:', status, statusText);
+    if (errUser || !utilisateur) {
+      console.error(errUser);
+      return alert("Utilisateur introuvable.");
+    }
 
-if (errUser) {
-  // Affiche les détails utiles dans la console
-  console.error('Erreur récupération utilisateur (détails):', errUser);
-  // Inspecte la réponse réseau dans l'onglet Network pour voir le body renvoyé par PostgREST
-  return alert("Impossible de trouver l'utilisateur dans la base. Vérifie la console (Network) pour la réponse du serveur.");
-}
-if (!utilisateur) {
-  return alert("Aucun utilisateur trouvé pour cet email. Vérifie la valeur de user.email et la table 'utilisateur'.");
-}
-
-    // Récupérer le compte associé sans provoquer 406 si plusieurs lignes
+    // 🔍 compte
     const { data: compte, error: errCompte } = await supabaseClient
       .from('compte')
       .select('num_cpt')
       .eq('mat_user', utilisateur.mat_user)
-      .maybeSingle(); // évite 406 si 0 ou >1 lignes
+      .maybeSingle();
 
-    if (errCompte) {
-      console.error('Erreur compte:', errCompte);
-      return alert("Erreur lors de la récupération du compte.");
-    }
-    if (!compte) {
-      return alert("Aucun compte trouvé pour cet utilisateur.");
+    if (errCompte || !compte) {
+      console.error(errCompte);
+      return alert("Compte introuvable.");
     }
 
-    // Préparer l'objet à insérer
+    // 📦 requête
     const dossier = {
       nom_rqt: service,
       lib_rqt: `Marque: ${marque}\nDétails: ${details}`,
       num_cpt: compte.num_cpt,
+      prix: PRIX_SERVICE,
       status: 'pending',
       progress: 0,
       date_rqt: new Date().toISOString()
     };
 
-    // Insérer et récupérer la ligne insérée
-    const { data: inserted, error: insertErr } = await supabaseClient
+    const { error: insertErr } = await supabaseClient
       .from('requete')
-      .insert([dossier])
-      .select() // demande le retour des colonnes insérées
-      .single();
+      .insert([dossier]);
 
     if (insertErr) {
-      console.error('Erreur insertion:', insertErr);
-      return alert("Erreur serveur lors de l'enregistrement : " + insertErr.message);
+      console.error(insertErr);
+      return alert("Erreur insertion");
     }
 
-    console.log('Requête insérée:', inserted);
-
-    // Ouvrir WhatsApp (optionnel)
+    // 📲 WhatsApp
     const phone = '241074849344';
-    const msg = `Bonjour SPIRIT, je suis ${utilisateur.pseudo_user}. Demande de ${service} pour ${marque}. Détails : ${details}`;
+    const msg = `Bonjour SPIRIT, je suis ${utilisateur.pseudo_user}.
+Service: ${service}
+Marque: ${marque}
+Détails: ${details}
+Prix: ${prix}`;
+
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 
-    // Succès : informer et rediriger vers dashboard pour voir la requête
-    alert("✅ Requête envoyée avec succès !");
-    window.location.href = 'dashboard.html'; // adapte le chemin si nécessaire
+    alert("✅ Requête envoyée !");
+    window.location.href = 'dashboard.html';
 
   } catch (e) {
-    console.error('Erreur envoyerRequete:', e);
-    alert("Une erreur inattendue est survenue. Vérifie la console pour plus de détails.");
+    console.error(e);
+    alert("Erreur inattendue");
   }
 }
 
-// DOMContentLoaded unique et fusionné
+// 🎯 INIT
 document.addEventListener('DOMContentLoaded', async () => {
   const user = await verifierSession();
   if (!user) return;
 
-  // Gestion "Autre marque"
   const marqueSelect = safeGet('marque');
   const autreChamp = safeGet('autreMarque');
-  if (marqueSelect && autreChamp) {
-    marqueSelect.addEventListener('change', () => {
-      autreChamp.style.display = marqueSelect.value === 'Autre' ? 'block' : 'none';
-      autreChamp.required = marqueSelect.value === 'Autre';
-    });
-  }
+// Autre marque
+  marqueSelect.addEventListener('change', () => {
+    autreChamp.style.display = marqueSelect.value === 'Autre' ? 'block' : 'none';
+    autreChamp.required = marqueSelect.value === 'Autre';
+  });
 
   // Boutons
-  safeGet('valider')?.addEventListener('click', () => preparerSynthese(user));
-  safeGet('modifier')?.addEventListener('click', () => {
+  safeGet('valider').addEventListener('click', () => {
+    if (!formulaireValide()) return;
+    preparerSynthese(user);
+  });
+
+  safeGet('modifier').addEventListener('click', () => {
     safeGet('formulaire').style.display = 'block';
     safeGet('synthese').style.display = 'none';
   });
-  safeGet('confirmer')?.addEventListener('click', () => envoyerRequete(user));
+
+  safeGet('confirmer').addEventListener('click', () => envoyerRequete(user));
 });
 </script>
 </body>
