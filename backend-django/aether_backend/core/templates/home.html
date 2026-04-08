@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AÉTHER-AI SPL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-inter flex flex-col min-h-screen">
+
+    <div class="max-w-2xl mx-auto w-full mt-4 px-4">
+        <div id="auth-section" class="bg-white p-3 shadow-sm flex justify-between items-center rounded-lg border border-gray-200">
+            <div id="user-info" class="text-sm font-semibold text-gray-700">
+                Mode : <span id="status-text" class="text-blue-600">Visiteur (GUEST)</span>
+            </div>
+            <button id="login-btn" class="bg-black text-white px-4 py-1 rounded text-sm hover:bg-gray-800 transition">
+                Se connecter
+            </button>
+             <div id="user-info" class="flex items-center gap-4">
+    <span id="status-text"></span>
+    <button id="logout-btn" style="display: none;" class="text-xs bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 px-3 py-1 rounded-md transition-all">
+        Déconnexion
+    </button>
+</div>
+
+        </div>
+    </div>
+
+    <header class="text-blue-600 p-4 text-center font-bold text-2xl mt-2">
+        AÉTHER-AI SPL
+    </header>
+
+    <main class="flex-1 p-4 flex flex-col max-w-2xl mx-auto w-full">
+        <div id="chat-container" class="flex-1 border rounded-lg p-4 bg-white shadow-inner overflow-y-auto h-[60vh]">
+            <div class="mb-2 text-left">
+                <span class="inline-block bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm italic">
+                    Bienvenue dans l'écosystème SPIRIT'S LINE. Comment puis-je vous aider ?
+                </span>
+            </div>
+        </div>
+
+        <form id="chat-form" class="mt-4 flex gap-2">
+            <input type="text" id="chat-input" placeholder="Écris ton message..." class="flex-1 border rounded-lg p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-bold shadow-md">Envoyer</button>
+        </form>
+    </main>
+
+    <footer class="bg-gray-50 text-center p-4 text-xs text-gray-400">
+        © 2026 SPIRIT'S LINE - Propulsé par AÉTHER-AI
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // 1. CONFIGURATION
+    const supabaseUrl = '{{ SUPABASE_URL }}';
+    const supabaseKey = '{{ SUPABASE_ANON_KEY }}';
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const container = document.getElementById('chat-container');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const statusText = document.getElementById('status-text');
+
+    /**
+     * INITIALISATION : Gère l'affichage selon la session
+     */
+    async function initAether() {
+        const { data: { session } } = await _supabase.auth.getSession();
+        
+        if (session) {
+            const { data: profile, error } = await _supabase
+                .from('utilisateur')
+                .select('pseudo_user, role_user')
+                .eq('auth_id', session.user.id)
+                .single();
+
+            if (error) {
+                console.error("Erreur de profil:", error);
+                return;
+            }
+
+            if (profile) {
+                // Affichage personnalisé selon le rôle
+                if (profile.role_user === 'ROOT') {
+                    statusText.innerHTML = `<span class="flex items-center text-amber-500 font-bold">👑 <span class="ml-1">${profile.pseudo_user} (ROOT)</span></span>`;
+                } else {
+                    statusText.innerText = `Connecté : ${profile.pseudo_user}`;
+                    statusText.className = "text-green-600 font-bold";
+                }
+
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+            }
+        } else {
+            // Mode Invité
+            statusText.innerText = "Mode Invité - Connectez-vous sur SPL";
+            statusText.className = "text-gray-400";
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+        }
+    }
+
+    // Lancer l'initialisation
+    initAether();
+
+    /**
+     * BOUTONS : Connexion et Déconnexion
+     */
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            window.location.href = '/login/'; 
+        });
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            const { error } = await _supabase.auth.signOut();
+            if (error) {
+                alert("Erreur de déconnexion : " + error.message);
+            } else {
+                statusText.innerText = "Déconnexion...";
+                setTimeout(() => window.location.reload(), 500);
+            }
+        });
+    }
+
+    /**
+     * LOGIQUE DU CHAT
+     */
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendMessage(message, 'user');
+        input.value = '';
+        const loader = showLoading();
+
+        try {
+            const { data: { session } } = await _supabase.auth.getSession();
+            const token = session ? session.access_token : null;
+
+            const response = await fetch('/api/aether/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : '' 
+                },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+            loader.remove();
+            appendMessage(data.reply, 'ai');
+
+        } catch (error) {
+            if (loader) loader.remove();
+            console.error("Erreur Aether:", error);
+            appendMessage("Désolé, une erreur est survenue.", 'ai');
+        }
+    });
+
+    // Fonctions utilitaires d'affichage
+    function appendMessage(text, side) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = side === 'user' ? 'mb-3 text-right' : 'mb-3 text-left';
+        if (side === 'user') {
+            msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
+        } else {
+            msgDiv.innerHTML = `<div class="text-[10px] text-gray-400 ml-2 mb-1">AÉTHER-AI</div><span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>`;
+        }
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function showLoading() {
+        const loadingMsg = document.createElement('div');
+        loadingMsg.className = 'mb-3 text-left animate-pulse';
+        loadingMsg.innerHTML = `<span class="inline-block bg-gray-100 text-gray-400 px-4 py-2 rounded-2xl rounded-tl-none italic text-sm">AÉTHER réfléchit...</span>`;
+        container.appendChild(loadingMsg);
+        container.scrollTop = container.scrollHeight;
+        return loadingMsg;
+    }
+</script>
+<script>
+    // Écouter les messages venant du parent (ton Frontend)
+   window.addEventListener('message', async (event) => {
+    if (event.origin !== 'http://127.0.0.1:5501') return; // Sécurité port Live Server
+    if (event.data.type === 'SET_SESSION') {
+        await _supabase.auth.setSession(event.data.session);
+        // Ici, AÉTHER est maintenant connecté avec ton compte !
+    }
+});
+window.addEventListener('message', async (event) => {
+    if (event.origin !== 'http://127.0.0.1:5501') return;
+
+    // ... (garde ton code SET_SESSION ici) ...
+
+    if (event.data.type === 'LOGOUT') {
+        await _supabase.auth.signOut();
+        window.location.reload(); // Renvoie vers la page de login d'AÉTHER
+    }
+});
+</script>
+</body>
+</html>

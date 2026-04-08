@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>AÉTHER | Connexion</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0;
+            font-family: 'Segoe UI', sans-serif; color: white;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+            width: 100%; max-width: 320px; text-align: center;
+        }
+        input {
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none;
+            box-sizing: border-box; background: rgba(255,255,255,0.9);
+        }
+        button {
+            width: 100%; padding: 14px; background: #39b7c7; border: none; 
+            color: white; font-weight: bold; border-radius: 8px; cursor: pointer;
+            margin-top: 15px; transition: 0.3s;
+        }
+        button:disabled { background: #555; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>AÉTHER AI</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit" id="btnSubmit">Se connecter</button>
+        </form>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Configuration via Django context
+    const _supabase = supabase.createClient("{{ SUPABASE_URL }}", "{{ SUPABASE_ANON_KEY }}");
+
+    // 1. SIGNAL "READY" : On prévient le site SPL qu'on est chargé
+    window.onload = () => {
+        console.log("AÉTHER prêt, demande de session au parent...");
+        window.parent.postMessage({ type: 'AETHER_READY' }, 'http://127.0.0.1:5501');
+    };
+
+    // 2. ÉCOUTE DE LA SESSION : On reçoit le token du parent
+    window.addEventListener('message', async (event) => {
+    if (event.origin !== 'http://127.0.0.1:5501') return;
+
+    if (event.data.type === 'SET_SESSION') {
+        const { error } = await _supabase.auth.setSession(event.data.session);
+        if (!error) {
+            // Force la redirection immédiate vers l'accueil d'AÉTHER
+            window.location.href = '/'; 
+        }
+    }
+});
+
+    // 3. Login Manuel (si pas de session dans le parent)
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmit');
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        btn.innerText = "Vérification...";
+        btn.disabled = true;
+
+        const { error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            alert('Erreur : ' + error.message);
+            btn.innerText = "Se connecter";
+            btn.disabled = false;
+        } else {
+            window.location.replace('/');
+        }
+    });
+    window.addEventListener('message', async (event) => {
+    if (event.origin !== 'http://127.0.0.1:5501') return;
+
+    // ... (garde ton code SET_SESSION ici) ...
+
+    if (event.data.type === 'LOGOUT') {
+        await _supabase.auth.signOut();
+        window.location.reload(); // Renvoie vers la page de login d'AÉTHER
+    }
+});
+</script>
+</body>
+</html>
