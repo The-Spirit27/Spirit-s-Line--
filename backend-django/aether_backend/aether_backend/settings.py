@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'core',
+    'aether_backend.core',
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # DOIT ÊTRE TOUT EN HAUT
