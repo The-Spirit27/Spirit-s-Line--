@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a-9m&6u5fv9f1i@mg2msn%_bpkzv=g+(188=3x*#-lnkk0+&al
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['https://aether-backend-8jet.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
