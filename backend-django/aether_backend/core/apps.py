@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class CoreConfig(AppConfig):
-    name = 'aether_backend.core'
+class coreConfig(AppConfig):
+    name = 'core'
