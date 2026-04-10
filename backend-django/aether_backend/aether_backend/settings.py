@@ -142,3 +142,6 @@ CORS_ALLOWED_ORIGINS = [
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+from dotenv import load_dotenv
+
+load_dotenv()

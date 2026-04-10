@@ -6,36 +6,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>SPIRIT'S LINE ❄ | Expert Informatique & Solutions Numériques</title>
-    <meta name="description" content="Besoin d'aide technique ? SPIRIT'S LINE (SPL) propose dépannage, conseils tech et services digitaux sur mesure. Votre expert numérique à portée de clic.">
+    <meta name="description" content="SPIRIT'S LINE (SPL) : Votre plateforme d'assistance numérique. Dépannage informatique, services web, documents et conseils tech personnalisés.">
+    <meta name="keywords" content="SPL, Spirit's line, informatique, maintenance, Gabon, création de site, documents, AETHER AI">
+    <meta name="author" content="The_SPIRIT (ONDO AKONO Ezer Sidney)">
     <link rel="canonical" href="https://spirit-s-line.online">
+    <meta name="google-site-verification" content="oeFg7ZwsCHF7VG97T3C6NDgXCOeJSAibNOaKXYFGzBM" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="Frontend/CSS/Line.css" as="style">
-    
+    <link rel="stylesheet" href="Frontend/CSS/Line.css">
+
     <link rel="icon" type="image/x-icon" href="Frontend/Images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="Frontend/Images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Frontend/Images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="Frontend/Images/apple-touch-icon.png">
-    <meta name="theme-color" content="#000000"> <meta property="og:site_name" content="SPIRIT'S LINE">
+    <meta name="theme-color" content="#000000">
+
+    <meta property="og:site_name" content="SPIRIT'S LINE">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://spirit-s-line.online">
     <meta property="og:title" content="SPIRIT'S LINE ❄ | Solutions Informatiques">
-    <meta property="og:description" content="Assistance numérique, guides tech et services personnalisés.">
-    <meta property="og:image" content="https://spirit-s-line.online/Frontend/Images/og-preview.jpg"> <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "SPIRIT'S LINE",
-      "url": "https://spirit-s-line.online",
-      "logo": "https://spirit-s-line.online/Frontend/Images/apple-touch-icon.png",
-      "sameAs": [
-        "https://votre-lien-facebook.com",
-        "https://votre-lien-instagram.com"
-      ]
-    }
+    <meta property="og:description" content="Votre partenaire numérique : support, guides et services personnalisés.">
+    <meta property="og:image" content="https://spirit-s-line.online/Frontend/Images/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://spirit-s-line.online/Frontend/Images/apple-touch-icon.png">
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "SPIRIT'S LINE",
+        "alternateName": "SPL",
+        "url": "https://spirit-s-line.online/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://spirit-s-line.online/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "SPIRIT'S LINE",
+        "url": "https://spirit-s-line.online",
+        "logo": "https://spirit-s-line.online/Frontend/Images/apple-touch-icon.png",
+        "founder": "ONDO AKONO Ezer Sidney",
+        "description": "Expertise informatique et solutions numériques au Gabon.",
+        "sameAs": [
+          "https://votre-lien-facebook.com",
+          "https://votre-lien-instagram.com"
+        ]
+      }
+    ]
     </script>
 
-    <link rel="stylesheet" href="Frontend/CSS/Line.css">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 
 <body>
@@ -43,7 +72,7 @@
         <h2>Menus</h2>
         <button class="button" id="btn-accueil" onclick="activer(this)">
             <span class="icon">🏠</span>
-            <span class="text">Acceuil</span>
+            <span class="text">Accueil</span>
         </button>
         <button class="button" onclick="activer(this)">
             <span class="icon">⚙</span>
@@ -53,7 +82,7 @@
         <div class="section-title"><h2>Services</h2></div>
 
         <div class="scrollable-button">
-            <a href="Frontend/HTML/i-techs.html" ><button class="button" data-id="i-techs" onclick="activer(this)">
+            <a href="Frontend/HTML/i-techs.html"><button class="button" data-id="i-techs" onclick="activer(this)">
                 <span class="icon">🖱</span>
                 <span class="text">I-TECHS</span>
             </button></a>
@@ -73,8 +102,8 @@
                 <span class="icon">🔧</span>
                 <span class="text">OUTILS</span>
             </button></a>  
-            
         </div>
+
         <div id="sidebar-auth-zone">
             <button class="button" onclick="window.location.href='Frontend/HTML/login.html'">Se connecter</button>
             <button class="button" onclick="window.location.href='Frontend/HTML/register.html'">S'inscrire</button>
@@ -85,129 +114,112 @@
         <div class="toggle-btn" id="toggleBtn"><strong>☰</strong></div>
         <main id="contenu"></main>
     </div>
- <div class="overlay" id="overlay"></div>
-<!-- Bandeau cookies -->
-<div id="cookie-banner">
-    <h4>Respect de votre vie privée</h4>
-    <p>
-        Conformément à notre <strong>Politique de Confidentialité</strong>, nous utilisons des cookies pour améliorer votre navigation et sécuriser vos accès. Les cookies de session sont indispensables au fonctionnement du Dashboard.
-    </p>
-    <div class="cookie-actions">
-        <button data-cookie="accept-all">Accepter tout</button>
-        <button data-cookie="essential-only">Uniquement essentiels</button>
-        <a href="Frontend/HTML/privacy-policy.html">Lire la politique</a>
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // 1. Initialisation Supabase
-    const supabaseUrl = "https://ccsrxvwaxkdbphesyies.supabase.co";
-    const supabaseKey = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
-    const sp_client = supabase.createClient(supabaseUrl, supabaseKey);
+    <div class="overlay" id="overlay"></div>
 
-    let userRole = 'GUEST';
-    window.supabaseClient = sp_client;
-
-    // 2. Écouter les messages venant de l'Iframe (AÉTHER)
-    window.addEventListener('message', async (event) => {
-        // Sécurité : On accepte uniquement les messages de Django (port 8000)
-        if (event.origin !== 'http://127.0.0.1:8000') return;
-
-        // Si AÉTHER dit qu'il est prêt, on lui envoie la session
-        if (event.data.type === 'AETHER_READY') {
-    const { data: { session } } = await sp_client.auth.getSession();
-
-    if (session) {
-        const iframe = document.querySelector('#aether-chat-window iframe');
-
-        iframe.contentWindow.postMessage({
-            type: 'SET_SESSION',
-            session: {
-                access_token: session.access_token,
-                refresh_token: session.refresh_token
-            }
-        }, 'http://127.0.0.1:8000');
-    }
-}
-    });
-
-    // 3. Charger le rôle au démarrage
-    async function chargerDonneesAether() {
-        try {
-            const { data: { session } } = await sp_client.auth.getSession();
-            if (session) {
-                const { data: profile } = await sp_client
-                    .from('utilisateur')
-                    .select('role_user')
-                    .eq('auth_id', session.user.id)
-                    .single();
-                if (profile) userRole = profile.role_user;
-            }
-        } catch (e) { console.log("Mode invité."); }
-    }
-    chargerDonneesAether();
-
-    // 4. Fonction pour ouvrir/fermer la bulle
-    function toggleAether() {
-        const windowChat = document.getElementById('aether-chat-window');
-        const icon = document.getElementById('aether-icon');
-
-        if (windowChat.style.display === 'none' || windowChat.style.display === '') {
-            windowChat.style.display = 'flex';
-            icon.innerText = (userRole === 'ROOT') ? '👑' : '✕';
-        } else {
-            windowChat.style.display = 'none';
-            icon.innerText = '✨';
-        }
-        async function logout() {
-    await sp_client.auth.signOut();
-    
-    // On prévient l'Iframe AÉTHER de se déconnecter aussi
-    const iframe = document.querySelector('#aether-chat-window iframe');
-    if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'http://127.0.0.1:8000');
-    }
-    
-    window.location.reload(); // Recharge le front
-}
-    }
-
-    sp_client.auth.onAuthStateChange((event, session) => {
-    const iframe = document.querySelector('#aether-chat-window iframe');
-
-    if (iframe && iframe.contentWindow && session) {
-        iframe.contentWindow.postMessage({
-            type: 'SET_SESSION',
-            session: {
-                access_token: session.access_token,
-                refresh_token: session.refresh_token
-            }
-        }, 'http://127.0.0.1:8000');
-    }
-});
-</script>
-<script type="module" src="Frontend/JavaScript/supabase-init.js"></script>
-<script type="module" src="Frontend/JavaScript/auth.js"></script>
-<script src="Frontend/JavaScript/Security.js"></script>
-<script src="Frontend/JavaScript/Line.js" defer></script>
-
-
-
-
-
-<div id="aether-widget-container">
-    <div id="aether-chat-window" class="hidden shadow-2xl">
-        <div class="aether-header">
-            <span>AÉTHER AI 🖤❄️</span>
-            <button onclick="toggleAether()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+    <div id="cookie-banner">
+        <h4>Respect de votre vie privée</h4>
+        <p>Conformément à notre <strong>Politique de Confidentialité</strong>, nous utilisons des cookies pour améliorer votre navigation et sécuriser vos accès.</p>
+        <div class="cookie-actions">
+            <button data-cookie="accept-all">Accepter tout</button>
+            <button data-cookie="essential-only">Essentiels</button>
+            <a href="Frontend/HTML/privacy-policy.html">Politique</a>
         </div>
-       <iframe src="http://127.0.0.1:8000/" frameborder="0" style="width: 100%; height: 450px; border-radius: 0 0 15px 15px;"></iframe>
     </div>
 
-    <button id="aether-trigger" onclick="toggleAether()">
-        <span id="aether-icon">✨</span>
-    </button>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = "https://ccsrxvwaxkdbphesyies.supabase.co";
+        const supabaseKey = "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z";
+        const sp_client = supabase.createClient(supabaseUrl, supabaseKey);
+        let userRole = 'GUEST';
+        window.supabaseClient = sp_client;
+
+        // Écouter AÉTHER
+        window.addEventListener('message', async (event) => {
+            if (event.origin !== 'http://127.0.0.1:8000') return;
+            if (event.data.type === 'AETHER_READY') {
+                const { data: { session } } = await sp_client.auth.getSession();
+                if (session) {
+                    const iframe = document.querySelector('#aether-chat-window iframe');
+                    iframe.contentWindow.postMessage({
+                        type: 'SET_SESSION',
+                        session: {
+                            access_token: session.access_token,
+                            refresh_token: session.refresh_token
+                        }
+                    }, 'http://127.0.0.1:8000');
+                }
+            }
+        });
+
+        async function chargerDonneesAether() {
+            try {
+                const { data: { session } } = await sp_client.auth.getSession();
+                if (session) {
+                    const { data: profile } = await sp_client
+                        .from('utilisateur')
+                        .select('role_user')
+                        .eq('auth_id', session.user.id)
+                        .single();
+                    if (profile) userRole = profile.role_user;
+                }
+            } catch (e) { console.log("Mode invité."); }
+        }
+        chargerDonneesAether();
+
+        function toggleAether() {
+            const windowChat = document.getElementById('aether-chat-window');
+            const icon = document.getElementById('aether-icon');
+            if (windowChat.style.display === 'none' || windowChat.style.display === '') {
+                windowChat.style.display = 'flex';
+                icon.innerText = (userRole === 'ROOT') ? '👑' : '✕';
+            } else {
+                windowChat.style.display = 'none';
+                icon.innerText = '✨';
+            }
+        }
+
+        async function logout() {
+            await sp_client.auth.signOut();
+            const iframe = document.querySelector('#aether-chat-window iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'http://127.0.0.1:8000');
+            }
+            window.location.reload();
+        }
+
+        sp_client.auth.onAuthStateChange((event, session) => {
+            const iframe = document.querySelector('#aether-chat-window iframe');
+            if (iframe && iframe.contentWindow && session) {
+                iframe.contentWindow.postMessage({
+                    type: 'SET_SESSION',
+                    session: {
+                        access_token: session.access_token,
+                        refresh_token: session.refresh_token
+                    }
+                }, 'http://127.0.0.1:8000');
+            }
+        });
+    </script>
+
+    <div id="aether-widget-container">
+        <div id="aether-chat-window" class="hidden shadow-2xl" style="display:none; flex-direction:column; position:fixed; bottom:80px; right:20px; z-index:1000;">
+            <div class="aether-header" style="background:#000; color:white; padding:10px; border-radius:15px 15px 0 0; display:flex; justify-content:space-between;">
+                <span>AÉTHER AI 🖤❄️</span>
+                <button onclick="toggleAether()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+            </div>
+           <iframe src="http://127.0.0.1:8000/" frameborder="0" style="width: 350px; height: 450px; border-radius: 0 0 15px 15px;"></iframe>
+        </div>
+
+        <button id="aether-trigger" onclick="toggleAether()" style="position:fixed; bottom:20px; right:20px; z-index:1000; padding:15px; border-radius:50%; border:none; background:#000; color:white; cursor:pointer; font-size:20px;">
+            <span id="aether-icon">✨</span>
+        </button>
+    </div>
+
+    <script type="module" src="Frontend/JavaScript/supabase-init.js"></script>
+    <script type="module" src="Frontend/JavaScript/auth.js"></script>
+    <script src="Frontend/JavaScript/Security.js"></script>
+    <script src="Frontend/JavaScript/Line.js" defer></script>
 </body>
 </html>
