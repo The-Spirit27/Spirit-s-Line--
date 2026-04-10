@@ -27,11 +27,11 @@ if str(BASE_DIR) not in sys.path:
 SECRET_KEY = 'django-insecure-a-9m&6u5fv9f1i@mg2msn%_bpkzv=g+(188=3x*#-lnkk0+&al'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['https://aether-backend-8jet.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['aether-backend-8jet.onrender.com', 'localhost', '127.0.0.1']
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Application definition
 
 INSTALLED_APPS = [
