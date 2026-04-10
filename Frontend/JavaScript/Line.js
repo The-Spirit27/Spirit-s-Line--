@@ -465,7 +465,7 @@ async function deconnexion() {
     // 2. SIGNAL DE DÉCONNEXION À AÉTHER
     const iframe = document.querySelector('#aether-chat-window iframe');
     if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'http://127.0.0.1:8000');
+        iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'https://127.0.0.1:8000https://aether-backend-8jet.onrender.com');
     }
 
   } catch (err) {
@@ -607,7 +607,7 @@ async function syncAetherSession() {
             iframe.contentWindow.postMessage({
                 type: 'SET_SESSION',
                 session: session
-            }, 'http://127.0.0.1:8000');
+            }, 'https://127.0.0.1:8000');
         }
     } catch (e) {
         console.warn("AÉTHER Sync : Pas de session active.");

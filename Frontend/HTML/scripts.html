@@ -232,7 +232,7 @@ async function loadFiles(category){
       if(!phone) return alert("Numéro requis pour payer")
 
       try {
-        const res = await fetch("http://localhost:3000/api/payer", {
+        const res = await fetch("https://localhost:3000/api/payer", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ id_outil: idOutil, montant, phone })
@@ -262,7 +262,7 @@ async function payerOutil(id, montant) {
   if (!phone) return alert("Numéro requis pour payer");
 
   try {
-   const res = await fetch("http://localhost:3000/api/payer", {
+   const res = await fetch("https://localhost:3000/api/payer", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({

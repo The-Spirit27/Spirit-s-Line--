@@ -137,7 +137,7 @@
 
         // Écouter AÉTHER
         window.addEventListener('message', async (event) => {
-            if (event.origin !== 'http://127.0.0.1:8000') return;
+            if (event.origin !== 'https://aether-backend-8jet.onrender.com') return;
             if (event.data.type === 'AETHER_READY') {
                 const { data: { session } } = await sp_client.auth.getSession();
                 if (session) {
@@ -148,7 +148,7 @@
                             access_token: session.access_token,
                             refresh_token: session.refresh_token
                         }
-                    }, 'http://127.0.0.1:8000');
+                    }, 'https://aether-backend-8jet.onrender.com');
                 }
             }
         });
@@ -184,7 +184,7 @@
             await sp_client.auth.signOut();
             const iframe = document.querySelector('#aether-chat-window iframe');
             if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'http://127.0.0.1:8000');
+                iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'https://aether-backend-8jet.onrender.com');
             }
             window.location.reload();
         }
@@ -198,7 +198,7 @@
                         access_token: session.access_token,
                         refresh_token: session.refresh_token
                     }
-                }, 'http://127.0.0.1:8000');
+                }, 'https://aether-backend-8jet.onrender.com');
             }
         });
     </script>
@@ -209,7 +209,7 @@
                 <span>AÉTHER AI 🖤❄️</span>
                 <button onclick="toggleAether()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
             </div>
-           <iframe src="http://127.0.0.1:8000/" frameborder="0" style="width: 350px; height: 450px; border-radius: 0 0 15px 15px;"></iframe>
+           <iframe src="https://aether-backend-8jet.onrender.com" frameborder="0" style="width: 350px; height: 450px; border-radius: 0 0 15px 15px;"></iframe>
         </div>
 
         <button id="aether-trigger" onclick="toggleAether()" style="position:fixed; bottom:20px; right:20px; z-index:1000; padding:15px; border-radius:50%; border:none; background:#000; color:white; cursor:pointer; font-size:20px;">
