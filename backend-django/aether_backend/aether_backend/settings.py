@@ -140,3 +140,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5501",
 ]
 X_FRAME_OPTIONS = 'ALLOWALL'
+
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
