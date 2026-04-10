@@ -151,29 +151,81 @@ form.addEventListener('submit', async (e) => {
 });
 
 /* ================= UI ================= */
- /* ================= UI ================= */
-function appendMessage(text, side) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = side === 'user' ? 'mb-3 text-right' : 'mb-3 text-left flex items-start gap-3'; // Ajout de 'flex', 'items-start' et 'gap-3'
+ /* ================= UI ================= */form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    if (side === 'user') {
-        msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
-    } else {
-        msgDiv.innerHTML = `
-            <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" alt="Avatar AÉTHER-AI" class="w-8 h-8 rounded-full border shadow-sm mt-1" />
-            <div>
-                <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
-                <span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>
-            </div>
-        `;
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendMessage(message, 'user');
+        input.value = '';
+
+        const loader = showLoading();
+
+        try {
+            const { data: { session } } = await _supabase.auth.getSession();
+            const token = session?.access_token;
+
+            const res = await fetch('/api/aether/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await res.json();
+            loader.remove();
+
+            appendMessage(data.reply, 'ai');
+
+        } catch (err) {
+            loader.remove();
+            appendMessage("Erreur serveur.", 'ai');
+        }
+    });
+
+    /* ================= UI - GESTION DES MESSAGES ================= */
+    // J'AI CORRIGÉ CETTE FONCTION POUR AJOUTER L'ICÔNE
+    function appendMessage(text, side) {
+        const msgDiv = document.createElement('div');
+        // Ajout de classes flex pour aligner l'avatar et le texte pour l'IA
+        msgDiv.className = side === 'user' ? 'mb-4 text-right flex justify-end' : 'mb-4 flex items-start gap-3';
+
+        if (side === 'user') {
+            msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
+        } else {
+            // C'EST ICI QUE JE METS TON IMAGE EN AVATAR
+            msgDiv.innerHTML = `
+                <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" 
+                     alt="AÉTHER-AI Logo" 
+                     class="w-9 h-9 rounded-full border border-gray-100 shadow-sm mt-1" />
+                
+                <div>
+                    <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
+                    <span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>
+                </div>
+            `;
+        }
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
     }
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-}
+
+    // J'AI AUSSI CORRIGÉ LE LOADER POUR QU'IL SOIT BIEN ALIGNÉ
     function showLoading() {
         const loadingMsg = document.createElement('div');
-        loadingMsg.className = 'mb-3 text-left animate-pulse';
-        loadingMsg.innerHTML = `<span class="inline-block bg-gray-100 text-gray-400 px-4 py-2 rounded-2xl rounded-tl-none italic text-sm">AÉTHER réfléchit...</span>`;
+        loadingMsg.className = 'mb-4 flex items-start gap-3 animate-pulse';
+        loadingMsg.innerHTML = `
+            <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" 
+                 alt="AÉTHER-AI Logo" 
+                 class="w-9 h-9 rounded-full border border-gray-100 shadow-sm mt-1" />
+            
+            <div>
+                <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
+                <span class="inline-block bg-gray-100 text-gray-400 px-4 py-2 rounded-2xl rounded-tl-none italic text-sm">AÉTHER réfléchit...</span>
+            </div>
+        `;
         container.appendChild(loadingMsg);
         container.scrollTop = container.scrollHeight;
         return loadingMsg;
