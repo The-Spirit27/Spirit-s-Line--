@@ -151,18 +151,25 @@ form.addEventListener('submit', async (e) => {
 });
 
 /* ================= UI ================= */
- function appendMessage(text, side) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = side === 'user' ? 'mb-3 text-right' : 'mb-3 text-left';
-        if (side === 'user') {
-            msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
-        } else {
-            msgDiv.innerHTML = `<div class="text-[10px] text-gray-400 ml-2 mb-1">AÉTHER-AI</div><span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>`;
-        }
-        container.appendChild(msgDiv);
-        container.scrollTop = container.scrollHeight;
-    }
+ /* ================= UI ================= */
+function appendMessage(text, side) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = side === 'user' ? 'mb-3 text-right' : 'mb-3 text-left flex items-start gap-3'; // Ajout de 'flex', 'items-start' et 'gap-3'
 
+    if (side === 'user') {
+        msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
+    } else {
+        msgDiv.innerHTML = `
+            <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" alt="Avatar AÉTHER-AI" class="w-8 h-8 rounded-full border shadow-sm mt-1" />
+            <div>
+                <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
+                <span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>
+            </div>
+        `;
+    }
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
     function showLoading() {
         const loadingMsg = document.createElement('div');
         loadingMsg.className = 'mb-3 text-left animate-pulse';
