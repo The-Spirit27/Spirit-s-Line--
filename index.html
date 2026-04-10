@@ -72,7 +72,7 @@
         <h2>Menus</h2>
         <button class="button" id="btn-accueil" onclick="activer(this)">
             <span class="icon">🏠</span>
-            <span class="text">Accueil</span>
+            <span class="text">Acceuil</span>
         </button>
         <button class="button" onclick="activer(this)">
             <span class="icon">⚙</span>
@@ -82,7 +82,7 @@
         <div class="section-title"><h2>Services</h2></div>
 
         <div class="scrollable-button">
-            <a href="Frontend/HTML/i-techs.html"><button class="button" data-id="i-techs" onclick="activer(this)">
+            <a href="Frontend/HTML/i-techs.html" ><button class="button" data-id="i-techs" onclick="activer(this)">
                 <span class="icon">🖱</span>
                 <span class="text">I-TECHS</span>
             </button></a>
@@ -102,8 +102,8 @@
                 <span class="icon">🔧</span>
                 <span class="text">OUTILS</span>
             </button></a>  
+            
         </div>
-
         <div id="sidebar-auth-zone">
             <button class="button" onclick="window.location.href='Frontend/HTML/login.html'">Se connecter</button>
             <button class="button" onclick="window.location.href='Frontend/HTML/register.html'">S'inscrire</button>
@@ -114,19 +114,19 @@
         <div class="toggle-btn" id="toggleBtn"><strong>☰</strong></div>
         <main id="contenu"></main>
     </div>
-
-    <div class="overlay" id="overlay"></div>
-
-    <div id="cookie-banner">
-        <h4>Respect de votre vie privée</h4>
-        <p>Conformément à notre <strong>Politique de Confidentialité</strong>, nous utilisons des cookies pour améliorer votre navigation et sécuriser vos accès.</p>
-        <div class="cookie-actions">
-            <button data-cookie="accept-all">Accepter tout</button>
-            <button data-cookie="essential-only">Essentiels</button>
-            <a href="Frontend/HTML/privacy-policy.html">Politique</a>
-        </div>
+ <div class="overlay" id="overlay"></div>
+<!-- Bandeau cookies -->
+<div id="cookie-banner">
+    <h4>Respect de votre vie privée</h4>
+    <p>
+        Conformément à notre <strong>Politique de Confidentialité</strong>, nous utilisons des cookies pour améliorer votre navigation et sécuriser vos accès. Les cookies de session sont indispensables au fonctionnement du Dashboard.
+    </p>
+    <div class="cookie-actions">
+        <button data-cookie="accept-all">Accepter tout</button>
+        <button data-cookie="essential-only">Uniquement essentiels</button>
+        <a href="Frontend/HTML/privacy-policy.html">Lire la politique</a>
     </div>
-
+</div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = "https://ccsrxvwaxkdbphesyies.supabase.co";
