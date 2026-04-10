@@ -32,5 +32,3 @@ Deno.serve(async (req) => {
     );
   }
 });
-npx supabase secrets set SMTP_USER=thespirit411@gmail.com
-npx supabase secrets set SMTP_PASS=xsmtpsib-cad9a874535598898cad1e72479260757dc4ced488cd8392fe3fc4e2a7ee32c0-l1JX7wfCaKiaCIHh
