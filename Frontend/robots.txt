@@ -1,4 +1,4 @@
 User-agent: *
 Allow : /
 Sitemap :
-https://spirit-s-line.netlify.app/sitemap.xml
+https://spirit-s-line.online/sitemap.xml

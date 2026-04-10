@@ -235,6 +235,20 @@ button:hover {
       }
 
       const user = data.user;
+      const session = data.session;
+
+      // 🔥 ENVOI DE LA SESSION À AÉTHER (SSO)
+const iframe = window.opener || window.parent;
+
+if (iframe) {
+  iframe.postMessage({
+    type: 'SET_SESSION',
+    session: {
+      access_token: session.access_token,
+      refresh_token: session.refresh_token
+    }
+  }, 'http://127.0.0.1:5501');
+}
 
       // --- Récupération du rôle depuis la table utilisateur ---
       const { data: profile, error: profileError } = await supabaseClient

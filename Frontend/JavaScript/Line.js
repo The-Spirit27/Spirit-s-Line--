@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
 function deconnexion() {
     localStorage.clear();
     window.location.reload(); // Recharge la page pour remettre les boutons "Connexion"
@@ -456,15 +457,26 @@ function escapeHtml(str) {
 // Déconnexion propre (Supabase + localStorage)
 async function deconnexion() {
   try {
-    if (window.supabase && supabase.auth && typeof supabase.auth.signOut === 'function') {
+    // 1. Déconnexion Supabase Frontend
+    if (window.supabase && supabase.auth) {
       await supabase.auth.signOut();
     }
+
+    // 2. SIGNAL DE DÉCONNEXION À AÉTHER
+    const iframe = document.querySelector('#aether-chat-window iframe');
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: 'LOGOUT' }, 'http://127.0.0.1:8000');
+    }
+
   } catch (err) {
     console.warn('Erreur signOut:', err);
   }
+
+  // 3. Nettoyage local
   localStorage.removeItem('userData');
   localStorage.removeItem('monToken');
-  // redirection
+
+  // 4. Redirection
   window.location.href = 'Frontend/HTML/login.html';
 }
 
@@ -575,11 +587,32 @@ async function chargerProfilUtilisateur() {
   } else {
     console.log('❌ Pas de données utilisateur, on garde les boutons par défaut.');
   }
+  if (profile) {
+        currentProfile = profile;
+        // On synchronise silencieusement avec AÉTHER s'il est déjà chargé
+        syncAetherSession();
+  }
 
   // Rendre le profile global
-  currentProfile = profile;
+  currentProfile = profile;  
 }
 
+async function syncAetherSession() {
+    const iframe = document.querySelector('#aether-chat-window iframe');
+    if (!iframe || !iframe.contentWindow) return;
+
+    try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            iframe.contentWindow.postMessage({
+                type: 'SET_SESSION',
+                session: session
+            }, 'http://127.0.0.1:8000');
+        }
+    } catch (e) {
+        console.warn("AÉTHER Sync : Pas de session active.");
+    }
+}
 // ---------------------------------------------------
 // Fonction pour ouvrir le dashboard / admin
 // ---------------------------------------------------

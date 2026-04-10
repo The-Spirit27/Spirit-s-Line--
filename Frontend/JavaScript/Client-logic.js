@@ -286,7 +286,7 @@ async function genererPDF() {
     doc.setTextColor(100);
     doc.setFont("helvetica","normal");
     doc.setFontSize(8);
-    doc.text("SPIRIT'S LINE - Support technique : support@spirit-s-line.netlify.app",105,292,{align:"center"});
+    doc.text("SPIRIT'S LINE - Support technique : spl@spirit-s-line.online",105,292,{align:"center"});
 
     doc.save(`Recu_SPL_${String(userData.pseudo_user||'client')}.pdf`);
 
@@ -584,6 +584,83 @@ function subscribeMessages() {
     })
     .subscribe();
 }
+// async function chargerNotifications(userId) {
+//   if (!userId) return;
+
+//   const { count, error } = await supabase
+//     .from("messages")
+//     .select("*", { count: "exact", head: true })
+//     .eq("user_id", userId)
+//     .eq("lu", false);
+
+//   if (error) {
+//     console.error("Erreur notif:", error);
+//     return;
+//   }
+
+//   afficherBadgeNotif(count);
+// }
+
+// function afficherBadgeNotif(nombre) {
+//   const badge = document.getElementById("notif-badge");
+
+//   if (!badge) return;
+
+//   if (nombre > 0) {
+//     badge.classList.remove("hidden");
+//     badge.textContent = nombre;
+//   } else {
+//     badge.classList.add("hidden");
+//   }
+//   document.getElementById("chat-bubble").addEventListener("click", () => {
+//   document.getElementById("chat-box").classList.toggle("hidden");
+
+//   if (currentProfile?.id) {
+//     marquerMessagesCommeLus(currentProfile.id);
+//   }
+// });
+// }
+
+// function ecouterNouveauxMessages(userId) {
+//   supabase
+//     .channel("messages-realtime")
+//     .on(
+//       "postgres_changes",
+//       {
+//         event: "INSERT",
+//         schema: "public",
+//         table: "messages",
+//         filter: `user_id=eq.${userId}`
+//       },
+//       (payload) => {
+//         console.log("📩 Nouveau message reçu !", payload);
+
+//         // 🔊 son
+//         document.getElementById("notif-sound")?.play();
+
+//         // 🔄 refresh compteur
+//         chargerNotifications(userId);
+//       }
+//     )
+//     .subscribe();
+// }
+
+// if (profile?.id) {
+//   chargerNotifications(profile.id);
+//   ecouterNouveauxMessages(profile.id);
+// }
+
+// async function marquerMessagesCommeLus(userId) {
+//   await supabase
+//     .from("messages")
+//     .update({ lu: true })
+//     .eq("user_id", userId)
+//     .eq("lu", false);
+
+//   afficherBadgeNotif(0);
+// }
+
+
 
 // ============================
 // EVENT LISTENERS
