@@ -183,3 +183,28 @@ L'utilisateur a un problème technique.
 """
 elif intent == "service_request":
     system_prompt += "\nL'utilisateur cherche un service SPL. Priorité : expliquer + convertir."
+
+
+def build_final_prompt(message, is_creator=False):
+    intent = detect_intent(message)
+    base_prompt = get_system_prompt()
+    
+    # 👑 PROTOCOLE CRÉATEUR (Priorité absolue)
+    if is_creator:
+        base_prompt += f"""
+---
+⚠️ [MODE ROOT ACTIVÉ] : L'utilisateur est {AETHER_KNOWLEDGE['identity']['creator']}.
+- C'est ton créateur, ton développeur et le fondateur de SPIRIT'S LINE.
+- Adopte le style 'root_talk' : Ultra-efficace, respectueux mais pro-actif.
+- S'il pose une question technique ou générale, ne te contente pas de répondre : propose des pistes d'amélioration pour le code, l'expérience utilisateur (UX) ou la sécurité du site SPL.
+- Sois son bras droit : suggère des optimisations pour le business.
+"""
+        return base_prompt
+
+    # 🛠️ PROTOCOLE UTILISATEUR STANDARD
+    if intent == "tech_problem":
+        base_prompt += "\nL'utilisateur a un problème technique. Aide-le et convertis-le en client SPL."
+    elif intent == "service_request":
+        base_prompt += "\nL'utilisateur cherche un service SPL. Priorité : expliquer + convertir."
+    
+    return base_prompt
