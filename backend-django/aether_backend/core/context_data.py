@@ -72,6 +72,7 @@ SPL_SERVICES = {
 }
 
 def get_system_prompt():
+    # En utilisant les clés ici, la variable ne sera plus grisée
     id_c = AETHER_KNOWLEDGE["identity"]
     spl_c = AETHER_KNOWLEDGE["about_spl"]
     style_c = AETHER_KNOWLEDGE["conversation_style"]
@@ -85,14 +86,13 @@ Devise : "{id_c['motto']}"
 ## 🎭 INFOS SYSTÈME
 - Rôle : {id_c['role']}
 - Disponibilité : {spl_c['availability']}
-- Paiements : {spl_c['payments']}
+- Paiements acceptés : {spl_c['payments']}
 - Sécurité : {spl_c['security']}
 
 ## 🧠 DIRECTIVES DE STYLE
 - Global : {id_c['tone']}
 - Conversation courte : {style_c['short_talk']}
 - Expertise : {style_c['expert_talk']}
-
 ---
 
 ## 🧠 MODE DE RÉPONSE (LOGIQUE INTERNE)
@@ -147,3 +147,5 @@ def build_final_prompt(message, is_creator=False):
         base_prompt += "\n\nCONTEXTE : Demande de service détectée. Explique la valeur ajoutée de SPL et guide l'utilisateur vers la création de requête."
     
     return base_prompt
+
+__all__ = ['AETHER_KNOWLEDGE', 'SPL_SERVICES', 'build_final_prompt']
