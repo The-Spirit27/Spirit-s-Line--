@@ -2,41 +2,133 @@ import os
 from google import genai
 from supabase import create_client, Client
 from dotenv import load_dotenv
-from context_data import SPL_SERVICES, build_final_prompt # Liaison totale effectuée
+
+# Importation des fonctions et dictionnaires de context_data.py
+from context_data import SPL_SERVICES, build_final_prompt, AETHER_KNOWLEDGE
 
 load_dotenv()
 
-# Clients
-client_gemini = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_ANON_KEY"))
+# --- INITIALISATION DES CLIENTS AVEC SÉCURITÉ ---
+try:
+    # On vérifie la présence des clés pour éviter le crash immédiat sur Render
+    GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+    SUPABASE_URL = os.getenv("SUPABASE_URL")
+    SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
+
+    client_gemini = genai.Client(api_key=GEMINI_KEY)
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+except Exception as e:
+    print(f"❌ Erreur d'initialisation des services: {e}")
 
 def get_context_data(user_pseudo=None):
     """Récupère les infos pertinentes de la BDD pour nourrir l'IA"""
     context_str = "\n[DONNÉES TEMPS RÉEL SPL] :\n"
     
-    # 1. Liste des outils/services (Informations générales)
+    # 1. Liste des outils/services (Depuis Supabase)
     try:
         outils = supabase.table("outils").select("nom_outil, categorie, prix, description").execute()
         if outils.data:
-            context_str += "- Outils disponibles : " + str(outils.data) + "\n"
-    except Exception:
-        pass
+            context_str += "- Outils disponibles en boutique : " + str(outils.data) + "\n"
+    except Exception as e:
+        print(f"Erreur Supabase (Outils): {e}")
 
-    # 2. Requêtes spécifiques de l'utilisateur (Contextualisation)
-    if user_pseudo and user_pseudo != "Invité":
+    # 2. Requêtes de l'utilisateur (Contextualisation)
+    if user_pseudo and user_pseudo not in ["Invité", None]:
         try:
             user = supabase.table("utilisateur").select("mat_user").eq("pseudo_user", user_pseudo).single().execute()
             if user.data:
                 mat_user = user.data['mat_user']
-                compte = supabase.table("compte").select("num_cpt").eq("mat_user", mat_user).single().execute()
+                compte = supabase.table("compte").select("mat_user", "num_cpt").eq("mat_user", mat_user).single().execute()
                 if compte.data:
                     reqs = supabase.table("requete").select("nom_rqt, status, progress").eq("num_cpt", compte.data['num_cpt']).execute()
                     if reqs.data:
-                        context_str += f"- Tes requêtes en cours ({user_pseudo}) : " + str(reqs.data) + "\n"
-        except Exception:
-            pass
+                        context_str += f"- Requêtes en cours pour {user_pseudo} : {str(reqs.data)}\n"
+        except Exception as e:
+            print(f"Erreur Supabase (User Context): {e}")
 
     return context_str
+
+def suggest_service_logic(message):
+    """Logique de suggestion basée sur SPL_SERVICES (Liaison context_data)"""
+    message = message.lower()
+    
+    # Mapping interne pour lier les mots-clés aux noms exacts dans SPL_SERVICES
+    mapping = {
+        "lent": "Réfection de systèmes", "bug": "Réfection de systèmes",
+        "virus": "Suppression de virus", "mot de passe": "Déblocage PC",
+        "windows": "Activation Windows", "linux": "Changement OS",
+        "site": "Création de sites web", "flyer": "Création de flyers",
+        "document": "Saisie de documents", "imprimante": "Configuration imprimante",
+        "cloud": "Transfert cloud"
+    }
+
+    for keyword, service_name in mapping.items():
+        if keyword in message:
+            for category in SPL_SERVICES.values():
+                for s in category["services"]:
+                    if s["name"] == service_name:
+                        return s
+    return None
+
+def ask_aether(message, user_pseudo="Invité", role="GUEST", is_creator=False):
+    """
+    Fonction principale compatible avec context_data.py
+    Note : 'system_instruction' est maintenant générée en interne via build_final_prompt
+    """
+    
+    # 1. Détection automatique de l'instruction système (Liaison context_data)
+    # On utilise build_final_prompt qui gère déjà detect_intent()
+    system_instruction = build_final_prompt(message, is_creator)
+
+    # 2. Récupération du contexte BDD
+    db_context = get_context_data(user_pseudo)
+    
+    # 3. Suggestion intelligente de service
+    suggested = suggest_service_logic(message)
+    suggestion_text = ""
+    if suggested:
+        suggestion_text = (
+            f"\n[SUGGESTION AUTOMATIQUE SPL]\n"
+            f"Service : {suggested['name']}\n"
+            f"Action : {suggested.get('desc', 'Consulter le service')}\n"
+            f"Lien : {suggested['url']}\n"
+        )
+
+    # 4. Construction du rôle pour l'IA
+    role_tag = "[ROOT]" if is_creator else f"[{role}]"
+    
+    # 5. Construction finale du Prompt (Ultra-structuré pour Gemini/Gemma)
+    prompt = (
+        f"{system_instruction}\n\n"
+        f"--- CONTEXTE UTILISATEUR ---\n"
+        f"USER_ROLE: {role_tag}\n"
+        f"USER_NAME: {user_pseudo}\n"
+        f"{suggestion_text}\n"
+        f"--- DONNÉES TEMPS RÉEL ---\n"
+        f"{db_context}\n\n"
+        f"--- MESSAGE À TRAITER ---\n"
+        f"{message}"
+    )
+
+    # 6. Envoi vers les modèles (Gemini avec Fallback Gemma)
+    try:
+        response = client_gemini.models.generate_content(
+            model="gemini-1.5-flash", 
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        print(f"⚠️ Échec Gemini: {e}")
+        try:
+            print("🔄 Tentative de repli sur Gemma 3 4B...")
+            response = client_gemini.models.generate_content(
+                model="gemma-3-4b-it",
+                contents=prompt
+            )
+            return response.text
+        except Exception as e2:
+            return f"❌ Erreur système critique (Aether ne peut pas répondre) : {e2}"
+        
 
 def handle_faq(question):
     """Intercepte les questions fréquentes pour économiser l'IA"""
@@ -58,83 +150,6 @@ def handle_faq(question):
         return "Créer un compte sur SPIRIT'S LINE est simple :\n1. Va sur la page d'inscription\n2. Entre ton email et mot de passe\n3. Confirme ton compte\n\n👉 Ensuite, tu peux envoyer des requêtes directement 🚀"
 
     return None
-
-def suggest_service(message):
-    """Scanne SPL_SERVICES dynamiquement à partir d'un mot-clé"""
-    message = message.lower()
-    mapping = {
-        "lent": "Réfection de systèmes", "bug": "Réfection de systèmes",
-        "virus": "Suppression de virus", "mot de passe": "Déblocage PC",
-        "windows": "Activation Windows", "linux": "Changement OS",
-        "site": "Création de sites web", "flyer": "Création de flyers",
-        "document": "Saisie de documents", "imprimante": "Configuration imprimante",
-        "cloud": "Transfert cloud"
-    }
-
-    for keyword, service_name in mapping.items():
-        if keyword in message:
-            for category in SPL_SERVICES.values():
-                for s in category["services"]:
-                    if s["name"] == service_name:
-                        return s
-    return None
-
-def ask_aether(message, user_pseudo="Invité", role="GUEST", is_creator=False):
-    """Fonction principale de l'IA AÉTHER"""
-    
-    # 1. Vérification FAQ (Réponse immédiate)
-    faq_res = handle_faq(message)
-    if faq_res: return faq_res
-
-    # 2. Construction du prompt système dynamique
-    # Utilise la fonction de context_data.py pour adapter le ton
-    system_instruction = build_final_prompt(message, is_creator)
-
-    # 3. Suggestion intelligente de service
-    suggested = suggest_service(message)
-    suggestion_text = ""
-    if suggested:
-        suggestion_text = f"\n👉 Service recommandé : {suggested['name']}\n📄 Description : {suggested.get('desc', '')}\n🔗 Accéder : {suggested['url']}\n"
-
-    # 4. Contexte de la base de données
-    db_context = get_context_data(user_pseudo)
-    
-    # 5. Assemblage final du prompt
-    final_prompt = f"""
-{system_instruction}
-
-{suggestion_text}
-
-[USER INFO]
-- Nom: {user_pseudo}
-- Role: {"[ROOT]" if is_creator else f"[{role}]"}
-
-[CONTEXTE DB]
-{db_context}
-
-[MESSAGE]
-{message}
-"""
-
-    # 6. Génération de la réponse
-    try:
-        response = client_gemini.models.generate_content(
-            model="gemini-1.5-flash", 
-            contents=final_prompt
-        )
-        return response.text
-    except Exception as e:
-        print(f"Erreur Gemini: {e}")
-        try:
-            response = client_gemini.models.generate_content(
-                model="gemma-3-4b-it", 
-                contents=final_prompt
-            )
-            return response.text
-        except Exception as e2:
-            return f"⚠️ Système momentanément indisponible : {e2}"
-
-# Suggestions pour l'interface UI (Boutons)
 def get_ui_suggestions(role):
     if role == "GUEST":
         return ["C'est quoi SPIRIT'S LINE ?", "Quels sont les services ?", "Comment créer un compte ?"]
