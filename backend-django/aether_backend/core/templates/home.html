@@ -1,33 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AÉTHER-AI SPL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AÉTHER-AI SPL</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { font-family: 'Inter', sans-serif; }
+
+/* FAQ buttons */
+.faq-btn {
+    padding: 6px 12px;
+    background: #f1f5f9;
+    border-radius: 999px;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+.faq-btn:hover {
+    background: #2563eb;
+    color: white;
+}
+.faq-btn {
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.faq-btn:hover {
+    background: #2563eb;
+    color: white;
+    transform: scale(1.05);
+}
+</style>
 </head>
 
-<body class="bg-gray-100 font-inter flex flex-col min-h-screen">
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-<!-- HEADER AUTH -->
+<!-- HEADER -->
 <div class="max-w-2xl mx-auto w-full mt-4 px-4">
-    <div class="bg-white p-3 shadow-sm flex justify-between items-center rounded-lg border">
+    <div class="bg-white p-3 shadow flex justify-between items-center rounded-xl border">
 
-        <div class="text-sm font-semibold text-gray-700">
-            <span id="status-text" class="text-blue-600">Mode : Visiteur</span>
+        <div class="text-sm font-semibold">
+            <span id="status-text" class="text-blue-600">Mode Invité</span>
         </div>
 
-        <div class="flex items-center gap-3">
-            <button id="login-btn" class="bg-black text-white px-4 py-1 rounded text-sm hover:bg-gray-800">
-                Se connecter
+        <div class="flex items-center gap-2">
+            <button id="login-btn" class="bg-black text-white px-4 py-1.5 rounded-lg text-sm hover:scale-105 transition">
+                Connexion
             </button>
 
-            <button id="logout-btn" class="hidden text-xs bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded">
+            <button id="logout-btn" class="hidden text-xs bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg transition">
                 Déconnexion
             </button>
         </div>
-
     </div>
 </div>
 
@@ -35,26 +67,47 @@
     AÉTHER-AI SPL
 </header>
 
-    <main class="flex-1 p-4 flex flex-col max-w-2xl mx-auto w-full">
-        <div id="chat-container" class="flex-1 border rounded-lg p-4 bg-white shadow-inner overflow-y-auto h-[60vh]">
-            <div class="mb-2 text-left">
-                <span class="inline-block bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm italic">
-                    Bienvenue dans l'écosystème SPIRIT'S LINE. Comment puis-je vous aider ?
-                </span>
-                <div id="faq">
-  <button onclick="ask('C\'est quoi SPIRIT\'S LINE ?')">C'est quoi SPL ?</button>
-  <button onclick="ask('Quels sont les services ?')">Services</button>
-  <button onclick="ask('Qui a créé SPIRIT\'S LINE ?')">Créateur</button>
-  <button onclick="ask('Comment créer un compte ?')">Créer un compte</button>
+<!-- CHAT -->
+<main class="flex-1 p-4 flex flex-col max-w-2xl mx-auto w-full">
+
+    <div id="chat-container" class="flex-1 border rounded-xl p-4 bg-white shadow-inner overflow-y-auto h-[60vh]">
+
+        <!-- MESSAGE INITIAL -->
+        <div class="mb-4 flex items-start gap-3">
+            <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png"
+                 class="w-9 h-9 rounded-full shadow" />
+
+            <div>
+                <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
+                <div class="bg-gray-100 px-4 py-2 rounded-2xl">
+                    Bienvenue dans SPIRIT'S LINE. Comment puis-je t’aider ? ❄️
+                </div>
+
+                <!-- FAQ -->
+               <div id="faq" class="flex flex-wrap gap-2 mt-3">
+    <button class="faq-btn" data-question="C'est quoi SPIRIT'S LINE ?">C'est quoi SPL ?</button>
+    <button class="faq-btn" data-question="Quels sont les services ?">Services</button>
+    <button class="faq-btn" data-question="Qui a créé SPIRIT'S LINE ?">Créateur</button>
+    <button class="faq-btn" data-question="Comment créer un compte ?">Créer un compte</button>
 </div>
             </div>
         </div>
 
-       <form id="chat-form" class="mt-4 flex gap-2">
-            <input type="text" id="chat-input" placeholder="Écris ton message..." class="flex-1 border rounded-lg p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-bold shadow-md">Envoyer</button>
-        </form>
-    </main>
+    </div>
+
+    <!-- INPUT -->
+    <form id="chat-form" class="mt-4 flex gap-2">
+        <input type="text" id="chat-input"
+               placeholder="Écris ton message..."
+               class="flex-1 border rounded-lg p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <button type="submit"
+                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-bold shadow-md">
+            Envoyer
+        </button>
+    </form>
+
+</main>
+
 <footer class="bg-gray-50 text-center p-4 text-xs text-gray-400">
     © 2026 SPIRIT'S LINE - AÉTHER-AI
 </footer>
@@ -63,8 +116,6 @@
 
 <script>
 /* ================= CONFIG ================= */
-const PARENT_ORIGIN = "https://spirit-s-line.online";
-
 const supabaseUrl = '{{ SUPABASE_URL }}';
 const supabaseKey = '{{ SUPABASE_ANON_KEY }}';
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -77,58 +128,16 @@ const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const statusText = document.getElementById('status-text');
 
-/* ================= INIT ================= */
-async function initAether() {
-    const { data: { session } } = await _supabase.auth.getSession();
+/* ================= FAQ ================= */
+document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        envoyerMessage(btn.dataset.question);
+    });
+});
 
-    if (session) {
-        const { data: profile } = await _supabase
-            .from('utilisateur')
-            .select('pseudo_user, role_user')
-            .eq('auth_id', session.user.id)
-            .single();
-
-        if (profile) {
-            if (profile.role_user === 'ROOT') {
-                statusText.innerHTML = `👑 ${profile.pseudo_user} (ROOT)`;
-                statusText.className = "text-amber-500 font-bold";
-            } else {
-                statusText.innerText = `Connecté : ${profile.pseudo_user}`;
-                statusText.className = "text-green-600 font-bold";
-            }
-
-            loginBtn.style.display = "none";
-            logoutBtn.style.display = "block";
-        }
-
-    } else {
-        statusText.innerText = "Mode Invité";
-        statusText.className = "text-gray-400";
-
-        loginBtn.style.display = "block";
-        logoutBtn.style.display = "none";
-    }
-}
-
-initAether();
-
-/* ================= AUTH ================= */
-loginBtn.onclick = () => window.location.href = '/login/';
-
-logoutBtn.onclick = async () => {
-    await _supabase.auth.signOut();
-    location.reload();
-};
-
-/* ================= CHAT ================= */
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const message = input.value.trim();
-    if (!message) return;
-
+/* ================= ENVOI CENTRAL ================= */
+async function envoyerMessage(message) {
     appendMessage(message, 'user');
-    input.value = '';
 
     const loader = showLoading();
 
@@ -145,112 +154,121 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify({ message })
         });
 
+        if (!res.ok) throw new Error();
+
         const data = await res.json();
         loader.remove();
 
-        appendMessage(data.reply, 'ai');
+        appendMessage(data.reply || "Réponse vide.", 'ai');
 
     } catch (err) {
         loader.remove();
-        appendMessage("Erreur serveur.", 'ai');
+        appendMessage("⚠️ Erreur serveur.", 'ai');
     }
+}
+
+/* ================= FORM ================= */
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const message = input.value.trim();
+    if (!message) return;
+
+    input.value = '';
+    envoyerMessage(message);
 });
 
+/* ================= INIT ================= */
+async function initAether() {
+    const { data: { session } } = await _supabase.auth.getSession();
+
+    if (session) {
+        const { data: profile } = await _supabase
+            .from('utilisateur')
+            .select('pseudo_user, role_user')
+            .eq('auth_id', session.user.id)
+            .single();
+
+        if (profile) {
+            if (profile.role_user === 'ROOT') {
+                statusText.innerHTML = `👑 ${profile.pseudo_user}`;
+                statusText.className = "text-amber-500 font-bold";
+            } else {
+                statusText.innerText = `Connecté : ${profile.pseudo_user}`;
+                statusText.className = "text-green-600 font-bold";
+            }
+
+            loginBtn.style.display = "none";
+            logoutBtn.style.display = "block";
+        }
+
+    } else {
+        statusText.innerText = "Mode Invité";
+        statusText.className = "text-gray-400";
+        loginBtn.style.display = "block";
+        logoutBtn.style.display = "none";
+    }
+}
+
+initAether();
+
+/* ================= AUTH ================= */
+loginBtn.onclick = () => window.location.href = '/login/';
+
+logoutBtn.onclick = async () => {
+    await _supabase.auth.signOut();
+    location.reload();
+};
+
 /* ================= UI ================= */
- /* ================= UI ================= */form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+function appendMessage(text, side) {
+    const msgDiv = document.createElement('div');
 
-        const message = input.value.trim();
-        if (!message) return;
+    msgDiv.className = side === 'user'
+        ? 'mb-4 text-right flex justify-end'
+        : 'mb-4 flex items-start gap-3';
 
-        appendMessage(message, 'user');
-        input.value = '';
-
-        const loader = showLoading();
-
-        try {
-            const { data: { session } } = await _supabase.auth.getSession();
-            const token = session?.access_token;
-
-            const res = await fetch('/api/aether/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
-                },
-                body: JSON.stringify({ message })
-            });
-
-            const data = await res.json();
-            loader.remove();
-
-            appendMessage(data.reply, 'ai');
-
-        } catch (err) {
-            loader.remove();
-            appendMessage("Erreur serveur.", 'ai');
-        }
-    });
-
-    /* ================= UI - GESTION DES MESSAGES ================= */
-    // J'AI CORRIGÉ CETTE FONCTION POUR AJOUTER L'ICÔNE
-    function appendMessage(text, side) {
-        const msgDiv = document.createElement('div');
-        // Ajout de classes flex pour aligner l'avatar et le texte pour l'IA
-        msgDiv.className = side === 'user' ? 'mb-4 text-right flex justify-end' : 'mb-4 flex items-start gap-3';
-
-        if (side === 'user') {
-            msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
-        } else {
-            // C'EST ICI QUE JE METS TON IMAGE EN AVATAR
-            msgDiv.innerHTML = `
-                <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" 
-                     alt="AÉTHER-AI Logo" 
-                     class="w-9 h-9 rounded-full border border-gray-100 shadow-sm mt-1" />
-                
-                <div>
-                    <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
-                    <span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>
-                </div>
-            `;
-        }
-        container.appendChild(msgDiv);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    // J'AI AUSSI CORRIGÉ LE LOADER POUR QU'IL SOIT BIEN ALIGNÉ
-    function showLoading() {
-        const loadingMsg = document.createElement('div');
-        loadingMsg.className = 'mb-4 flex items-start gap-3 animate-pulse';
-        loadingMsg.innerHTML = `
-            <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" 
-                 alt="AÉTHER-AI Logo" 
-                 class="w-9 h-9 rounded-full border border-gray-100 shadow-sm mt-1" />
-            
-            <div>
-                <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
-                <span class="inline-block bg-gray-100 text-gray-400 px-4 py-2 rounded-2xl rounded-tl-none italic text-sm">AÉTHER réfléchit...</span>
-            </div>
+    msgDiv.innerHTML = side === 'user'
+        ? `<span class="bg-blue-600 text-white px-4 py-2 rounded-2xl">${text}</span>`
+        : `
+        <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png"
+             class="w-9 h-9 rounded-full mt-1" />
+        <div>
+            <div class="text-[10px] text-gray-400 mb-1">AÉTHER-AI</div>
+            <span class="bg-white border px-4 py-2 rounded-2xl">${text}</span>
+        </div>
         `;
-        container.appendChild(loadingMsg);
-        container.scrollTop = container.scrollHeight;
-        return loadingMsg;
-    }
 
-/* ================= COMMUNICATION IFRAME ================= */
-window.addEventListener('message', async (event) => {
-    if (event.origin !== PARENT_ORIGIN) return;
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
 
-    if (!event.data || !event.data.type) return;
+function showLoading() {
+    const loading = document.createElement('div');
+    loading.className = 'mb-4 flex items-start gap-3 animate-pulse';
 
-    if (event.data.type === 'SET_SESSION') {
-        await _supabase.auth.setSession(event.data.session);
-        initAether();
-    }
+    loading.innerHTML = `
+        <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png"
+             class="w-9 h-9 rounded-full mt-1" />
+        <div>
+            <div class="text-[10px] text-gray-400 mb-1">AÉTHER-AI</div>
+            <span class="bg-gray-100 text-gray-400 px-4 py-2 rounded-2xl italic">
+                AÉTHER réfléchit...
+            </span>
+        </div>
+    `;
 
-    if (event.data.type === 'LOGOUT') {
-        await _supabase.auth.signOut();
-        location.reload();
+    container.appendChild(loading);
+    container.scrollTop = container.scrollHeight;
+
+    return loading;
+}
+
+/* ENTER KEY */
+input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        form.dispatchEvent(new Event('submit'));
     }
 });
 </script>
