@@ -221,27 +221,29 @@ logoutBtn.onclick = async () => {
 };
 
 /* ================= UI ================= */
-function appendMessage(text, side) {
-    const msgDiv = document.createElement('div');
+ function appendMessage(text, side) {
+        const msgDiv = document.createElement('div');
+        // Ajout de classes flex pour aligner l'avatar et le texte pour l'IA
+        msgDiv.className = side === 'user' ? 'mb-4 text-right flex justify-end' : 'mb-4 flex items-start gap-3';
 
-    msgDiv.className = side === 'user'
-        ? 'mb-4 text-right flex justify-end'
-        : 'mb-4 flex items-start gap-3';
-
-    msgDiv.innerHTML = side === 'user'
-        ? `<span class="bg-blue-600 text-white px-4 py-2 rounded-2xl">${text}</span>`
-        : `
-        <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png"
-             class="w-9 h-9 rounded-full mt-1" />
-        <div>
-            <div class="text-[10px] text-gray-400 mb-1">AÉTHER-AI</div>
-            <span class="bg-white border px-4 py-2 rounded-2xl">${text}</span>
-        </div>
-        `;
-
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-}
+        if (side === 'user') {
+            msgDiv.innerHTML = `<span class="inline-block bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow">${text}</span>`;
+        } else {
+            // C'EST ICI QUE JE METS TON IMAGE EN AVATAR
+            msgDiv.innerHTML = `
+                <img src="https://spirit-s-line.online/Frontend/Images/aether-ai-logo.png" 
+                     alt="AÉTHER-AI Logo" 
+                     class="w-9 h-9 rounded-full border border-gray-100 shadow-sm mt-1" />
+                
+                <div>
+                    <div class="text-[10px] text-gray-400 ml-1 mb-1">AÉTHER-AI</div>
+                    <span class="inline-block bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">${text}</span>
+                </div>
+            `;
+        }
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
 
 function showLoading() {
     const loading = document.createElement('div');
