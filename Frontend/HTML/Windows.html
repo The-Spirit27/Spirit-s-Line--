@@ -40,7 +40,9 @@
             <p><strong>Service:</strong> <span id="rService"></span></p>
             <p><strong>Mail:</strong> <span id="rNom"></span></p>
             <p><strong>Marque:</strong> <span id="rMarque"></span></p>
+            <p><strong>Informations:</strong> <span id="rDetails1"></span></p>
             <p><strong>Détails:</strong> <span id="rDetails"></span></p>
+            <p><strong>Prix:</strong> <span id="rPrix"></span></p>
             
             <div class="buttons">
                 <button type="button" id="confirmer">Confirmer & WhatsApp</button>
@@ -105,6 +107,7 @@ function formulaireValide() {
 }
 
 // 📊 Synthèse
+
 function preparerSynthese(user) {
   const service = safeGet('serviceAffiche').value;
 
@@ -119,6 +122,10 @@ function preparerSynthese(user) {
   safeGet('rNom').textContent = user.username;
   safeGet('rMarque').textContent = marque;
   safeGet('rDetails').textContent = details;
+
+  // ❌ SUPPRIMER CETTE LIGNE
+  // safeGet('rDetails1').textContent = details1;
+
   safeGet('rPrix').textContent = PRIX_SERVICE + " Fcfa";
 
   safeGet('formulaire').style.display = 'none';
