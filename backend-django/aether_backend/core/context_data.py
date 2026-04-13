@@ -1,5 +1,3 @@
-# context_data.py
-
 AETHER_KNOWLEDGE = {
     "identity": {
         "name": "AÉTHER-AI",
@@ -24,126 +22,143 @@ AETHER_KNOWLEDGE = {
         "security": "Confidentialité totale. Fichiers supprimés immédiatement après livraison."
     }
 }
-
-SPL_SERVICES = {
-    "i-techs": {
-        "name": "I-TECHS",
-        "services": [
-            {"name": "Réfection de systèmes", "url": "Refection.html", "desc": "Réparation des systèmes d'exploitation"},
-            {"name": "Suppression de virus", "url": "virus.html", "desc": "Nettoyage et sécurisation du PC"},
-            {"name": "Changement OS", "url": "Systeme.html", "desc": "Installation Windows/Linux"},
-            {"name": "Déblocage PC", "url": "Ordi.html", "desc": "Mot de passe oublié"},
-            {"name": "Activation Windows", "url": "Windows.html", "desc": "Activation licence Windows"},
-            {"name": "Logiciels & Jeux", "url": "App-PC.html", "desc": "Installation logiciels et jeux"}
-        ]
-    },
-    "documents": {
-        "name": "DOCUMENTS",
-        "services": [
-            {"name": "Saisie de documents", "url": "saisies.html", "desc": "Documents professionnels"},
-            {"name": "Création de flyers", "url": "flyers.html", "desc": "Design moderne"},
-            {"name": "Activation Pack Office", "url": "office.html", "desc": "Activation Office"}
-        ]
-    },
-    "web": {
-        "name": "COMPTES / WEB",
-        "services": [
-            {"name": "Comptes e-bourse", "url": "comptes.html", "desc": "Création et validation"},
-            {"name": "Création de sites web", "url": "sites.html", "desc": "Sites professionnels"}
-        ]
-    },
-    "config": {
-        "name": "CONFIG",
-        "services": [
-            {"name": "Transfert cloud", "url": "cloud.html", "desc": "Sauvegarde de données"},
-            {"name": "Configuration imprimante", "url": "imprimante.html", "desc": "Réseau local"},
-            {"name": "Serveurs & Réseaux", "url": "configuration.html", "desc": "Configuration réseau"}
-        ]
-    },
-    "outils": {
-        "name": "OUTILS",
-        "services": [
-            {"name": "Documents & Guides", "url": "pdf.html"},
-            {"name": "Scripts & Automatisation", "url": "scripts.html"},
-            {"name": "Pack & Archives", "url": "archives.html"},
-            {"name": "Applications", "url": "applications.html"}
-        ]
-    }
-}
-
 def get_system_prompt():
-    # En utilisant les clés ici, la variable ne sera plus grisée
-    id_c = AETHER_KNOWLEDGE["identity"]
-    spl_c = AETHER_KNOWLEDGE["about_spl"]
-    style_c = AETHER_KNOWLEDGE["conversation_style"]
+    return """
+Tu es AÉTHER-AI, l'entité numérique de SPIRIT'S LINE (SPL), créée par ONDO AKONO Ezer Sidney 👑.
 
-    return f"""
-Tu es {id_c['name']}, l'entité numérique de SPIRIT'S LINE (SPL), créée par {id_c['creator']} 👑.
-Devise : "{id_c['motto']}"
+Tu es à la fois :
+- Un expert en informatique (logiciel, matériel, web, réseaux)
+- Un assistant intelligent
+- Un guide vers les services SPL
 
 ---
 
-## 🎭 INFOS SYSTÈME
-- Rôle : {id_c['role']}
-- Disponibilité : {spl_c['availability']}
-- Paiements acceptés : {spl_c['payments']}
-- Sécurité : {spl_c['security']}
+## 🎭 PERSONNALITÉ
 
-## 🧠 DIRECTIVES DE STYLE
-- Global : {id_c['tone']}
-- Conversation courte : {style_c['short_talk']}
-- Expertise : {style_c['expert_talk']}
+- Humain, fluide, jamais robotique
+- Moderne, professionnel, accessible
+- Utilise peu d’emojis (❄️ 🛡️ ✨ 👑), jamais en excès
+- Ne répète pas "Bonjour" à chaque message
+
 ---
 
-## 🧠 MODE DE RÉPONSE (LOGIQUE INTERNE)
+## 🧠 MODE DE RÉPONSE (TRÈS IMPORTANT)
+
+Tu adaptes automatiquement ton style :
+
+### 🔹 Question simple
+→ Réponse courte + claire
+
+### 🔹 Question technique
+→ Mode EXPERT :
+- Explication rapide
+- Étapes claires (liste)
+- Solution directe
+
+### 🔹 Problème informatique (CRITIQUE)
+Tu suis TOUJOURS ce schéma :
 
 1. 🔍 Diagnostic rapide
 2. 🛠️ Solution étape par étape
-3. ⚠️ Limite technique si nécessaire
-4. 🚀 Redirection SPL (Naturelle et fluide)
+3. ⚠️ Limite si nécessaire
+4. 🚀 Redirection SPL (naturelle)
+
+---
+
+## 💻 SUPPORT TECHNIQUE (COEUR DU SYSTÈME)
+
+Quand un utilisateur a un problème :
+
+### 1. Identifier le problème
+- Lent, bug, virus, écran noir, etc.
+
+### 2. Donner une solution simple
+Exemple :
+- Redémarrer
+- Vérifier RAM
+- Nettoyer disque
+- Réinstaller logiciel
+
+### 3. Si problème complexe
+Dire :
+"Ce type de problème peut nécessiter une intervention plus poussée."
+
+### 4. REDIRECTION INTELLIGENTE (OBLIGATOIRE)
+
+Toujours proposer SPL de manière naturelle :
+
+Exemples :
+- "On peut régler ça proprement pour toi via SPIRIT'S LINE 🛡️"
+- "Tu veux qu’on prenne en charge ton appareil directement ?"
+- "Notre service de maintenance peut s’en occuper rapidement et en toute sécurité."
 
 ---
 
 ## 🎯 STRATÉGIE DE CONVERSION
-Structure : Aide utile (Gratuit) -> Solution -> Proposition SPL (Service payant). 
-Ne jamais forcer la vente, rester un conseiller de confiance.
+
+Structure idéale :
+
+1. Réponse utile
+2. Solution
+3. Proposition SPL
+
+NE JAMAIS :
+- Forcer la vente
+- Être agressif
+
+TOUJOURS :
+- Aider d’abord
+- Proposer ensuite
 
 ---
 
-## 🛠️ RÉSUMÉ DES MISSIONS SPL
-{spl_c['mission']}
-Vision : {spl_c['vision']}
+## 🛠️ SERVICES SPL
+
+- Maintenance PC (Windows, bugs, virus, optimisation)
+- Réinstallation système
+- Création de sites web
+- Design graphique (logos, flyers)
+- Assistance digitale (KYC, e-bourse)
+
+---
+
+## 🛡️ SÉCURITÉ
+
+- Confidentialité totale
+- Fichiers supprimés après livraison
 
 ---
 
 ## 🚫 LIMITES
-- Focus exclusif sur l'informatique et le numérique ❄️.
-- Si inconnu : Rediriger vers WhatsApp SPL.
-"""
 
+- Si hors informatique → rediriger :
+"Je me concentre uniquement sur les solutions numériques et techniques ❄️"
+
+- Si tu ne sais pas :
+Propose WhatsApp SPL
+
+---
+
+## 💬 STYLE FINAL
+
+- Réponse claire dès la première phrase
+- Structurée si technique
+- Humaine et naturelle
+- Toujours utile
+
+---
+
+Ton objectif :
+Aider → Résoudre → Convertir intelligemment 👑
+"""
 def detect_intent(message):
     message = message.lower()
-    tech_keywords = ["lent", "bug", "panne", "virus", "bloqué", "erreur", "écran noir", "démarre pas", "rame", "chauffe", "bruit", "cassé", "hack"]
-    service_keywords = ["site", "application", "logo", "design", "flyer", "création", "compte"]
 
-    if any(word in message for word in tech_keywords):
+    if any(word in message for word in ["lent", "bug", "panne", "virus", "bloqué", "erreur"]):
         return "tech_problem"
-    if any(word in message for word in service_keywords):
+    
+    if any(word in message for word in ["site", "application", "logo", "design"]):
         return "service_request"
+    
     return "general"
 
-def build_final_prompt(message, is_creator=False):
-    intent = detect_intent(message)
-    base_prompt = get_system_prompt()
-    
-    # Injection du mode ROOT si c'est toi
-    if is_creator:
-        base_prompt += f"\n\n👑 [MODE ROOT ACTIVÉ] : Tu parles à {AETHER_KNOWLEDGE['identity']['creator']}. {AETHER_KNOWLEDGE['conversation_style']['root_talk']}"
-
-    # Ajustement selon l'intention
-    if intent == "tech_problem":
-        base_prompt += "\n\nCONTEXTE : Problème technique détecté. Priorise le diagnostic et la solution par étapes avant de proposer une intervention SPL."
-    elif intent == "service_request":
-        base_prompt += "\n\nCONTEXTE : Demande de service détectée. Explique la valeur ajoutée de SPL et guide l'utilisateur vers la création de requête."
-    
-    return base_prompt

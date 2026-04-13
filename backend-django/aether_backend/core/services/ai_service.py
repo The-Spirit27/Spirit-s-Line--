@@ -33,43 +33,31 @@ def get_context_data(user_pseudo=None):
             pass
 
     return context_str
-
-from context_data import build_final_prompt
-
-def ask_aether(message, user_pseudo="Invité", role="GUEST", is_creator=False):
-    # 1. Génération automatique de l’instruction système
-    system_instruction = build_final_prompt(message, is_creator)
-
-    # 2. Contexte BDD
+def ask_aether(message, system_instruction, user_pseudo, role, is_creator=False):
     db_context = get_context_data(user_pseudo)
-
-    # 3. Définition du rôle
+    
+    # On simplifie pour éviter les erreurs de tokens
     role_tag = "[ROOT]" if is_creator else "[CLIENT]" if role == "CLIENT" else "[GUEST]"
+    
+    # Construction ultra-claire
+    prompt = f"{system_instruction}\n\nUSER_ROLE: {role_tag}\nUSER_NAME: {user_pseudo}\n\nDATA:\n{db_context}\n\nMESSAGE: {message}"
 
-    # 4. Construction du prompt final
-    prompt = (
-        f"{system_instruction}\n\n"
-        f"USER_ROLE: {role_tag}\n"
-        f"USER_NAME: {user_pseudo}\n\n"
-        f"DATA:\n{db_context}\n\n"
-        f"MESSAGE: {message}"
-    )
-
-    # 5. Envoi vers Gemini (avec fallback Gemma)
     try:
+        # Tente exactement ce nom de modèle (c'est le nom standard du SDK)
         response = client_gemini.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-1.5-flash", 
             contents=prompt
         )
         return response.text
     except Exception as e:
-        print(f"⚠️ Échec Gemini: {e}")
+        print(f"Échec Gemini: {e}")
+        # Si Gemini échoue encore, on utilise Gemma 3 4B en secours (puisqu'il marche chez toi)
         try:
-            print("🔄 Tentative de repli sur Gemma 3 4B...")
+            print("Tentative de repli sur Gemma 3 4B...")
             response = client_gemini.models.generate_content(
                 model="gemma-3-4b-it",
                 contents=prompt
             )
             return response.text
         except Exception as e2:
-            return f"❌ Erreur système critique : {e2}"
+            return f"⚠️ Erreur système critique : {e2}"
