@@ -147,4 +147,3 @@ def build_final_prompt(message, is_creator=False):
         base_prompt += "\n\nCONTEXTE : Demande de service détectée. Explique la valeur ajoutée de SPL et guide l'utilisateur vers la création de requête."
     
     return base_prompt
-    
