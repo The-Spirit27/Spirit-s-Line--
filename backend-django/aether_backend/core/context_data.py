@@ -21,6 +21,7 @@ AETHER_KNOWLEDGE = {
         "payments": "Airtel Money, Moov Money (Transactions sécurisées).",
         "security": "Confidentialité totale. Fichiers supprimés immédiatement après livraison."
     }
+    
 }
 def get_system_prompt():
     return """
@@ -154,11 +155,31 @@ Aider → Résoudre → Convertir intelligemment 👑
 def detect_intent(message):
     message = message.lower()
 
-    if any(word in message for word in ["lent", "bug", "panne", "virus", "bloqué", "erreur"]):
+    tech_keywords = ["lent", "bug", "panne", "virus", "bloqué", "erreur", "écran noir", "ne démarre pas"]
+    service_keywords = ["site", "application", "logo", "design", "flyer", "création"]
+
+    if any(word in message for word in tech_keywords):
         return "tech_problem"
     
-    if any(word in message for word in ["site", "application", "logo", "design"]):
+    if any(word in message for word in service_keywords):
         return "service_request"
     
     return "general"
 
+
+user_message = "Mon PC est lent"
+
+intent = detect_intent(user_message)
+
+system_prompt = get_system_prompt()
+
+# 🔥 Injection intelligente
+if intent == "tech_problem":
+    system_prompt += """
+L'utilisateur a un problème technique.
+- Donne une solution étape par étape
+- Reste simple
+- Termine par une proposition SPL naturelle
+"""
+elif intent == "service_request":
+    system_prompt += "\nL'utilisateur cherche un service SPL. Priorité : expliquer + convertir."
