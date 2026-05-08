@@ -34,30 +34,48 @@ def get_context_data(user_pseudo=None):
 
     return context_str
 def ask_aether(message, system_instruction, user_pseudo, role, is_creator=False):
-    db_context = get_context_data(user_pseudo)
-    
-    # On simplifie pour éviter les erreurs de tokens
-    role_tag = "[ROOT]" if is_creator else "[CLIENT]" if role == "CLIENT" else "[GUEST]"
-    
-    # Construction ultra-claire
-    prompt = f"{system_instruction}\n\nUSER_ROLE: {role_tag}\nUSER_NAME: {user_pseudo}\n\nDATA:\n{db_context}\n\nMESSAGE: {message}"
 
-    try:
-        # Tente exactement ce nom de modèle (c'est le nom standard du SDK)
-        response = client_gemini.models.generate_content(
-            model="gemini-1.5-flash", 
-            contents=prompt
-        )
-        return response.text
-    except Exception as e:
-        print(f"Échec Gemini: {e}")
-        # Si Gemini échoue encore, on utilise Gemma 3 4B en secours (puisqu'il marche chez toi)
+    db_context = get_context_data(user_pseudo)
+
+    role_tag = (
+        "[ROOT]" if is_creator
+        else "[CLIENT]" if role == "CLIENT"
+        else "[GUEST]"
+    )
+
+    prompt = f"""
+{system_instruction}
+
+USER_ROLE: {role_tag}
+USER_NAME: {user_pseudo}
+
+DATA:
+{db_context}
+
+MESSAGE:
+{message}
+"""
+
+    models_to_try = [
+        "models/gemini-2.0-flash",
+        "models/gemini-1.5-flash",
+        "models/gemma-3-4b-it"
+    ]
+
+    for model_name in models_to_try:
+
         try:
-            print("Tentative de repli sur Gemma 3 4B...")
+            print(f"Tentative avec {model_name}")
+
             response = client_gemini.models.generate_content(
-                model="gemma-3-4b-it",
+                model=model_name,
                 contents=prompt
             )
-            return response.text
-        except Exception as e2:
-            return f"⚠️ Erreur système critique : {e2}"
+
+            if hasattr(response, "text") and response.text:
+                return response.text
+
+        except Exception as e:
+            print(f"Erreur avec {model_name}: {e}")
+
+    return "⚠️ Tous les modèles IA sont indisponibles."

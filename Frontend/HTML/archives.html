@@ -158,16 +158,20 @@
 <div class="files-container" id="archives-container">
     <!-- Fichiers PDF seront ajoutés ici -->
 </div>
+<div style="margin-bottom:20px;">
+  <input id="phone" type="text" placeholder="Numéro mobile (ex: 074849344)"
+    style="padding:10px; width:250px; border-radius:8px;">
+</div>
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// --- Supabase client ---
+// --- Supabase ---
 const supabase = createClient(
   "https://ccsrxvwaxkdbphesyies.supabase.co",
   "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
 )
 
-// --- Charger les fichiers par catégorie ---
+// --- Charger fichiers ---
 async function loadFiles(category){
   const container = document.getElementById(`${category}-container`)
   if(!container) return console.error("Container introuvable")
@@ -183,7 +187,7 @@ async function loadFiles(category){
     return
   }
 
-  container.innerHTML = "" // vider le container avant d'ajouter
+  container.innerHTML = ""
 
   data.forEach(outil => {
     const div = document.createElement("div")
@@ -192,16 +196,20 @@ async function loadFiles(category){
     div.innerHTML = `
       <h3>${outil.nom_outil}</h3>
       <p class="description">${outil.description || "Aucune description"}</p>
+
       <span class="badge ${outil.type_outil === "gratuit" ? "free" : "paid"}">
         ${outil.type_outil}
       </span>
+
       ${
         outil.type_outil === "gratuit"
           ? `<a href="${outil.fichier_url}" download>
                <button>📥 Télécharger</button>
              </a>`
-          : `<button class="payer-btn" data-id="${outil.id_outil}" data-prix="${outil.prix}">
-               🔒 Acheter (${outil.prix} FCFA)
+          : `<button class="payer-btn"
+                data-id="${outil.id_outil}"
+                data-prix="${outil.prix}">
+                🔒 Acheter (${outil.prix} FCFA)
              </button>`
       }
     `
@@ -209,79 +217,56 @@ async function loadFiles(category){
     container.appendChild(div)
   })
 
-  const boutonsAcheter = container.querySelectorAll(".payer-btn")
-  boutonsAcheter.forEach(btn => {
-    btn.disabled = true
-    btn.style.backgroundColor = "#ccc"
-    btn.style.color = "#666"
-    btn.style.cursor = "not-allowed"
+  // 🔥 Gestion paiement
+container.querySelectorAll(".payer-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
 
-    btn.addEventListener("click", () => {
-      alert("Cette fonctionnalité sera bientôt disponible !")
-    })
-  })
+    const phone = document.getElementById("phone").value;
+    const idOutil = btn.dataset.id;
+    const montant = Number(btn.dataset.prix);
 
+    if (!phone) {
+      alert("⚠️ Entre ton numéro mobile");
+      return;
+    }
 
-  // --- Ajouter les event listeners pour les fichiers payants ---
-  container.querySelectorAll(".payer-btn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const idOutil = btn.dataset.id
-      const montant = btn.dataset.prix
-      const phone = prompt("Entrez votre numéro mobile pour le paiement")
-      if(!phone) return alert("Numéro requis pour payer")
+    btn.innerText = "⏳ Paiement...";
+    btn.disabled = true;
 
-      try {
-        const res = await fetch("https://localhost:3000/api/payer", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ id_outil: idOutil, montant, phone })
-});
-        const data = await res.json()
-        if(data.paymentUrl){
-          // Redirection vers Singpay
-          window.location.href = data.paymentUrl
-        } else {
-          alert("Impossible de générer le paiement")
-        }
-
-      } catch(err){
-        console.error(err)
-        alert("Erreur lors du paiement")
-      }
-    })
-  })
-}
-
-
-// --- Lancer le chargement ---
-loadFiles("archives")
-
-async function payerOutil(id, montant) {
-  const phone = prompt("Entrez votre numéro mobile pour le paiement");
-  if (!phone) return alert("Numéro requis pour payer");
-
-  try {
-   const res = await fetch("https://localhost:3000/api/payer", {
+    try {
+      const res = await fetch("http://localhost:3000/api/payer", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    id_outil: id,
-    montant: prix,
+    id_outil: idOutil,
     phone: phone
   })
+})
+
+      const data = await res.json();
+
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      } else {
+        alert("❌ Paiement impossible");
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("❌ Erreur serveur");
+    }
+
+    btn.innerText = "🔒 Acheter";
+    btn.disabled = false;
+  });
 });
-
-const data = await res.json();
-
-if (data.paymentUrl) {
-  window.location.href = data.paymentUrl;
 }
-  } catch (err) {
-    console.error(err);
-    alert("Erreur lors du paiement");
-  }
-}
+
+// 🚀 lancer
+loadFiles("archives")
+
 </script>
+
 
 
 </body>

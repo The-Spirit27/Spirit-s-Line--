@@ -15,7 +15,7 @@ La sécurité et la confidentialité des données de nos clients sont au cœur d
 
 ### Procédure de signalement :
 1. **Ne pas rendre la faille publique** avant qu'une solution ne soit déployée.
-2. Envoyez un rapport détaillé à l'adresse suivante : **[TON_EMAIL_ICI]** (ou via le support WhatsApp officiel de SPL).
+2. Envoyez un rapport détaillé à l'adresse suivante : **[thespirit411@gmail.com]** (ou via le support WhatsApp officiel de SPL).
 3. Précisez la nature de la faille, les étapes pour la reproduire et l'impact potentiel.
 
 ### Ce que vous pouvez attendre de nous :

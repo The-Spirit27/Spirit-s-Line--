@@ -33,15 +33,16 @@
 <script src="../JavaScript/Security.js"></script>
 </body>
 <div id="listeOutils"></div>
-
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+// 🔐 CONFIG SUPABASE
 const supabase = createClient(
   "https://ccsrxvwaxkdbphesyies.supabase.co",
   "sb_publishable_SqgQjncAuFW7c5buXtpdsw_oWUuez1z"
 )
 
+// 🎯 CONTAINERS
 const containers = {
   pdf: document.getElementById("pdfContainer"),
   scripts: document.getElementById("scriptsContainer"),
@@ -49,65 +50,100 @@ const containers = {
   apps: document.getElementById("appsContainer")
 }
 
+// 🔄 AFFICHER UNE CATÉGORIE
+window.showCategory = (cat) => {
+  Object.keys(containers).forEach(key => {
+    containers[key].style.display = key === cat ? "block" : "none"
+  })
+}
+
+// 🚀 CHARGER OUTILS
 async function chargerOutils() {
   const { data, error } = await supabase.from("outils").select("*")
-  if(error){ console.error(error); return }
 
-  // vider tous les containers
-  Object.values(containers).forEach(c => { if(c) c.innerHTML = "" })
+  if(error){
+    console.error(error)
+    return
+  }
+
+  // reset
+  Object.values(containers).forEach(c => c.innerHTML = "")
 
   data.forEach(outil => {
+
     const container = containers[outil.categorie]
     if(!container) return
 
     const div = document.createElement("div")
     div.classList.add("outil-card")
+
     div.innerHTML = `
       <h3>${outil.nom_outil}</h3>
       <p>${outil.description || "Pas de description"}</p>
       <p><strong>Type :</strong> ${outil.type_outil}</p>
       <p><strong>Prix :</strong> ${outil.prix || 0} FCFA</p>
+
       ${
         outil.type_outil === "gratuit"
-        ? `<a href="${outil.fichier_url}" target="_blank"><button>📥 Télécharger</button></a>`
-        : `<button class="payer-btn" data-id="${outil.id_outil}" data-prix="${outil.prix}">
-             🔒 Acheter (${outil.prix} FCFA)
-           </button>`
+        ? `<a href="${outil.fichier_url}" target="_blank">
+             <button>📥 Télécharger</button>
+           </a>`
+        : `<button class="payer-btn"
+            data-id="${outil.id_outil}"
+            data-prix="${outil.prix}">
+            🔒 Acheter (${outil.prix} FCFA)
+          </button>`
       }
     `
+
     container.appendChild(div)
 
+    // 🔥 GESTION PAIEMENT
     if(outil.type_outil === "payant"){
       const payBtn = div.querySelector(".payer-btn")
+
       payBtn.addEventListener("click", async () => {
+
         const idOutil = payBtn.dataset.id
-        const montant = payBtn.dataset.prix
-        const phone = prompt("Entrez votre numéro mobile pour le paiement")
-        if(!phone) return alert("Numéro requis pour payer")
+        const montant = Number(payBtn.dataset.prix)
+
+        payBtn.innerText = "⏳ Paiement..."
+        payBtn.disabled = true
 
         try {
-          const res = await fetch("/api/payer", {
+          const res = await fetch("http://localhost:3000/api/payer", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id_outil: idOutil, montant, phone })
+            body: JSON.stringify({
+              id_outil: idOutil,
+              montant: montant
+            })
           })
+
           const data = await res.json()
+
           if(data.paymentUrl){
             window.location.href = data.paymentUrl
           } else {
-            alert("Impossible de générer le paiement")
+            alert("❌ Erreur génération paiement")
           }
+
         } catch(err){
           console.error(err)
-          alert("Erreur lors du paiement")
+          alert("❌ Erreur serveur")
         }
+
+        payBtn.innerText = "🔒 Acheter"
+        payBtn.disabled = false
       })
     }
+
   })
 }
 
-// lancer
+// 🚀 INIT
 chargerOutils()
+showCategory("pdf")
 </script>
 
 </body>
