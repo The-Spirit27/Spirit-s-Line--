@@ -57,25 +57,52 @@ MESSAGE:
 """
 
     models_to_try = [
-        "models/gemini-2.0-flash",
-        "models/gemini-1.5-flash",
-        "models/gemma-3-4b-it"
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash"
     ]
 
     for model_name in models_to_try:
 
         try:
-            print(f"Tentative avec {model_name}")
+            print(f"Tentative avec : {model_name}")
 
             response = client_gemini.models.generate_content(
                 model=model_name,
-                contents=prompt
+                contents=[
+                    {
+                        "role": "user",
+                        "parts": [
+                            {"text": prompt}
+                        ]
+                    }
+                ]
             )
 
-            if hasattr(response, "text") and response.text:
-                return response.text
+            print("Réponse brute :", response)
+
+            # Vérification robuste
+            if (
+                hasattr(response, "candidates")
+                and response.candidates
+            ):
+
+                candidate = response.candidates[0]
+
+                if (
+                    hasattr(candidate, "content")
+                    and candidate.content.parts
+                ):
+
+                    text = candidate.content.parts[0].text
+
+                    if text:
+                        return text
 
         except Exception as e:
-            print(f"Erreur avec {model_name}: {e}")
+            import traceback
+
+            print(f"Erreur avec {model_name}:")
+            traceback.print_exc()
 
     return "⚠️ Tous les modèles IA sont indisponibles."
